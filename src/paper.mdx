@@ -2,7 +2,7 @@
 # This title is used for the browser tab and the link-preview card (see the
 # "description" and "thumbnail" keys below). The title displayed at the top of
 # the page is set separately, on the <Header> component in the body.
-title: "GeomVLA: Unifying Scene, Motion, and Action in 3D"
+title: "GeomVLA Unifying Scene, Motion, and Action in 3D"
 
 # The color theme of the page. Defaults to "device" (the preference set in the user's brower or operating system). Setting this to "light" or "dark" will override the user's preference. This is useful if your figures only look good in one theme.
 theme: light
@@ -38,6 +38,7 @@ import demoVideo from "./assets/demo_video.mp4";
 import methodFigure from "./assets/method.png";
 import backgroundFigure from "./assets/background.png";
 import teaserFigure from "./assets/teaser.png";
+import logoFigure from "./assets/logo.png";
 import calvinCloseDrawerRgb from "./assets/scene-trajectory/calvin-close-drawer-rgb.png";
 import calvinCloseDrawerTraj from "./assets/scene-trajectory/calvin-close-drawer-traj.mp4";
 import calvinTurnOnLightbulbRgb from "./assets/scene-trajectory/calvin-turn-on-lightbulb-rgb.png";
@@ -58,7 +59,9 @@ import robotwinMoveCanNextToPotRgb from "./assets/scene-trajectory/robotwin-move
 import robotwinMoveCanNextToPotTraj from "./assets/scene-trajectory/robotwin-move-can-next-to-pot-traj.mp4";
 
 <Header
-  title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
+  title="Unifying Scene, Motion, and Action in 3D"
+  titleLogo={logoFigure}
+  titleLogoAlt="GeomVLA"
   conference="Conference Name"
   authors={[
     {
