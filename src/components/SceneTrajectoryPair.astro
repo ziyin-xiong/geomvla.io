@@ -30,7 +30,7 @@ const { dataset, task, rgb, video } = Astro.props;
     <div class="aspect-square overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950">
       <video
         data-scene-trajectory-video
-        class="h-full w-full object-contain"
+        class="h-full w-full scale-[1.04] object-cover"
         src={video}
         controls
         loop
