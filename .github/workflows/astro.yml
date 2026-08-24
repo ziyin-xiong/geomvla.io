@@ -68,9 +68,16 @@ jobs:
         working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
         run: |
+          set +e
           ${{ steps.detect-package-manager.outputs.runner }} astro build \
             --site "https://ziyin-xiong.github.io" \
-            --base "/geomvla.io"
+            --base "/geomvla.io" 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            message="$(tail -n 30 build.log | sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g')"
+            echo "::error file=build.log::${message}"
+            exit "$status"
+          fi
         working-directory: ${{ env.BUILD_PATH }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
