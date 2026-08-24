@@ -25,19 +25,9 @@ interface Props {
   conference?: string;
   notes?: Note[];
   links?: Link[];
-  titleLogo?: ImageMetadata;
-  titleLogoAlt?: string;
 }
 
-const {
-  title,
-  authors,
-  conference,
-  notes,
-  links,
-  titleLogo,
-  titleLogoAlt = "",
-} = Astro.props;
+const { title, authors, conference, notes, links } = Astro.props;
 
 const hasBackground = Astro.slots.has("background");
 ---
@@ -65,20 +55,7 @@ const hasBackground = Astro.slots.has("background");
         : "gap-6",
     ]}
   >
-    <h1 class="my-0 flex flex-col items-center gap-4 text-5xl font-medium">
-      {
-        titleLogo && (
-          <img
-            class="h-auto max-h-28 w-auto max-w-full rounded-lg object-contain md:max-h-36"
-            src={titleLogo.src}
-            width={titleLogo.width}
-            height={titleLogo.height}
-            alt={titleLogoAlt}
-          />
-        )
-      }
-      <span>{title}</span>
-    </h1>
+    <h1 class="my-0 text-5xl font-medium">{title}</h1>
     <div class="flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
       {
         authors.map((author) => (
