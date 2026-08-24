@@ -43,13 +43,13 @@ import backgroundFigure from "./assets/background.png";
   authors={[
     {
       name: "Ziyin Xiong", notes: ["1"],
-      url: "https://roman.technology" },
+      url: "https://ziyin-xiong.github.io/" },
     { name: "Nikos Gkanatsios", notes: ["2"],
-      url: "https://roman.technology" },
+      url: "https://nickgkan.github.io/" },
     { name: "Moritz Reuss", notes: ["3"],
-      url: "https://roman.technology" },
+      url: "https://mbreuss.github.io/" },
     { name: "Katerina Fragkiadaki", notes: ["1"],
-      url: "https://roman.technology" },
+      url: "https://www.cs.cmu.edu/~katef/" },
   ]}
   notes={[
     { symbol: "1", text: "Carnegie Mellon University" },
@@ -90,7 +90,7 @@ Use the `Picture` component to display images. If you have a figure in PDF forma
   <div class="mx-auto max-w-4xl">
     <Figure>
       <Picture slot="figure" src={methodFigure} alt="GeomVLA model architecture" />
-      <Fragment slot="caption">Detailed model architecture. Left: A shared 2D VLM encodes multi-view RGB observations and language instructions. Depth and camera geometry lift image features into 3D scene tokens with positions in the robot base frame. Middle: The 3D Scene Trajectory Denoiser predicts future motion trajectories for query anchors, whose latent motion tokens are fused with the 3D scene tokens. Right: The 3D Action Denoiser predicts end-effector trajectory chunks conditioned on the fused scene-motion representation, language features, and robot proprioception. Optionally, the Joint Angle Denoiser refines the predicted action latents into joint-angle commands.</Fragment>
+      <Fragment slot="caption">Left: A shared 2D VLM encodes multi-view RGB observations and language instructions. Depth and camera geometry lift image features into 3D scene tokens with positions in the robot base frame. Middle: The 3D Scene Trajectory Denoiser predicts future motion trajectories for query anchors, whose latent motion tokens are fused with the 3D scene tokens. Right: The 3D Action Denoiser predicts end-effector trajectory chunks conditioned on the fused scene-motion representation, language features, and robot proprioception. Optionally, the Joint Angle Denoiser refines the predicted action latents into joint-angle commands.</Fragment>
     </Figure>
   </div>
 </Wide>
@@ -161,14 +161,6 @@ Use the two columns component to display two columns of content. In this example
   <YouTubeVideo slot="left" videoId="wjZofJX0v4M" />
   <ModelViewer slot="right" src="/BoxVertexColors.glb" alt="A cube colored with a rainbow gradient" />
 </TwoColumns>
-
-## $\LaTeX$
-
-You can also add $\LaTeX$ formulas, rendered during the build process using [$\KaTeX$](https://katex.org/) so they're quick to load for visitors of your project page. You can write them inline, like this: $a^2 + b^2 = c^2$. Or, you can write them as a block:
-
-$$
-\int_a^b f(x) dx
-$$
 
 ## Table
 
