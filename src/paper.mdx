@@ -2,10 +2,10 @@
 # This title is used for the browser tab and the link-preview card (see the
 # "description" and "thumbnail" keys below). The title displayed at the top of
 # the page is set separately, on the <Header> component in the body.
-title: Academic Project Page Template
+GeomVLA: Unifying Scene, Motion, and Action in 3D
 
 # The color theme of the page. Defaults to "device" (the preference set in the user's brower or operating system). Setting this to "light" or "dark" will override the user's preference. This is useful if your figures only look good in one theme.
-theme: device
+theme: light
 
 # This is the icon that appears in the user's browser tab. To customize, change the favicon.svg file in /public/, or add your own file to /public/ and change the filename here.
 favicon: favicon.svg
@@ -40,21 +40,17 @@ import dogsMsillm from "@/assets/dogs-msillm.jpg"
   conference="Conference Name"
   authors={[
     {
-      name: "Roman Hauksson",
-      url: "https://roman.technology",
-      institution: "University of Texas at Dallas",
-      notes: ["*", "†"],
-    },
-    { name: "Author Two", institution: "Institution Two", notes: ["*", "†"] },
-    { name: "Author Three", institution: "Institution Three", notes: ["*"] },
-    { name: "Author Four", institution: "Institution Four" },
-  ]}
-  notes={[
-    { symbol: "*", text: "author note one" },
-    { symbol: "†", text: "author note two" },
+      name: "Ziyin Xiong", notes: ["1"],
+      url: "https://roman.technology" },
+    { name: "Nikos Gkanatsios", notes: ["2"],
+      url: "https://roman.technology" },
+    { name: "Author Three", notes: ["3"],
+      url: "https://roman.technology" },
+    { name: "Katerina Fragkiadaki", notes: ["1"],
+      url: "https://roman.technology" },
   ]}
   links={[
-    { name: "Paper", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:file-pdf-2-line" },
+    { name: "Paper", url: "/paper.pdf", icon: "ri:file-pdf-2-line" },
     { name: "Code", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:github-line" },
     { name: "arXiv", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "academicons:arxiv" },
     { name: "Slides", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:slideshow-2-line" },
