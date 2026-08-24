@@ -74,7 +74,9 @@ import teaserFigure from "./assets/teaser.png";
   </div>
 </Wide>
 
+<p class="text-center font-medium">
 **GeomVLA unifies what the robot sees, how the scene may move, and how the robot should act in one shared 3D space.** It lifts vision-language features into 3D, predicts task-conditioned scene motion as latent geometric guidance, and generates actions through a 3D-aware denoising policy.
+</p>
 
 <Video src={demoVideo} />
 
@@ -82,8 +84,9 @@ import teaserFigure from "./assets/teaser.png";
 
 ## Abstract
 
-We present GeomVLA, a Vision-Language-Action (VLA) model that unifies perception, latent scene motion prediction, and action generation within a shared robot-centric 3D coordinate frame. Our approach lifts VLM features into spatially grounded 3D scene tokens by adjusting their positional encodings while preserving pretrained visual-language priors. We further introduce a 3D Scene Trajectory Denoiser, a task-conditioned latent motion representation that captures how scene points are expected to move in 3D space. Rather than serving as an explicit open-loop plan, the predicted scene trajectory acts as a latent geometric reasoning process that conditions a 3D flow-based action denoiser through 3D-aware attention. 
-GeomVLA achieves state-of-the-art performance on CALVIN and LIBERO, competitive performance on RoboTwin2.0, and out-performs strong baselines in real-world manipulation settings without access to large scale pretraining. Extensive ablations demonstrate that future-motion reasoning alone is insufficient: the primary gains arise from maintaining geometric consistency between scene representation, motion prediction, and robot actions throughout the entire perception-to-action pipeline.
+We present **GeomVLA**, a Vision-Language-Action model that unifies perception, latent scene motion prediction, and action generation within a **shared 3D coordinate frame**. Our approach lifts VLM features into spatially grounded 3D scene tokens by adjusting their positional encodings while preserving pretrained visual-language priors. We further introduce a *3D Scene Trajectory Denoiser*, a task-conditioned latent motion representation that captures how scene points are expected to move in 3D space. The predicted scene trajectory acts as a latent geometric reasoning process that conditions a 3D flow-based action denoiser through 3D-aware attention. 
+
+GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on LIBERO and RoboTwin2.0, and outperforms strong baselines in real-world manipulation settings without large-scale robot-action pretraining. Extensive ablations demonstrate that future-motion reasoning alone is insufficient: the primary gains arise from maintaining geometric consistency between scene representation, motion prediction, and robot actions throughout the entire perception-to-action pipeline.
 
 </HighlightedSection>
 
@@ -98,6 +101,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN and LIBERO, competitive 
   </div>
 </Wide>
 
+
+{/*
 ### Comparison slider
 
 Use the `Comparison` component to compare two visuals with an interactive slider.
@@ -107,7 +112,6 @@ Use the `Comparison` component to compare two visuals with an interactive slider
   <Picture slot="itemTwo" src={dogsTrue} alt="True photo of two dogs running side-by-side in shallow water" />
 </Comparison>
 
-{/*
 ## Visuals
 
 Use the `Picture` component to display images. If you have a figure in PDF format, you can pass in its path as the `src` prop and it will be converted into a web-friendly image automatically.
