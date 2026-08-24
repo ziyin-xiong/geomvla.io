@@ -27,6 +27,7 @@ import YouTubeVideo from "./components/YouTubeVideo.astro";
 import Carousel from "./components/Carousel.astro";
 import CarouselSlide from "./components/CarouselSlide.astro";
 import Wide from "./components/Wide.astro";
+import SceneTrajectoryPair from "./components/SceneTrajectoryPair.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
 import { Comparison } from "./components/Comparison.tsx";
 
@@ -37,6 +38,24 @@ import demoVideo from "./assets/demo_video.mp4";
 import methodFigure from "./assets/method.png";
 import backgroundFigure from "./assets/background.png";
 import teaserFigure from "./assets/teaser.png";
+import calvinCloseDrawerRgb from "./assets/scene-trajectory/calvin-close-drawer-rgb.png";
+import calvinCloseDrawerTraj from "./assets/scene-trajectory/calvin-close-drawer-traj.mp4";
+import calvinTurnOnLightbulbRgb from "./assets/scene-trajectory/calvin-turn-on-lightbulb-rgb.png";
+import calvinTurnOnLightbulbTraj from "./assets/scene-trajectory/calvin-turn-on-lightbulb-traj.mp4";
+import calvinMoveSliderLeftRgb from "./assets/scene-trajectory/calvin-move-slider-left-rgb.png";
+import calvinMoveSliderLeftTraj from "./assets/scene-trajectory/calvin-move-slider-left-traj.mp4";
+import liberoPutBowlOnPlateRgb from "./assets/scene-trajectory/libero-put-bowl-on-plate-rgb.png";
+import liberoPutBowlOnPlateTraj from "./assets/scene-trajectory/libero-put-bowl-on-plate-traj.mp4";
+import liberoPutBottleOnRackRgb from "./assets/scene-trajectory/libero-put-bottle-on-rack-rgb.png";
+import liberoPutBottleOnRackTraj from "./assets/scene-trajectory/libero-put-bottle-on-rack-traj.mp4";
+import liberoPutMugIntoMicrowaveRgb from "./assets/scene-trajectory/libero-put-mug-into-microwave-rgb.png";
+import liberoPutMugIntoMicrowaveTraj from "./assets/scene-trajectory/libero-put-mug-into-microwave-traj.mp4";
+import robotwinBeatBlockWithHammerRgb from "./assets/scene-trajectory/robotwin-beat-block-with-hammer-rgb.png";
+import robotwinBeatBlockWithHammerTraj from "./assets/scene-trajectory/robotwin-beat-block-with-hammer-traj.mp4";
+import robotwinLiftTwoBottlesRgb from "./assets/scene-trajectory/robotwin-lift-two-bottles-rgb.png";
+import robotwinLiftTwoBottlesTraj from "./assets/scene-trajectory/robotwin-lift-two-bottles-traj.mp4";
+import robotwinMoveCanNextToPotRgb from "./assets/scene-trajectory/robotwin-move-can-next-to-pot-rgb.png";
+import robotwinMoveCanNextToPotTraj from "./assets/scene-trajectory/robotwin-move-can-next-to-pot-traj.mp4";
 
 <Header
   title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
@@ -74,9 +93,11 @@ import teaserFigure from "./assets/teaser.png";
   </div>
 </Wide>
 
+<HighlightedSection>
 <p class="text-center font-medium">
 **GeomVLA unifies what the robot sees, how the scene may move, and how the robot should act in one shared 3D space.** It lifts vision-language features into 3D, predicts task-conditioned scene motion as latent geometric guidance, and generates actions through a 3D-aware denoising policy.
 </p>
+</HighlightedSection>
 
 <Video src={demoVideo} />
 
@@ -86,7 +107,7 @@ import teaserFigure from "./assets/teaser.png";
 
 We present **GeomVLA**, a Vision-Language-Action model that unifies perception, latent scene motion prediction, and action generation within a **shared 3D coordinate frame**. Our approach lifts VLM features into spatially grounded 3D scene tokens by adjusting their positional encodings while preserving pretrained visual-language priors. We further introduce a *3D Scene Trajectory Denoiser*, a task-conditioned latent motion representation that captures how scene points are expected to move in 3D space. The predicted scene trajectory acts as a latent geometric reasoning process that conditions a 3D flow-based action denoiser through 3D-aware attention. 
 
-GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on LIBERO and RoboTwin2.0, and outperforms strong baselines in real-world manipulation settings without large-scale robot-action pretraining. Extensive ablations demonstrate that future-motion reasoning alone is insufficient: the primary gains arise from maintaining geometric consistency between scene representation, motion prediction, and robot actions throughout the entire perception-to-action pipeline.
+GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on LIBERO and RoboTwin2.0, and outperforms strong baselines in real-world manipulation settings **without large-scale robot-action pretraining**. Extensive ablations demonstrate that future-motion reasoning alone is insufficient: the primary gains arise from maintaining geometric consistency between scene representation, motion prediction, and robot actions throughout the entire perception-to-action pipeline.
 
 </HighlightedSection>
 
@@ -96,11 +117,72 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
   <div class="mx-auto max-w-4xl">
     <Figure>
       <Picture slot="figure" src={methodFigure} alt="GeomVLA model architecture" />
-      <Fragment slot="caption">Left: A shared 2D VLM encodes multi-view RGB observations and language instructions. Depth and camera geometry lift image features into 3D scene tokens with positions in the robot base frame. Middle: The 3D Scene Trajectory Denoiser predicts future motion trajectories for query anchors, whose latent motion tokens are fused with the 3D scene tokens. Right: The 3D Action Denoiser predicts end-effector trajectory chunks conditioned on the fused scene-motion representation, language features, and robot proprioception. Optionally, the Joint Angle Denoiser refines the predicted action latents into joint-angle commands.</Fragment>
+      <Fragment slot="caption">Multi-view RGB observations and language are lifted into 3D scene tokens, latent scene motion is predicted with a 3D Scene Trajectory Denoiser, and actions are generated by a 3D-aware denoising policy, with an optional joint-angle decoder for joint-space control.</Fragment>
     </Figure>
   </div>
 </Wide>
 
+## Scene Trajectory Prediction
+
+Select a task to compare the RGB observation with GeomVLA's predicted task-relevant 3D scene trajectory.
+
+<Wide>
+  <div class="mx-auto max-w-5xl">
+    <Tabs defaultValue="calvin-close-drawer">
+      <TabsList>
+        <TabsTrigger value="calvin-close-drawer">Close drawer</TabsTrigger>
+        <TabsTrigger value="calvin-turn-on-lightbulb">Turn on lightbulb</TabsTrigger>
+        <TabsTrigger value="calvin-move-slider-left">Move slider left</TabsTrigger>
+        <TabsTrigger value="libero-put-bowl-on-plate">Put bowl on plate</TabsTrigger>
+        <TabsTrigger value="libero-put-bottle-on-rack">Put bottle on rack</TabsTrigger>
+        <TabsTrigger value="libero-put-mug-into-microwave">Put mug into microwave</TabsTrigger>
+        <TabsTrigger value="robotwin-beat-block-with-hammer">Beat block with hammer</TabsTrigger>
+        <TabsTrigger value="robotwin-lift-two-bottles">Lift two bottles</TabsTrigger>
+        <TabsTrigger value="robotwin-move-can-next-to-pot">Move can next to pot</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="calvin-close-drawer">
+        <SceneTrajectoryPair dataset="CALVIN" task="Close drawer" rgb={calvinCloseDrawerRgb} video={calvinCloseDrawerTraj} />
+      </TabsContent>
+      <TabsContent value="calvin-turn-on-lightbulb">
+        <SceneTrajectoryPair dataset="CALVIN" task="Turn on lightbulb" rgb={calvinTurnOnLightbulbRgb} video={calvinTurnOnLightbulbTraj} />
+      </TabsContent>
+      <TabsContent value="calvin-move-slider-left">
+        <SceneTrajectoryPair dataset="CALVIN" task="Move slider left" rgb={calvinMoveSliderLeftRgb} video={calvinMoveSliderLeftTraj} />
+      </TabsContent>
+      <TabsContent value="libero-put-bowl-on-plate">
+        <SceneTrajectoryPair dataset="LIBERO" task="Put bowl on plate" rgb={liberoPutBowlOnPlateRgb} video={liberoPutBowlOnPlateTraj} />
+      </TabsContent>
+      <TabsContent value="libero-put-bottle-on-rack">
+        <SceneTrajectoryPair dataset="LIBERO" task="Put bottle on rack" rgb={liberoPutBottleOnRackRgb} video={liberoPutBottleOnRackTraj} />
+      </TabsContent>
+      <TabsContent value="libero-put-mug-into-microwave">
+        <SceneTrajectoryPair dataset="LIBERO" task="Put mug into microwave" rgb={liberoPutMugIntoMicrowaveRgb} video={liberoPutMugIntoMicrowaveTraj} />
+      </TabsContent>
+      <TabsContent value="robotwin-beat-block-with-hammer">
+        <SceneTrajectoryPair dataset="RoboTwin2.0" task="Beat block with hammer" rgb={robotwinBeatBlockWithHammerRgb} video={robotwinBeatBlockWithHammerTraj} />
+      </TabsContent>
+      <TabsContent value="robotwin-lift-two-bottles">
+        <SceneTrajectoryPair dataset="RoboTwin2.0" task="Lift two bottles" rgb={robotwinLiftTwoBottlesRgb} video={robotwinLiftTwoBottlesTraj} />
+      </TabsContent>
+      <TabsContent value="robotwin-move-can-next-to-pot">
+        <SceneTrajectoryPair dataset="RoboTwin2.0" task="Move can next to pot" rgb={robotwinMoveCanNextToPotRgb} video={robotwinMoveCanNextToPotTraj} />
+      </TabsContent>
+    </Tabs>
+  </div>
+</Wide>
+
+## Simulation Rollouts
+videos in sim, a small section.
+
+## Real-world Deployment
+one video per task
+
+## Results
+table/graph for sim and real-world
+
+## Ablations
+table/graph for key ablations
 
 {/*
 ### Comparison slider

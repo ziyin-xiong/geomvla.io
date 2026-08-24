@@ -1,0 +1,85 @@
+---
+interface Props {
+  dataset: string;
+  task: string;
+  rgb: ImageMetadata;
+  video: string;
+}
+
+const { dataset, task, rgb, video } = Astro.props;
+---
+
+<div class="grid gap-4 md:grid-cols-2">
+  <figure class="space-y-2">
+    <div class="aspect-square overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100">
+      <img
+        class="h-full w-full object-cover"
+        src={rgb.src}
+        width={rgb.width}
+        height={rgb.height}
+        alt={`${dataset} ${task} RGB observation`}
+        loading="lazy"
+      />
+    </div>
+    <figcaption class="text-center text-sm text-zinc-600">
+      {dataset}: RGB observation
+    </figcaption>
+  </figure>
+
+  <figure class="space-y-2">
+    <div class="aspect-square overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950">
+      <video
+        data-scene-trajectory-video
+        class="h-full w-full object-contain"
+        src={video}
+        controls
+        loop
+        muted
+        playsinline
+        autoplay
+        preload="metadata"
+      ></video>
+    </div>
+    <figcaption class="text-center text-sm text-zinc-600">
+      Predicted 3D scene trajectory
+    </figcaption>
+  </figure>
+</div>
+
+<script>
+  const setupSceneTrajectoryVideos = () => {
+    document
+      .querySelectorAll<HTMLVideoElement>("[data-scene-trajectory-video]")
+      .forEach((video) => {
+        if (video.dataset.sceneTrajectoryReady === "true") return;
+
+        video.dataset.sceneTrajectoryReady = "true";
+        const tabPanel = video.closest<HTMLElement>("[data-tabs-content]");
+
+        const syncPlayback = () => {
+          const isActive =
+            !tabPanel || tabPanel.getAttribute("data-state") === "active";
+
+          if (isActive) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+            video.currentTime = 0;
+          }
+        };
+
+        if (tabPanel) {
+          new MutationObserver(syncPlayback).observe(tabPanel, {
+            attributes: true,
+            attributeFilter: ["data-state", "hidden"],
+          });
+        }
+
+        syncPlayback();
+      });
+  };
+
+  setupSceneTrajectoryVideos();
+  document.addEventListener("astro:after-swap", setupSceneTrajectoryVideos);
+  document.addEventListener("starwind:init", setupSceneTrajectoryVideos);
+</script>
