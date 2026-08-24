@@ -34,6 +34,7 @@ import dogsDiffc from "./assets/dogs-diffc.png"
 import dogsTrue from "./assets/dogs-true.png"
 import dogsMsillm from "@/assets/dogs-msillm.jpg"
 import demoVideo from "./assets/demo_video.mp4";
+import methodFigure from "./assets/method.png";
 
 const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -100,7 +101,7 @@ Use the `Picture` component to display images. If you have a figure in PDF forma
 
 <Wide>
   <Figure>
-    <Picture slot="figure" src="../assets/method.pdf" alt="GeomVLA model architecture" />
+    <Picture slot="figure" src={methodFigure} alt="GeomVLA model architecture" />
     <Fragment slot="caption">Detailed model architecture. Left: A shared 2D VLM encodes multi-view RGB observations and language instructions. Depth and camera geometry lift image features into 3D scene tokens with positions in the robot base frame. Middle: The 3D Scene Trajectory Denoiser predicts future motion trajectories for query anchors, whose latent motion tokens are fused with the 3D scene tokens. Right: The 3D Action Denoiser predicts end-effector trajectory chunks conditioned on the fused scene-motion representation, language features, and robot proprioception. Optionally, the Joint Angle Denoiser refines the predicted action latents into joint-angle commands.</Fragment>
   </Figure>
 </Wide>
