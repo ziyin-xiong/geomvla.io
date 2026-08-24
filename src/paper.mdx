@@ -35,6 +35,10 @@ import dogsDiffc from "./assets/dogs-diffc.png"
 import dogsTrue from "./assets/dogs-true.png"
 import dogsMsillm from "@/assets/dogs-msillm.jpg"
 
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + "/";
+
 <Header
   title="Academic Project Page Template"
   conference="Conference Name"
@@ -44,16 +48,21 @@ import dogsMsillm from "@/assets/dogs-msillm.jpg"
       url: "https://roman.technology" },
     { name: "Nikos Gkanatsios", notes: ["2"],
       url: "https://roman.technology" },
-    { name: "Author Three", notes: ["3"],
+    { name: "Moritz Reuss", notes: ["3"],
       url: "https://roman.technology" },
     { name: "Katerina Fragkiadaki", notes: ["1"],
       url: "https://roman.technology" },
   ]}
+  notes={[
+    { symbol: "1", text: "Carnegie Mellon University" },
+    { symbol: "2", text: "Wayve" },
+    { symbol: "3", text: "NVIDIA" },
+  ]}
   links={[
-    { name: "Paper", url: "/paper.pdf", icon: "ri:file-pdf-2-line" },
-    { name: "Code", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:github-line" },
-    { name: "arXiv", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "academicons:arxiv" },
-    { name: "Slides", url: "https://github.com/RomanHauksson/academic-project-astro-template", icon: "ri:slideshow-2-line" },
+    { name: "Paper", url: baseUrl + "paper.pdf", icon: "ri:file-pdf-2-line" },
+    { name: "Code", url: "TODO", icon: "ri:github-line" },
+    { name: "arXiv", url: "TODO", icon: "academicons:arxiv" },
+    { name: "Slides", url: "TODO", icon: "ri:slideshow-2-line" },
   ]}
 >
   {/*
@@ -85,7 +94,7 @@ Use the `Picture` component to display images. If you have a figure in PDF forma
 
 ### Video
 
-<Video src={outside} />
+<Video src={demo_video} />
 
 ### Wide visual
 
