@@ -35,6 +35,7 @@ import dogsTrue from "./assets/dogs-true.png"
 import dogsMsillm from "@/assets/dogs-msillm.jpg"
 import demoVideo from "./assets/demo_video.mp4";
 import methodFigure from "./assets/method.png";
+import backgroundFigure from "./assets/background.png";
 
 <Header
   title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
@@ -61,16 +62,10 @@ import methodFigure from "./assets/method.png";
     { name: "arXiv", url: "TODO", icon: "academicons:arxiv" },
   ]}
 >
-  {/*
-    Optionally place a cover image or video behind the header. Import the
-    asset (from src/assets/, so images are optimized) and pass it through the
-    "background" slot using the Picture or Video component:
-
-      <Picture slot="background" src={cover} alt="" />
-      <Video slot="background" src={outside} controls={false} />
-  */}
-  <Picture slot="background" src={dogsTrue} alt="" priority />
+  <Picture slot="background" src={backgroundFigure} alt="" priority />
 </Header>
+
+<Video src={demoVideo} />
 
 <HighlightedSection>
 
@@ -88,10 +83,6 @@ GeomVLA achieves state-of-the-art performance on CALVIN and LIBERO, competitive 
 Use the `Picture` component to display images. If you have a figure in PDF format, you can pass in its path as the `src` prop and it will be converted into a web-friendly image automatically.
 
 <Picture src={dogsDiffc} alt="Photo of two running dogs, lossily compressed using the DiffC algorithm" />
-
-### Video
-
-<Video src={demoVideo} />
 
 ## Method
 
