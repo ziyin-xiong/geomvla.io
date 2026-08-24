@@ -166,3 +166,7 @@ main .katex-display {
     @apply cursor-pointer;
   }
 }
+
+main h2 {
+  text-align: center;
+}

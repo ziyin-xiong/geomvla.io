@@ -40,7 +40,7 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
   : import.meta.env.BASE_URL + "/";
 
 <Header
-  title="Academic Project Page Template"
+  title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
   conference="Conference Name"
   authors={[
     {
@@ -62,7 +62,6 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
     { name: "Paper", url: baseUrl + "paper.pdf", icon: "ri:file-pdf-2-line" },
     { name: "Code", url: "TODO", icon: "ri:github-line" },
     { name: "arXiv", url: "TODO", icon: "academicons:arxiv" },
-    { name: "Slides", url: "TODO", icon: "ri:slideshow-2-line" },
   ]}
 >
   {/*
@@ -80,7 +79,8 @@ const baseUrl = import.meta.env.BASE_URL.endsWith("/")
 
 ## Abstract
 
-This is a template you can use to create a professional-looking, accessible, and performant project page for your research paper. [See the code for the template and instructions on how to use it yourself on GitHub](https://github.com/RomanHauksson/academic-project-astro-template). It's made with the [Astro web framework](https://astro.build/) and styled with [Tailwind](https://tailwindcss.com/). You write the content in [MDX](https://mdxjs.com/), which enables markdown formatting like **bold**, _italics_, and ~strikethrough~, as well as custom components like <SmallCaps>small caps.</SmallCaps>
+We present GeomVLA, a Vision-Language-Action (VLA) model that unifies perception, latent scene motion prediction, and action generation within a shared robot-centric 3D coordinate frame. Our approach lifts VLM features into spatially grounded 3D scene tokens by adjusting their positional encodings while preserving pretrained visual-language priors. We further introduce a 3D Scene Trajectory Denoiser, a task-conditioned latent motion representation that captures how scene points are expected to move in 3D space. Rather than serving as an explicit open-loop plan, the predicted scene trajectory acts as a latent geometric reasoning process that conditions a 3D flow-based action denoiser through 3D-aware attention. 
+GeomVLA achieves state-of-the-art performance on CALVIN and LIBERO, competitive performance on RoboTwin2.0, and out-performs strong baselines in real-world manipulation settings without access to large scale pretraining. Extensive ablations demonstrate that future-motion reasoning alone is insufficient: the primary gains arise from maintaining geometric consistency between scene representation, motion prediction, and robot actions throughout the entire perception-to-action pipeline.
 
 </HighlightedSection>
 
