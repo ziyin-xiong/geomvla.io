@@ -1,0 +1,65 @@
+---
+interface Props {
+  label: string;
+  src: string;
+}
+
+const { label, src } = Astro.props;
+---
+
+<figure class="mx-auto w-full max-w-4xl space-y-2">
+  <div class="aspect-video overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950">
+    <video
+      data-real-world-video
+      class="h-full w-full object-cover"
+      src={src}
+      controls
+      loop
+      muted
+      playsinline
+      autoplay
+      preload="metadata"
+    ></video>
+  </div>
+  <figcaption class="text-center text-sm text-zinc-600">
+    {label}
+  </figcaption>
+</figure>
+
+<script>
+  const setupRealWorldVideos = () => {
+    document.querySelectorAll<HTMLVideoElement>("[data-real-world-video]").forEach(
+      (video) => {
+        if (video.dataset.realWorldReady === "true") return;
+
+        video.dataset.realWorldReady = "true";
+        const tabPanel = video.closest<HTMLElement>("[data-tabs-content]");
+
+        const syncPlayback = () => {
+          const isActive =
+            !tabPanel || tabPanel.getAttribute("data-state") === "active";
+
+          if (isActive) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+            video.currentTime = 0;
+          }
+        };
+
+        if (tabPanel) {
+          new MutationObserver(syncPlayback).observe(tabPanel, {
+            attributes: true,
+            attributeFilter: ["data-state", "hidden"],
+          });
+        }
+
+        syncPlayback();
+      },
+    );
+  };
+
+  setupRealWorldVideos();
+  document.addEventListener("astro:after-swap", setupRealWorldVideos);
+  document.addEventListener("starwind:init", setupRealWorldVideos);
+</script>

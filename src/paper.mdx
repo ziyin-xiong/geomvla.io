@@ -29,6 +29,7 @@ import CarouselSlide from "./components/CarouselSlide.astro";
 import Wide from "./components/Wide.astro";
 import SceneTrajectoryPair from "./components/SceneTrajectoryPair.astro";
 import SimulationRolloutGrid from "./components/SimulationRolloutGrid.astro";
+import RealWorldTaskVideo from "./components/RealWorldTaskVideo.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
 import { Comparison } from "./components/Comparison.tsx";
 
@@ -70,6 +71,14 @@ import robotwinBottlesRollout from "./assets/simulation-rollouts/robotwin-bottle
 import robotwinCanRollout from "./assets/simulation-rollouts/robotwin-can.mp4";
 import robotwinMicrowaveRollout from "./assets/simulation-rollouts/robotwin-microwave.mp4";
 import robotwinOutput2xRollout from "./assets/simulation-rollouts/robotwin-output-2x.mp4";
+import bottleCupRealWorld from "./assets/bottle_cup.mp4";
+import colorRealWorld from "./assets/color.mp4";
+import insertPenRealWorld from "./assets/insert_pen.mp4";
+import stackRealWorld from "./assets/stack.mp4";
+import transferRealWorld from "./assets/transfer.mp4";
+import triangleRealWorld from "./assets/triangle.mp4";
+import uncapRealWorld from "./assets/uncap.mp4";
+import uprightRealWorld from "./assets/upright.mp4";
 
 <Header
   title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
@@ -234,7 +243,48 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 </Wide>
 
 ## Real-world Deployment
-one video per task
+
+<Wide>
+  <div class="mx-auto max-w-5xl">
+    <Tabs defaultValue="insert-pen">
+      <TabsList>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="insert-pen">Insert pen</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="bottle-cup">Bottle cup</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="color">Color</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="stack">Stack</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="transfer">Transfer</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="triangle">Triangle</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="uncap">Uncap</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="upright">Upright</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="insert-pen">
+        <RealWorldTaskVideo label="Insert pen" src={insertPenRealWorld} />
+      </TabsContent>
+      <TabsContent value="bottle-cup">
+        <RealWorldTaskVideo label="Bottle cup" src={bottleCupRealWorld} />
+      </TabsContent>
+      <TabsContent value="color">
+        <RealWorldTaskVideo label="Color" src={colorRealWorld} />
+      </TabsContent>
+      <TabsContent value="stack">
+        <RealWorldTaskVideo label="Stack" src={stackRealWorld} />
+      </TabsContent>
+      <TabsContent value="transfer">
+        <RealWorldTaskVideo label="Transfer" src={transferRealWorld} />
+      </TabsContent>
+      <TabsContent value="triangle">
+        <RealWorldTaskVideo label="Triangle" src={triangleRealWorld} />
+      </TabsContent>
+      <TabsContent value="uncap">
+        <RealWorldTaskVideo label="Uncap" src={uncapRealWorld} />
+      </TabsContent>
+      <TabsContent value="upright">
+        <RealWorldTaskVideo label="Upright" src={uprightRealWorld} />
+      </TabsContent>
+    </Tabs>
+  </div>
+</Wide>
 
 ## Quantitative Results
 table/graph for sim and real-world
