@@ -28,6 +28,7 @@ import Carousel from "./components/Carousel.astro";
 import CarouselSlide from "./components/CarouselSlide.astro";
 import Wide from "./components/Wide.astro";
 import SceneTrajectoryPair from "./components/SceneTrajectoryPair.astro";
+import SimulationRolloutGrid from "./components/SimulationRolloutGrid.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
 import { Comparison } from "./components/Comparison.tsx";
 
@@ -56,6 +57,19 @@ import robotwinLiftTwoBottlesRgb from "./assets/scene-trajectory/robotwin-lift-t
 import robotwinLiftTwoBottlesTraj from "./assets/scene-trajectory/robotwin-lift-two-bottles-traj.mp4";
 import robotwinMoveCanNextToPotRgb from "./assets/scene-trajectory/robotwin-move-can-next-to-pot-rgb.png";
 import robotwinMoveCanNextToPotTraj from "./assets/scene-trajectory/robotwin-move-can-next-to-pot-traj.mp4";
+import calvinPushRedRightRollout from "./assets/simulation-rollouts/calvin-push-red-right.mp4";
+import calvinMoveSliderLeftRollout from "./assets/simulation-rollouts/calvin-move-slider-left.mp4";
+import calvinCloseDrawerRollout from "./assets/simulation-rollouts/calvin-close-drawer.mp4";
+import calvinTurnOnLightbulbRollout from "./assets/simulation-rollouts/calvin-turn-on-lightbulb.mp4";
+import calvinTurnOffLedRollout from "./assets/simulation-rollouts/calvin-turn-off-led.mp4";
+import libero10Rollout from "./assets/simulation-rollouts/libero-10.mp4";
+import liberoGoalRollout from "./assets/simulation-rollouts/libero-goal.mp4";
+import liberoSpatialRollout from "./assets/simulation-rollouts/libero-spatial.mp4";
+import robotwinHammerRollout from "./assets/simulation-rollouts/robotwin-hammer.mp4";
+import robotwinBottlesRollout from "./assets/simulation-rollouts/robotwin-bottles.mp4";
+import robotwinCanRollout from "./assets/simulation-rollouts/robotwin-can.mp4";
+import robotwinMicrowaveRollout from "./assets/simulation-rollouts/robotwin-microwave.mp4";
+import robotwinOutput2xRollout from "./assets/simulation-rollouts/robotwin-output-2x.mp4";
 
 <Header
   title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
@@ -172,7 +186,51 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 </Wide>
 
 ## Simulation Rollouts
-videos in sim, a small section.
+
+<Wide>
+  <div class="mx-auto max-w-6xl">
+    <Tabs defaultValue="calvin-rollouts">
+      <TabsList>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="calvin-rollouts">CALVIN</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="libero-rollouts">LIBERO</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="robotwin-rollouts">RoboTwin2.0</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="calvin-rollouts">
+        <SimulationRolloutGrid
+          videos={[
+            { label: "Push red right", src: calvinPushRedRightRollout },
+            { label: "Move slider left", src: calvinMoveSliderLeftRollout },
+            { label: "Close drawer", src: calvinCloseDrawerRollout },
+            { label: "Turn on lightbulb", src: calvinTurnOnLightbulbRollout },
+            { label: "Turn off LED", src: calvinTurnOffLedRollout },
+          ]}
+        />
+      </TabsContent>
+      <TabsContent value="libero-rollouts">
+        <SimulationRolloutGrid
+          aspect="video"
+          videos={[
+            { label: "LIBERO-10", src: libero10Rollout },
+            { label: "Goal", src: liberoGoalRollout },
+            { label: "Spatial", src: liberoSpatialRollout },
+          ]}
+        />
+      </TabsContent>
+      <TabsContent value="robotwin-rollouts">
+        <SimulationRolloutGrid
+          videos={[
+            { label: "Beat block with hammer", src: robotwinHammerRollout },
+            { label: "Lift two bottles", src: robotwinBottlesRollout },
+            { label: "Move can next to pot", src: robotwinCanRollout },
+            { label: "Put mug into microwave", src: robotwinMicrowaveRollout },
+            { label: "Output 2x", src: robotwinOutput2xRollout },
+          ]}
+        />
+      </TabsContent>
+    </Tabs>
+  </div>
+</Wide>
 
 ## Real-world Deployment
 one video per task

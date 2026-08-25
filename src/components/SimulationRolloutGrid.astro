@@ -1,0 +1,81 @@
+---
+type RolloutVideo = {
+  label: string;
+  src: string;
+};
+
+interface Props {
+  videos: RolloutVideo[];
+  aspect?: "square" | "video";
+}
+
+const { videos, aspect = "square" } = Astro.props;
+---
+
+<div class="flex flex-wrap justify-center gap-3">
+  {
+    videos.map((video) => (
+      <figure class="w-full max-w-52 space-y-2 sm:w-52">
+        <div
+          class:list={[
+            "overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950",
+            aspect === "video" ? "aspect-video" : "aspect-square",
+          ]}
+        >
+          <video
+            data-rollout-video
+            class="h-full w-full object-cover"
+            src={video.src}
+            controls
+            loop
+            muted
+            playsinline
+            autoplay
+            preload="metadata"
+          ></video>
+        </div>
+        <figcaption class="text-center text-sm text-zinc-600">
+          {video.label}
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>
+
+<script>
+  const setupRolloutVideos = () => {
+    document.querySelectorAll<HTMLVideoElement>("[data-rollout-video]").forEach(
+      (video) => {
+        if (video.dataset.rolloutReady === "true") return;
+
+        video.dataset.rolloutReady = "true";
+        const tabPanel = video.closest<HTMLElement>("[data-tabs-content]");
+
+        const syncPlayback = () => {
+          const isActive =
+            !tabPanel || tabPanel.getAttribute("data-state") === "active";
+
+          if (isActive) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+            video.currentTime = 0;
+          }
+        };
+
+        if (tabPanel) {
+          new MutationObserver(syncPlayback).observe(tabPanel, {
+            attributes: true,
+            attributeFilter: ["data-state", "hidden"],
+          });
+        }
+
+        syncPlayback();
+      },
+    );
+  };
+
+  setupRolloutVideos();
+  document.addEventListener("astro:after-swap", setupRolloutVideos);
+  document.addEventListener("starwind:init", setupRolloutVideos);
+</script>
