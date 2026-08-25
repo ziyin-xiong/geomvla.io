@@ -7,15 +7,17 @@ type RolloutVideo = {
 interface Props {
   videos: RolloutVideo[];
   aspect?: "square" | "video";
+  size?: "default" | "large";
 }
 
-const { videos, aspect = "square" } = Astro.props;
+const { videos, aspect = "square", size = "default" } = Astro.props;
+const itemSizeClass = size === "large" ? "max-w-80 sm:w-80" : "max-w-52 sm:w-52";
 ---
 
 <div class="flex flex-wrap justify-center gap-3">
   {
     videos.map((video) => (
-      <figure class="w-full max-w-52 space-y-2 sm:w-52">
+      <figure class:list={["w-full space-y-2", itemSizeClass]}>
         <div
           class:list={[
             "overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950",
