@@ -1,0 +1,41 @@
+---
+import type { ImageMetadata } from "astro";
+
+type OutlineLink = {
+  label: string;
+  href: string;
+};
+
+interface Props {
+  logo: ImageMetadata | string;
+  links: OutlineLink[];
+}
+
+const { logo, links } = Astro.props;
+const logoSrc = typeof logo === "string" ? logo : logo.src;
+---
+
+<nav
+  class="not-prose full-bleed sticky top-0 z-50 -mt-16 overflow-x-auto border-b border-zinc-200 bg-white/90 backdrop-blur-md [scrollbar-width:none] dark:border-zinc-800 dark:bg-zinc-950/90 [&::-webkit-scrollbar]:hidden"
+  aria-label="Sections"
+>
+  <div class="mx-auto flex h-16 w-max items-center gap-10 px-7">
+    <a class="flex shrink-0 items-center hover:no-underline" href="#top" aria-label="GeomVLA">
+      <img class="m-0 h-9 w-auto max-w-40 object-contain" src={logoSrc} alt="GeomVLA" />
+    </a>
+    <ul class="m-0 flex list-none items-center gap-7 p-0">
+      {
+        links.map((link) => (
+          <li class="m-0 p-0">
+            <a
+              class="whitespace-nowrap text-sm font-medium text-zinc-700 no-underline transition hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white"
+              href={link.href}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>

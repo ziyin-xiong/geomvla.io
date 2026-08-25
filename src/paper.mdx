@@ -18,6 +18,7 @@ thumbnail: screenshot-light.png
 import Header from "./components/Header.astro";
 import Video from "./components/Video.astro";
 import HighlightedSection from "./components/HighlightedSection.astro";
+import SectionOutline from "./components/SectionOutline.astro";
 import SmallCaps from "./components/SmallCaps.astro";
 import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
@@ -40,6 +41,7 @@ import demoVideo from "./assets/demo_video.mp4";
 import methodFigure from "./assets/method.png";
 import backgroundFigure from "./assets/background.png";
 import teaserFigure from "./assets/teaser.png";
+import geomvlaLogo from "./assets/logo.png";
 import calvinCloseDrawerRgb from "./assets/scene-trajectory/calvin-close-drawer-rgb.png";
 import calvinCloseDrawerTraj from "./assets/scene-trajectory/calvin-close-drawer-traj.mp4";
 import calvinTurnOnLightbulbRgb from "./assets/scene-trajectory/calvin-turn-on-lightbulb-rgb.png";
@@ -80,6 +82,24 @@ import triangleRealWorld from "./assets/triangle.mp4";
 import uncapRealWorld from "./assets/uncap.mp4";
 import uprightRealWorld from "./assets/upright.mp4";
 
+<div id="top" class="scroll-mt-24"></div>
+
+<SectionOutline
+  logo={geomvlaLogo}
+  links={[
+    { label: "Overview", href: "#overview" },
+    { label: "Video", href: "#video" },
+    { label: "Abstract", href: "#abstract" },
+    { label: "Method", href: "#method" },
+    { label: "Scene Trajectory Prediction", href: "#scene-trajectory-prediction" },
+    { label: "Simulation Rollouts", href: "#simulation-rollouts" },
+    { label: "Real World", href: "#real-world" },
+    { label: "Results", href: "#results" },
+    { label: "Ablations", href: "#ablations" },
+    { label: "BibTeX", href: "#bibtex" },
+  ]}
+/>
+
 <Header
   title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
   conference="Conference Name"
@@ -109,6 +129,8 @@ import uprightRealWorld from "./assets/upright.mp4";
   <Picture slot="background" src={backgroundFigure} alt="" priority />
 </Header>
 
+<div id="overview" class="scroll-mt-24"></div>
+
 <Wide>
   <div class="mx-auto max-w-4xl">
     <Figure>
@@ -118,12 +140,16 @@ import uprightRealWorld from "./assets/upright.mp4";
 </Wide>
 
 <HighlightedSection>
-<p class="text-center font-medium">
-**GeomVLA unifies what the robot sees, how the scene may move, and how the robot should act in one shared 3D space.** It lifts vision-language features into 3D, predicts task-conditioned scene motion as latent geometric guidance, and generates actions through a 3D-aware denoising policy.
-</p>
+  <div class="not-prose mx-auto max-w-3xl text-center text-lg font-medium leading-relaxed text-zinc-900 dark:text-zinc-50">
+    <strong>GeomVLA unifies what the robot sees, how the scene may move, and how the robot should act in one shared 3D space.</strong> It lifts vision-language features into 3D, predicts task-conditioned scene motion as latent geometric guidance, and generates actions through a 3D-aware denoising policy.
+  </div>
 </HighlightedSection>
 
+<div id="video" class="scroll-mt-24"></div>
+
 <Video src={demoVideo} />
+
+<div id="abstract" class="scroll-mt-24"></div>
 
 <HighlightedSection>
 
@@ -135,6 +161,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 
 </HighlightedSection>
 
+<div id="method" class="scroll-mt-24"></div>
+
 ## Method
 
 <Wide>
@@ -145,6 +173,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
     </Figure>
   </div>
 </Wide>
+
+<div id="scene-trajectory-prediction" class="scroll-mt-24"></div>
 
 ## Scene Trajectory Prediction
 
@@ -194,6 +224,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
   </div>
 </Wide>
 
+<div id="simulation-rollouts" class="scroll-mt-24"></div>
+
 ## Simulation Rollouts
 
 <Wide>
@@ -242,6 +274,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
   </div>
 </Wide>
 
+<div id="real-world" class="scroll-mt-24"></div>
+
 ## Real-world Deployment
 
 <Wide>
@@ -286,8 +320,12 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
   </div>
 </Wide>
 
+<div id="results" class="scroll-mt-24"></div>
+
 ## Quantitative Results
 table/graph for sim and real-world
+
+<div id="ablations" class="scroll-mt-24"></div>
 
 ## Ablations
 table/graph for key ablations
@@ -377,6 +415,8 @@ Add simple tables using [GitHub Flavored Markdown syntax](https://docs.github.co
 | DistilBERT | 0.86 | 0.84 | 2.1 |
 | XLNet | 0.90 | 0.89 | 6.8 |
 */}
+
+<div id="bibtex" class="scroll-mt-24"></div>
 
 ## BibTeX
 
