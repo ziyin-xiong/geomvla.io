@@ -38,6 +38,7 @@ import demoVideo from "./assets/demo_video.mp4";
 import methodFigure from "./assets/method.png";
 import backgroundFigure from "./assets/background.png";
 import teaserFigure from "./assets/teaser.png";
+import overviewAnimation from "./assets/animation.gif";
 import geomvlaLogo from "./assets/logo.png";
 import calvinCloseDrawerRgb from "./assets/scene-trajectory/calvin-close-drawer-rgb.png";
 import calvinCloseDrawerTraj from "./assets/scene-trajectory/calvin-close-drawer-traj.mp4";
@@ -129,6 +130,20 @@ import uprightRealWorld from "./assets/upright.mp4";
 <div id="overview" class="scroll-mt-24"></div>
 
 <Wide>
+  <div class="mx-auto max-w-5xl">
+    <Figure>
+      <img
+        slot="figure"
+        src={overviewAnimation.src}
+        alt="GeomVLA overview animation"
+        class="mx-auto max-h-[calc(100svh-3rem)] w-full rounded-lg object-contain"
+      />
+    </Figure>
+  </div>
+</Wide>
+
+{/*
+<Wide>
   <div class="mx-auto max-w-4xl">
     <Figure>
       <Picture slot="figure" src={teaserFigure} alt="GeomVLA teaser" />
@@ -141,10 +156,7 @@ import uprightRealWorld from "./assets/upright.mp4";
     <strong>GeomVLA unifies what the robot sees, how the scene may move, and how the robot should act in one shared 3D space.</strong> It lifts vision-language features into 3D, predicts task-conditioned scene motion as latent geometric guidance, and generates actions through a 3D-aware denoising policy.
   </div>
 </HighlightedSection>
-
-<div id="video" class="scroll-mt-24"></div>
-
-<Video src={demoVideo} />
+*/}
 
 <div id="abstract" class="scroll-mt-24"></div>
 
@@ -157,6 +169,10 @@ We present **GeomVLA**, a Vision-Language-Action model that unifies perception, 
 GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on LIBERO and RoboTwin2.0, and outperforms strong baselines in real-world manipulation settings **without large-scale robot-action pretraining**. Extensive ablations demonstrate that future-motion reasoning alone is insufficient: the primary gains arise from maintaining geometric consistency between scene representation, motion prediction, and robot actions throughout the entire perception-to-action pipeline.
 
 </HighlightedSection>
+
+<div id="video" class="scroll-mt-24"></div>
+
+<Video src={demoVideo} />
 
 <div id="method" class="scroll-mt-24"></div>
 
