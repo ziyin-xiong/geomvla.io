@@ -114,8 +114,13 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
       });
     };
 
+    const getAnchorOffset = () => {
+      const navHeight = topNav?.getBoundingClientRect().height ?? 88;
+      return Math.round(navHeight + 32);
+    };
+
     const syncCurrent = () => {
-      const offset = 190;
+      const offset = getAnchorOffset() + 12;
       const hasScrolled = window.scrollY > 180;
 
       if (topNav) {
@@ -176,9 +181,18 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
     railLinks.forEach((link) => {
       if (link.dataset.ready === "true") return;
       link.dataset.ready = "true";
-      link.addEventListener("click", () => {
+      link.addEventListener("click", (event) => {
         const id = link.hash.slice(1);
-        if (id) setCurrent(id);
+        const target = id ? document.getElementById(id) : null;
+        if (!id || !target) return;
+
+        event.preventDefault();
+        setCurrent(id);
+        history.pushState(null, "", `#${id}`);
+        window.scrollTo({
+          top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - getAnchorOffset()),
+          behavior: "smooth",
+        });
       });
     });
 
