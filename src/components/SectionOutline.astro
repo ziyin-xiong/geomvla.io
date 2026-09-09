@@ -222,6 +222,11 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
     pointer-events: none;
   }
 
+  .geomvla-nav-logo {
+    box-shadow: none !important;
+    background: transparent;
+  }
+
   :global(:root[data-theme="dark"]) .geomvla-nav-logo {
     filter: brightness(0) saturate(100%) invert(85%) sepia(55%) saturate(571%)
       hue-rotate(83deg) brightness(94%) contrast(90%);
