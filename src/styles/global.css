@@ -26,6 +26,10 @@ html {
 }
 
 :root {
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
   --maximum-text-width: 50rem;
   --minimum-inline-margin: 1.5rem;
   --actual-inline-margin: max(
@@ -182,6 +186,20 @@ body {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(247, 248, 244, 0)),
     var(--background);
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+:root[data-theme="dark"] body {
+  background: var(--background);
+}
+
+body :where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-display);
+}
+
+body :where(code, kbd, pre, .font-mono) {
+  font-family: var(--font-mono);
 }
 
 main :where(figure) {
