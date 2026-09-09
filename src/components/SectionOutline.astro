@@ -60,7 +60,7 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
   </div>
 </nav>
 
-<aside class="not-prose fixed top-28 z-40 hidden max-h-[calc(100vh-9rem)] w-44 overflow-y-auto border-l border-zinc-300/80 pl-4 [scrollbar-width:none] xl:block [&::-webkit-scrollbar]:hidden" aria-label="On this page" data-section-rail data-over-hero="true">
+<aside class="not-prose fixed top-28 z-40 max-h-[calc(100vh-9rem)] w-44 overflow-y-auto border-l border-zinc-300/80 pl-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="On this page" data-section-rail data-over-hero="true">
   <nav class="grid gap-0.5">
     {
       links.map((link) => (
@@ -86,6 +86,11 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
     const rail = document.querySelector<HTMLElement>("[data-section-rail]");
     const summary = document.querySelector<HTMLElement>("[data-section-summary]");
     const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+    const revealTargets = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "main > :not([data-section-nav]):not([data-section-rail]):not(script):not(style)",
+      ),
+    ).filter((target) => target.children.length > 0 || target.textContent?.trim());
 
     const targets = railLinks
       .map((link) => document.querySelector<HTMLElement>(link.hash))
@@ -149,6 +154,29 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
       });
     }
 
+    revealTargets.forEach((target) => target.classList.add("reveal-on-scroll"));
+
+    if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          rootMargin: "0px 0px -8% 0px",
+          threshold: 0.12,
+        },
+      );
+
+      revealTargets.forEach((target) => revealObserver.observe(target));
+    } else {
+      revealTargets.forEach((target) => target.classList.add("is-visible"));
+    }
+
     syncCurrent();
     document.addEventListener("scroll", syncCurrent, { passive: true });
   };
@@ -159,8 +187,15 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
 
 <style>
   [data-section-rail] {
-    left: max(1.25rem, calc((100vw - var(--maximum-text-width)) / 2 - 12.5rem));
+    display: none;
     transition: opacity 0.3s ease;
+  }
+
+  @media (min-width: 1420px) {
+    [data-section-rail] {
+      display: block;
+      left: max(1.25rem, calc((100vw - 72rem) / 2 - 12.5rem));
+    }
   }
 
   [data-section-rail][data-over-hero="true"] {
