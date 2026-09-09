@@ -18,17 +18,21 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
 <nav
   class="not-prose full-bleed sticky top-0 z-50 -mt-16 overflow-x-auto border-b border-zinc-300/80 bg-[#f7f8f4]/90 backdrop-blur-md [scrollbar-width:none] dark:border-zinc-800 dark:bg-zinc-950/90 [&::-webkit-scrollbar]:hidden"
   aria-label="Sections"
+  data-section-nav
 >
-  <div class="mx-auto flex h-22 w-max items-center gap-10 px-7">
+  <div class="mx-auto flex h-22 w-max max-w-[92rem] items-center gap-5 px-7">
     <a class="flex shrink-0 items-center hover:no-underline" href="#top" aria-label="GeomVLA">
       <img class="m-0 h-18 w-auto max-w-64 translate-y-1.5 object-contain shadow-none" src={logoSrc} alt="GeomVLA" />
     </a>
-    <ul class="m-0 flex list-none items-center gap-7 p-0">
+    <span class="hidden max-w-[24rem] truncate border-l border-zinc-300 pl-5 text-sm text-zinc-500 lg:block">
+      Unifying Scene, Motion, and Action in 3D
+    </span>
+    <ul class="m-0 ml-auto flex list-none items-center gap-1 p-0">
       {
         links.map((link) => (
           <li class="m-0 p-0">
             <a
-              class="whitespace-nowrap text-sm font-medium text-zinc-700 no-underline transition hover:text-emerald-800 dark:text-zinc-300 dark:hover:text-white"
+              class="rounded px-2.5 py-1.5 text-sm font-medium whitespace-nowrap text-zinc-600 no-underline transition hover:bg-zinc-900/5 hover:text-emerald-800 aria-[current=true]:bg-zinc-900/5 aria-[current=true]:text-zinc-950 dark:text-zinc-300 dark:hover:text-white dark:aria-[current=true]:text-white"
               href={link.href}
             >
               {link.label}
@@ -39,3 +43,60 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
     </ul>
   </div>
 </nav>
+
+<aside class="not-prose fixed left-6 top-28 z-40 hidden max-h-[calc(100vh-9rem)] w-44 overflow-y-auto border-l border-zinc-300/80 pl-4 [scrollbar-width:none] xl:block [&::-webkit-scrollbar]:hidden" aria-label="On this page" data-section-rail>
+  <nav class="grid gap-0.5">
+    {
+      links.map((link) => (
+        <a
+          class="relative py-1.5 pl-0 text-[0.82rem] leading-snug text-zinc-500 no-underline transition before:absolute before:-left-4 before:top-1/2 before:h-0 before:w-0.5 before:-translate-y-1/2 before:bg-zinc-400 before:transition-all hover:text-zinc-900 hover:before:h-4 aria-[current=true]:text-zinc-950 aria-[current=true]:before:h-5 aria-[current=true]:before:bg-emerald-700"
+          href={link.href}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</aside>
+
+<script>
+  const setupSectionOutline = () => {
+    const navLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(
+        "[data-section-nav] a[href^='#'], [data-section-rail] a[href^='#']",
+      ),
+    );
+
+    const targets = navLinks
+      .map((link) => document.querySelector<HTMLElement>(link.hash))
+      .filter((target): target is HTMLElement => Boolean(target));
+
+    if (targets.length === 0) return;
+
+    const setCurrent = (id: string) => {
+      navLinks.forEach((link) => {
+        if (link.hash === `#${id}`) {
+          link.setAttribute("aria-current", "true");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const syncCurrent = () => {
+      const offset = 120;
+      const current =
+        targets
+          .filter((target) => target.getBoundingClientRect().top <= offset)
+          .at(-1) ?? targets[0];
+
+      setCurrent(current.id);
+    };
+
+    syncCurrent();
+    document.addEventListener("scroll", syncCurrent, { passive: true });
+  };
+
+  setupSectionOutline();
+  document.addEventListener("astro:after-swap", setupSectionOutline);
+</script>
