@@ -218,19 +218,19 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 <Wide>
   <div class="mx-auto max-w-5xl">
     <Tabs defaultValue="calvin-scene">
-      <TabsList>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="calvin-scene">CALVIN</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="libero-scene">LIBERO</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="robotwin-scene">RoboTwin2.0</TabsTrigger>
+      <TabsList class="mt-6 border-0 bg-transparent p-0 shadow-none">
+        <TabsTrigger class="border-transparent bg-transparent text-zinc-600 shadow-none hover:bg-transparent hover:text-zinc-950 data-[state=active]:border-zinc-300 data-[state=active]:bg-zinc-100 data-[state=active]:text-zinc-950 dark:text-zinc-400 dark:hover:bg-transparent dark:hover:text-white dark:data-[state=active]:border-zinc-600 dark:data-[state=active]:bg-zinc-800 dark:data-[state=active]:text-white" value="calvin-scene">CALVIN</TabsTrigger>
+        <TabsTrigger class="border-transparent bg-transparent text-zinc-600 shadow-none hover:bg-transparent hover:text-zinc-950 data-[state=active]:border-zinc-300 data-[state=active]:bg-zinc-100 data-[state=active]:text-zinc-950 dark:text-zinc-400 dark:hover:bg-transparent dark:hover:text-white dark:data-[state=active]:border-zinc-600 dark:data-[state=active]:bg-zinc-800 dark:data-[state=active]:text-white" value="libero-scene">LIBERO</TabsTrigger>
+        <TabsTrigger class="border-transparent bg-transparent text-zinc-600 shadow-none hover:bg-transparent hover:text-zinc-950 data-[state=active]:border-zinc-300 data-[state=active]:bg-zinc-100 data-[state=active]:text-zinc-950 dark:text-zinc-400 dark:hover:bg-transparent dark:hover:text-white dark:data-[state=active]:border-zinc-600 dark:data-[state=active]:bg-zinc-800 dark:data-[state=active]:text-white" value="robotwin-scene">RoboTwin2.0</TabsTrigger>
       </TabsList>
 
       <TabsContent value="calvin-scene">
         <SceneTrajectoryBenchmarkGallery
           benchmark="CALVIN"
           tasks={[
-            { label: "Close drawer", rgb: calvinCloseDrawerRgb, video: calvinCloseDrawerTraj },
-            { label: "Turn on lightbulb", rgb: calvinTurnOnLightbulbRgb, video: calvinTurnOnLightbulbTraj },
-            { label: "Move slider left", rgb: calvinMoveSliderLeftRgb, video: calvinMoveSliderLeftTraj },
+            { label: "Close drawer", instruction: "Close the drawer.", rgb: calvinCloseDrawerRgb, video: calvinCloseDrawerTraj },
+            { label: "Turn on lightbulb", instruction: "Turn on the lightbulb.", rgb: calvinTurnOnLightbulbRgb, video: calvinTurnOnLightbulbTraj },
+            { label: "Move slider left", instruction: "Move the slider left.", rgb: calvinMoveSliderLeftRgb, video: calvinMoveSliderLeftTraj },
           ]}
         />
       </TabsContent>
@@ -238,9 +238,9 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
         <SceneTrajectoryBenchmarkGallery
           benchmark="LIBERO"
           tasks={[
-            { label: "Put bowl on plate", rgb: liberoPutBowlOnPlateRgb, video: liberoPutBowlOnPlateTraj },
-            { label: "Put bottle on rack", rgb: liberoPutBottleOnRackRgb, video: liberoPutBottleOnRackTraj },
-            { label: "Put mug into microwave", rgb: liberoPutMugIntoMicrowaveRgb, video: liberoPutMugIntoMicrowaveTraj },
+            { label: "Put bowl on plate", instruction: "Put the bowl on the plate.", rgb: liberoPutBowlOnPlateRgb, video: liberoPutBowlOnPlateTraj },
+            { label: "Put bottle on rack", instruction: "Put the bottle on the rack.", rgb: liberoPutBottleOnRackRgb, video: liberoPutBottleOnRackTraj },
+            { label: "Put mug into microwave", instruction: "Put the mug into the microwave.", rgb: liberoPutMugIntoMicrowaveRgb, video: liberoPutMugIntoMicrowaveTraj },
           ]}
         />
       </TabsContent>
@@ -248,9 +248,9 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
         <SceneTrajectoryBenchmarkGallery
           benchmark="RoboTwin2.0"
           tasks={[
-            { label: "Beat block with hammer", rgb: robotwinBeatBlockWithHammerRgb, video: robotwinBeatBlockWithHammerTraj },
-            { label: "Lift two bottles", rgb: robotwinLiftTwoBottlesRgb, video: robotwinLiftTwoBottlesTraj },
-            { label: "Move can next to pot", rgb: robotwinMoveCanNextToPotRgb, video: robotwinMoveCanNextToPotTraj },
+            { label: "Beat block with hammer", instruction: "Beat the block with the hammer.", rgb: robotwinBeatBlockWithHammerRgb, video: robotwinBeatBlockWithHammerTraj },
+            { label: "Lift two bottles", instruction: "Lift two bottles.", rgb: robotwinLiftTwoBottlesRgb, video: robotwinLiftTwoBottlesTraj },
+            { label: "Move can next to pot", instruction: "Move the can next to the pot.", rgb: robotwinMoveCanNextToPotRgb, video: robotwinMoveCanNextToPotTraj },
           ]}
         />
       </TabsContent>

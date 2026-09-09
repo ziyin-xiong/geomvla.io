@@ -1,6 +1,7 @@
 ---
 type SceneTask = {
   label: string;
+  instruction?: string;
   rgb: ImageMetadata;
   video: string;
 };
@@ -15,7 +16,7 @@ const galleryId = `${benchmark.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-scene-
 ---
 
 <section
-  class="not-prose grid gap-5 rounded-md border border-zinc-200 bg-white p-3 shadow-sm shadow-zinc-900/5 md:grid-cols-[10rem_minmax(0,1fr)] dark:border-zinc-800 dark:bg-zinc-900/70"
+  class="not-prose grid gap-5 md:grid-cols-[10rem_minmax(0,1fr)]"
   data-scene-benchmark-gallery
   data-gallery-id={galleryId}
 >
@@ -51,51 +52,57 @@ const galleryId = `${benchmark.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-scene-
     }
   </div>
 
-  <div class="min-w-0">
+  <div class="min-w-0 md:pt-6">
     {
       tasks.map((task, index) => (
         <div
           class:list={[
-            "grid gap-4 lg:grid-cols-2",
+            "grid gap-3",
             index !== 0 && "hidden",
           ]}
           data-scene-panel
           data-scene-index={index}
         >
-          <figure class="m-0 space-y-2">
-            <div class="aspect-square overflow-hidden rounded-sm bg-zinc-100">
-              <img
-                class="h-full w-full object-cover shadow-none"
-                src={task.rgb.src}
-                width={task.rgb.width}
-                height={task.rgb.height}
-                alt={`${benchmark} ${task.label} RGB observation`}
-                loading={index === 0 ? "eager" : "lazy"}
-              />
-            </div>
-            <figcaption class="text-center text-sm text-zinc-600 dark:text-zinc-400">
-              RGB observation
-            </figcaption>
-          </figure>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <figure class="m-0 space-y-2">
+              <div class="aspect-square overflow-hidden rounded-sm bg-zinc-100">
+                <img
+                  class="h-full w-full object-cover shadow-none"
+                  src={task.rgb.src}
+                  width={task.rgb.width}
+                  height={task.rgb.height}
+                  alt={`${benchmark} ${task.label} RGB observation`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
+              <figcaption class="text-center text-sm text-zinc-600 dark:text-zinc-400">
+                RGB observation
+              </figcaption>
+            </figure>
 
-          <figure class="m-0 space-y-2">
-            <div class="aspect-square overflow-hidden rounded-sm bg-zinc-950">
-              <video
-                data-scene-gallery-video
-                class="h-full w-full scale-[1.04] object-cover"
-                src={task.video}
-                controls
-                loop
-                muted
-                playsinline
-                autoplay={index === 0}
-                preload="metadata"
-              ></video>
-            </div>
-            <figcaption class="text-center text-sm text-zinc-600 dark:text-zinc-400">
-              Predicted 3D scene trajectory
-            </figcaption>
-          </figure>
+            <figure class="m-0 space-y-2">
+              <div class="aspect-square overflow-hidden rounded-sm bg-zinc-950">
+                <video
+                  data-scene-gallery-video
+                  class="h-full w-full scale-[1.04] object-cover"
+                  src={task.video}
+                  controls
+                  loop
+                  muted
+                  playsinline
+                  autoplay={index === 0}
+                  preload="metadata"
+                ></video>
+              </div>
+              <figcaption class="text-center text-sm text-zinc-600 dark:text-zinc-400">
+                Predicted 3D scene trajectory
+              </figcaption>
+            </figure>
+          </div>
+
+          <p class="mx-auto max-w-3xl text-center text-[0.82rem] leading-snug text-zinc-700 dark:text-zinc-300">
+            {task.instruction ?? task.label}
+          </p>
         </div>
       ))
     }

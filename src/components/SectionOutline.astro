@@ -103,6 +103,8 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
     const targets = railLinks
       .map((link) => document.querySelector<HTMLElement>(link.hash))
       .filter((target): target is HTMLElement => Boolean(target));
+    let lockedCurrentId: string | null = null;
+    let releaseLockTimer: number | undefined;
 
     const setCurrent = (id: string) => {
       railLinks.forEach((link) => {
@@ -137,6 +139,11 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
       }
 
       if (targets.length === 0) return;
+
+      if (lockedCurrentId) {
+        setCurrent(lockedCurrentId);
+        return;
+      }
 
       const current =
         targets
@@ -187,12 +194,18 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
         if (!id || !target) return;
 
         event.preventDefault();
+        lockedCurrentId = id;
+        if (releaseLockTimer) window.clearTimeout(releaseLockTimer);
         setCurrent(id);
         history.pushState(null, "", `#${id}`);
         window.scrollTo({
           top: Math.max(0, target.getBoundingClientRect().top + window.scrollY - getAnchorOffset()),
           behavior: "smooth",
         });
+        releaseLockTimer = window.setTimeout(() => {
+          lockedCurrentId = null;
+          syncCurrent();
+        }, 900);
       });
     });
 
