@@ -6,45 +6,61 @@ type OutlineLink = {
   href: string;
 };
 
+type ActionLink = OutlineLink & {
+  detail?: string;
+};
+
 interface Props {
   logo: ImageMetadata | string;
   links: OutlineLink[];
+  summary: string;
+  actions: ActionLink[];
 }
 
-const { logo, links } = Astro.props;
+const { logo, links, summary, actions } = Astro.props;
 const logoSrc = typeof logo === "string" ? logo : logo.src;
 ---
 
 <nav
   class="not-prose full-bleed sticky top-0 z-50 -mt-16 overflow-x-auto border-b border-zinc-300/80 bg-[#f7f8f4]/90 backdrop-blur-md [scrollbar-width:none] dark:border-zinc-800 dark:bg-zinc-950/90 [&::-webkit-scrollbar]:hidden"
-  aria-label="Sections"
+  aria-label="Page navigation"
   data-section-nav
+  data-over-hero="true"
 >
   <div class="mx-auto flex h-22 w-max max-w-[92rem] items-center gap-5 px-7">
     <a class="flex shrink-0 items-center hover:no-underline" href="#top" aria-label="GeomVLA">
       <img class="m-0 h-18 w-auto max-w-64 translate-y-1.5 object-contain shadow-none" src={logoSrc} alt="GeomVLA" />
     </a>
-    <span class="hidden max-w-[24rem] truncate border-l border-zinc-300 pl-5 text-sm text-zinc-500 lg:block">
-      Unifying Scene, Motion, and Action in 3D
+    <span
+      class="hidden max-w-[34rem] truncate border-l border-zinc-300 pl-5 text-sm text-zinc-500 opacity-0 transition-opacity duration-300 lg:block"
+      data-section-summary
+    >
+      {summary}
     </span>
-    <ul class="m-0 ml-auto flex list-none items-center gap-1 p-0">
+    <div class="ml-auto flex items-center gap-1">
       {
-        links.map((link) => (
-          <li class="m-0 p-0">
+        actions.map((link) => (
             <a
-              class="rounded px-2.5 py-1.5 text-sm font-medium whitespace-nowrap text-zinc-600 no-underline transition hover:bg-zinc-900/5 hover:text-emerald-800 aria-[current=true]:bg-zinc-900/5 aria-[current=true]:text-zinc-950 dark:text-zinc-300 dark:hover:text-white dark:aria-[current=true]:text-white"
+              class="rounded px-2.5 py-1.5 text-sm font-medium whitespace-nowrap text-zinc-600 no-underline transition hover:bg-zinc-900/5 hover:text-emerald-800 dark:text-zinc-300 dark:hover:text-white"
               href={link.href}
             >
               {link.label}
+              {link.detail && <em class="ml-1 rounded-full border border-zinc-300 px-1.5 py-0.5 text-[0.62rem] not-italic uppercase tracking-[0.08em] text-zinc-400">{link.detail}</em>}
             </a>
-          </li>
         ))
       }
-    </ul>
+      <button
+        class="rounded border border-zinc-300/80 bg-white/50 px-2.5 py-1.5 text-sm font-medium whitespace-nowrap text-zinc-600 transition hover:bg-zinc-900/5 hover:text-emerald-800 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-300 dark:hover:text-white"
+        type="button"
+        data-theme-toggle
+      >
+        Night version
+      </button>
+    </div>
   </div>
 </nav>
 
-<aside class="not-prose fixed left-6 top-28 z-40 hidden max-h-[calc(100vh-9rem)] w-44 overflow-y-auto border-l border-zinc-300/80 pl-4 [scrollbar-width:none] xl:block [&::-webkit-scrollbar]:hidden" aria-label="On this page" data-section-rail>
+<aside class="not-prose fixed top-28 z-40 hidden max-h-[calc(100vh-9rem)] w-44 overflow-y-auto border-l border-zinc-300/80 pl-4 [scrollbar-width:none] xl:block [&::-webkit-scrollbar]:hidden" aria-label="On this page" data-section-rail data-over-hero="true">
   <nav class="grid gap-0.5">
     {
       links.map((link) => (
@@ -61,20 +77,22 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
 
 <script>
   const setupSectionOutline = () => {
-    const navLinks = Array.from(
+    const railLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>(
-        "[data-section-nav] a[href^='#'], [data-section-rail] a[href^='#']",
+        "[data-section-rail] a[href^='#']",
       ),
     );
+    const topNav = document.querySelector<HTMLElement>("[data-section-nav]");
+    const rail = document.querySelector<HTMLElement>("[data-section-rail]");
+    const summary = document.querySelector<HTMLElement>("[data-section-summary]");
+    const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
 
-    const targets = navLinks
+    const targets = railLinks
       .map((link) => document.querySelector<HTMLElement>(link.hash))
       .filter((target): target is HTMLElement => Boolean(target));
 
-    if (targets.length === 0) return;
-
     const setCurrent = (id: string) => {
-      navLinks.forEach((link) => {
+      railLinks.forEach((link) => {
         if (link.hash === `#${id}`) {
           link.setAttribute("aria-current", "true");
         } else {
@@ -85,6 +103,23 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
 
     const syncCurrent = () => {
       const offset = 120;
+      const hasScrolled = window.scrollY > 180;
+
+      if (topNav) {
+        topNav.dataset.overHero = hasScrolled ? "false" : "true";
+      }
+
+      if (rail) {
+        rail.dataset.overHero = hasScrolled ? "false" : "true";
+      }
+
+      if (summary) {
+        summary.classList.toggle("opacity-0", !hasScrolled);
+        summary.classList.toggle("opacity-100", hasScrolled);
+      }
+
+      if (targets.length === 0) return;
+
       const current =
         targets
           .filter((target) => target.getBoundingClientRect().top <= offset)
@@ -93,6 +128,27 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
       setCurrent(current.id);
     };
 
+    if (themeToggle && themeToggle.dataset.ready !== "true") {
+      themeToggle.dataset.ready = "true";
+
+      const applyTheme = (theme: "light" | "dark") => {
+        document.documentElement.dataset.theme = theme;
+        themeToggle.textContent = theme === "dark" ? "Day version" : "Night version";
+        localStorage.setItem("geomvla-theme", theme);
+      };
+
+      const savedTheme = localStorage.getItem("geomvla-theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        applyTheme(savedTheme);
+      }
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme =
+          document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+        applyTheme(currentTheme === "dark" ? "light" : "dark");
+      });
+    }
+
     syncCurrent();
     document.addEventListener("scroll", syncCurrent, { passive: true });
   };
@@ -100,3 +156,15 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
   setupSectionOutline();
   document.addEventListener("astro:after-swap", setupSectionOutline);
 </script>
+
+<style>
+  [data-section-rail] {
+    left: max(1.25rem, calc((100vw - var(--maximum-text-width)) / 2 - 12.5rem));
+    transition: opacity 0.3s ease;
+  }
+
+  [data-section-rail][data-over-hero="true"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
