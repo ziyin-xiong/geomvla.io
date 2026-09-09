@@ -19,6 +19,7 @@ import Header from "./components/Header.astro";
 import Video from "./components/Video.astro";
 import HighlightedSection from "./components/HighlightedSection.astro";
 import SectionOutline from "./components/SectionOutline.astro";
+import PaperSummary from "./components/PaperSummary.astro";
 import SmallCaps from "./components/SmallCaps.astro";
 import Figure from "./components/Figure.astro";
 import Picture from "./components/Picture.astro";
@@ -101,6 +102,7 @@ import uprightRealWorld from "./assets/upright.mp4";
 <Header
   title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
   conference="CoRL 2026"
+  subtitle="A 3D-grounded vision-language-action model that connects scene representation, predicted motion, and robot control in one coordinate frame."
   authors={[
     {
       name: "Ziyin Xiong", notes: ["1"],
@@ -126,6 +128,23 @@ import uprightRealWorld from "./assets/upright.mp4";
 >
   <Picture slot="background" src={backgroundFigure} alt="" priority />
 </Header>
+
+<PaperSummary
+  items={[
+    {
+      label: "Problem",
+      text: "Vision-language-action policies often reason in image space, making it hard to maintain geometric consistency between what the robot sees and how it should move.",
+    },
+    {
+      label: "Method",
+      text: "GeomVLA lifts vision-language features into 3D, predicts task-conditioned scene trajectories, and conditions action denoising on the shared 3D representation.",
+    },
+    {
+      label: "Result",
+      text: "The model achieves strong simulation and real-world manipulation performance without relying on large-scale robot-action pretraining.",
+    },
+  ]}
+/>
 
 <div id="overview" class="scroll-mt-24"></div>
 

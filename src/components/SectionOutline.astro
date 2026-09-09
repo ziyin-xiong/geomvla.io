@@ -16,19 +16,19 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
 ---
 
 <nav
-  class="not-prose full-bleed sticky top-0 z-50 -mt-16 overflow-x-auto border-b border-zinc-200 bg-white/90 backdrop-blur-md [scrollbar-width:none] dark:border-zinc-800 dark:bg-zinc-950/90 [&::-webkit-scrollbar]:hidden"
+  class="not-prose full-bleed sticky top-0 z-50 -mt-16 overflow-x-auto border-b border-zinc-300/80 bg-[#f7f8f4]/90 backdrop-blur-md [scrollbar-width:none] dark:border-zinc-800 dark:bg-zinc-950/90 [&::-webkit-scrollbar]:hidden"
   aria-label="Sections"
 >
   <div class="mx-auto flex h-22 w-max items-center gap-10 px-7">
     <a class="flex shrink-0 items-center hover:no-underline" href="#top" aria-label="GeomVLA">
-      <img class="m-0 h-18 w-auto max-w-64 object-contain translate-y-1.5" src={logoSrc} alt="GeomVLA" />
+      <img class="m-0 h-18 w-auto max-w-64 translate-y-1.5 object-contain shadow-none" src={logoSrc} alt="GeomVLA" />
     </a>
     <ul class="m-0 flex list-none items-center gap-7 p-0">
       {
         links.map((link) => (
           <li class="m-0 p-0">
             <a
-              class="whitespace-nowrap text-sm font-medium text-zinc-700 no-underline transition hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white"
+              class="whitespace-nowrap text-sm font-medium text-zinc-700 no-underline transition hover:text-emerald-800 dark:text-zinc-300 dark:hover:text-white"
               href={link.href}
             >
               {link.label}

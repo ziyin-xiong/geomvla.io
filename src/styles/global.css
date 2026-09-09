@@ -21,6 +21,8 @@
 html {
   /* Enables container query units (e.g., 100cqw) for layout calculations in main. */
   container-type: inline-size;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 :root {
@@ -98,19 +100,19 @@ main .katex-display {
 }
 
 :root {
-  --background: var(--color-white);
+  --background: #f7f8f4;
   --foreground: var(--color-zinc-950);
   --card: var(--color-white);
   --card-foreground: var(--color-zinc-950);
   --popover: var(--color-white);
   --popover-foreground: var(--color-zinc-950);
-  --primary: var(--color-blue-700);
+  --primary: var(--color-emerald-800);
   --primary-foreground: var(--color-zinc-50);
-  --primary-accent: var(--color-blue-700);
+  --primary-accent: var(--color-emerald-700);
   --secondary: var(--color-fuchsia-700);
   --secondary-foreground: var(--color-zinc-50);
   --secondary-accent: var(--color-fuchsia-700);
-  --muted: var(--color-zinc-100);
+  --muted: #eef1e8;
   --muted-foreground: var(--color-zinc-600);
   --accent: var(--color-zinc-100);
   --accent-foreground: var(--color-zinc-900);
@@ -122,8 +124,8 @@ main .katex-display {
   --warning-foreground: var(--color-amber-950);
   --error: var(--color-red-700);
   --error-foreground: var(--color-zinc-50);
-  --border: var(--color-zinc-200);
-  --input: var(--color-zinc-200);
+  --border: #d7dbd1;
+  --input: #d7dbd1;
   --outline: var(--color-zinc-400);
   --radius: 0.625rem;
 }
@@ -169,4 +171,29 @@ main .katex-display {
 
 main h2 {
   text-align: center;
+  margin-top: 4.5rem;
+  margin-bottom: 1.4rem;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(247, 248, 244, 0)),
+    var(--background);
+}
+
+main :where(figure) {
+  margin-top: 1.4rem;
+  margin-bottom: 1.4rem;
+}
+
+main :where(figcaption) {
+  color: var(--color-zinc-600);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+main :where(video, img) {
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
 }

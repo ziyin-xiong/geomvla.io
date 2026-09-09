@@ -5,7 +5,7 @@ import { tv } from "tailwind-variants";
 type Props = Omit<HTMLAttributes<"div">, "role">;
 
 export const tabsList = tv({
-  base: "mx-auto flex flex-wrap w-fit items-center justify-center gap-2",
+  base: "mx-auto flex flex-wrap w-fit items-center justify-center gap-2 rounded-full border border-zinc-200 bg-white/80 p-1 shadow-sm shadow-zinc-900/5",
 });
 
 const { class: className, ...rest } = Astro.props;

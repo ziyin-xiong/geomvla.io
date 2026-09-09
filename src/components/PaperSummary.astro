@@ -1,0 +1,29 @@
+---
+type SummaryItem = {
+  label: string;
+  text: string;
+};
+
+interface Props {
+  items: SummaryItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="not-prose full-bleed my-12 px-6">
+  <div class="mx-auto grid max-w-6xl gap-4 md:grid-cols-3">
+    {
+      items.map((item) => (
+        <article class="rounded-md border border-zinc-200 bg-white/90 p-5 shadow-sm shadow-zinc-900/5">
+          <div class="mb-3 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-emerald-700">
+            {item.label}
+          </div>
+          <p class="m-0 text-[0.98rem] leading-relaxed text-zinc-700">
+            {item.text}
+          </p>
+        </article>
+      ))
+    }
+  </div>
+</section>
