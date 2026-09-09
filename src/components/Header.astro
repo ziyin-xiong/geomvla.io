@@ -36,7 +36,7 @@ const hasBackground = Astro.slots.has("background");
 <header
   class:list={[
     "full-bleed relative mb-12 overflow-hidden border-b border-zinc-900/10",
-    hasBackground && "min-h-[calc(100svh-5.5rem)] pt-24 pb-24",
+    hasBackground ? "min-h-[calc(100svh-5.5rem)] pt-24 pb-24" : "pb-12",
   ]}
 >
   {
@@ -52,19 +52,19 @@ const hasBackground = Astro.slots.has("background");
       "relative z-10 mx-auto flex max-w-[58rem] flex-col items-center px-6 text-center",
       hasBackground
         ? "gap-5 text-white prose-headings:text-white [text-shadow:0_1px_12px_rgba(0,0,0,0.45)]"
-        : "gap-4 text-zinc-900",
+        : "gap-4 text-zinc-900 dark:text-white",
     ]}
   >
-    {conference && <div class:list={["not-prose rounded-full px-4 py-1 text-sm font-medium uppercase tracking-[0.12em] backdrop-blur-sm", hasBackground ? "border border-white/30 bg-white/20 text-white" : "border border-zinc-300 bg-white/70 text-zinc-700"]}>{conference}</div>}
+    {conference && <div class:list={["not-prose rounded-full px-4 py-1 text-sm font-medium uppercase tracking-[0.12em] backdrop-blur-sm", hasBackground ? "border border-white/30 bg-white/20 text-white" : "border border-zinc-300 bg-white/70 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-white"]}>{conference}</div>}
     <h1 class="my-0 max-w-[54rem] text-5xl font-semibold leading-tight md:text-6xl">{title}</h1>
-    {subtitle && <p class:list={["not-prose -mt-1 m-0 max-w-3xl text-base leading-snug md:text-lg", hasBackground ? "text-white/90" : "text-zinc-700"]}>{subtitle}</p>}
-    <div class:list={["flex flex-row flex-wrap justify-center gap-x-6 gap-y-2", hasBackground ? "text-white/90" : "text-zinc-800"]}>
+    {subtitle && <p class:list={["not-prose m-0 max-w-3xl text-base leading-snug md:text-lg", hasBackground ? "text-white/90" : "text-zinc-700 dark:text-white/90"]}>{subtitle}</p>}
+    <div class:list={["flex flex-row flex-wrap justify-center gap-x-6 gap-y-2", hasBackground ? "text-white/90" : "text-zinc-800 dark:text-white/90"]}>
       {
         authors.map((author) => (
           <div class="flex flex-col items-center text-center">
             <div class="flex flex-row text-lg">
               {author.url ? (
-                <a class:list={[hasBackground ? "not-prose text-white underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-white" : "not-prose text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:text-emerald-800 hover:decoration-emerald-700"]} href={author.url}>{author.name}</a>
+                <a class:list={[hasBackground ? "not-prose text-white underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-white" : "not-prose text-zinc-900 underline decoration-zinc-300 underline-offset-4 hover:text-emerald-800 hover:decoration-emerald-700 dark:text-white dark:decoration-white/30 dark:hover:text-emerald-300 dark:hover:decoration-emerald-300"]} href={author.url}>{author.name}</a>
               ) : (
                 author.name
               )}
@@ -84,7 +84,7 @@ const hasBackground = Astro.slots.has("background");
     </div>
     {
       notes && (
-        <div class:list={["text-center text-sm", hasBackground ? "text-white/80" : "text-zinc-600"]}>
+        <div class:list={["text-center text-sm", hasBackground ? "text-white/80" : "text-zinc-600 dark:text-white/75"]}>
           {
             // prettier-ignore
             notes.map((note, index, array) => (
