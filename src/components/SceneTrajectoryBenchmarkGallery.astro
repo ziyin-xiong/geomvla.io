@@ -1,0 +1,186 @@
+---
+type SceneTask = {
+  label: string;
+  rgb: ImageMetadata;
+  video: string;
+};
+
+interface Props {
+  benchmark: string;
+  tasks: SceneTask[];
+}
+
+const { benchmark, tasks } = Astro.props;
+const galleryId = `${benchmark.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-scene-gallery`;
+---
+
+<section
+  class="not-prose grid gap-5 rounded-md border border-zinc-200 bg-white p-3 shadow-sm shadow-zinc-900/5 md:grid-cols-[10rem_minmax(0,1fr)] dark:border-zinc-800 dark:bg-zinc-900/70"
+  data-scene-benchmark-gallery
+  data-gallery-id={galleryId}
+>
+  <div class="grid grid-cols-3 gap-2 md:grid-cols-1" role="tablist" aria-label={`${benchmark} scene trajectory tasks`}>
+    {
+      tasks.map((task, index) => (
+        <button
+          class:list={[
+            "group rounded-sm border bg-zinc-50 p-1 text-left transition hover:border-emerald-600 dark:bg-zinc-950/80",
+            index === 0 ? "border-emerald-700" : "border-zinc-200 dark:border-zinc-800",
+          ]}
+          type="button"
+          role="tab"
+          aria-selected={index === 0 ? "true" : "false"}
+          data-scene-thumb
+          data-scene-index={index}
+        >
+          <span class="block aspect-square overflow-hidden rounded-[3px] bg-zinc-100">
+            <img
+              class="h-full w-full object-cover shadow-none"
+              src={task.rgb.src}
+              width={task.rgb.width}
+              height={task.rgb.height}
+              alt={`${benchmark} ${task.label} RGB thumbnail`}
+              loading="lazy"
+            />
+          </span>
+          <span class="mt-1 block text-center text-[0.72rem] leading-tight text-zinc-600 group-aria-selected:text-zinc-950 dark:text-zinc-400 dark:group-aria-selected:text-white">
+            {task.label}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="min-w-0">
+    {
+      tasks.map((task, index) => (
+        <div
+          class:list={[
+            "grid gap-4 lg:grid-cols-2",
+            index !== 0 && "hidden",
+          ]}
+          data-scene-panel
+          data-scene-index={index}
+        >
+          <figure class="m-0 space-y-2">
+            <div class="aspect-square overflow-hidden rounded-sm bg-zinc-100">
+              <img
+                class="h-full w-full object-cover shadow-none"
+                src={task.rgb.src}
+                width={task.rgb.width}
+                height={task.rgb.height}
+                alt={`${benchmark} ${task.label} RGB observation`}
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+            </div>
+            <figcaption class="text-center text-sm text-zinc-600 dark:text-zinc-400">
+              RGB observation
+            </figcaption>
+          </figure>
+
+          <figure class="m-0 space-y-2">
+            <div class="aspect-square overflow-hidden rounded-sm bg-zinc-950">
+              <video
+                data-scene-gallery-video
+                class="h-full w-full scale-[1.04] object-cover"
+                src={task.video}
+                controls
+                loop
+                muted
+                playsinline
+                autoplay={index === 0}
+                preload="metadata"
+              ></video>
+            </div>
+            <figcaption class="text-center text-sm text-zinc-600 dark:text-zinc-400">
+              Predicted 3D scene trajectory
+            </figcaption>
+          </figure>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  const setupSceneBenchmarkGalleries = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-scene-benchmark-gallery]")
+      .forEach((gallery) => {
+        if (gallery.dataset.ready === "true") return;
+        gallery.dataset.ready = "true";
+
+        const thumbs = Array.from(
+          gallery.querySelectorAll<HTMLButtonElement>("[data-scene-thumb]"),
+        );
+        const panels = Array.from(
+          gallery.querySelectorAll<HTMLElement>("[data-scene-panel]"),
+        );
+        const parentTabPanel = gallery.closest<HTMLElement>("[data-tabs-content]");
+
+        const pausePanelVideos = (panel: HTMLElement) => {
+          panel
+            .querySelectorAll<HTMLVideoElement>("[data-scene-gallery-video]")
+            .forEach((video) => {
+              video.pause();
+              video.currentTime = 0;
+            });
+        };
+
+        const playVisibleVideo = () => {
+          const isBenchmarkActive =
+            !parentTabPanel || parentTabPanel.getAttribute("data-state") === "active";
+          if (!isBenchmarkActive) return;
+
+          gallery
+            .querySelectorAll<HTMLVideoElement>(
+              "[data-scene-panel]:not(.hidden) [data-scene-gallery-video]",
+            )
+            .forEach((video) => video.play().catch(() => {}));
+        };
+
+        const selectTask = (index: string) => {
+          thumbs.forEach((thumb) => {
+            const isSelected = thumb.dataset.sceneIndex === index;
+            thumb.setAttribute("aria-selected", String(isSelected));
+            thumb.classList.toggle("border-emerald-700", isSelected);
+            thumb.classList.toggle("border-zinc-200", !isSelected);
+            thumb.classList.toggle("dark:border-zinc-800", !isSelected);
+          });
+
+          panels.forEach((panel) => {
+            const isSelected = panel.dataset.sceneIndex === index;
+            panel.classList.toggle("hidden", !isSelected);
+            if (!isSelected) pausePanelVideos(panel);
+          });
+
+          playVisibleVideo();
+        };
+
+        thumbs.forEach((thumb) => {
+          thumb.addEventListener("click", () => {
+            if (thumb.dataset.sceneIndex) selectTask(thumb.dataset.sceneIndex);
+          });
+        });
+
+        if (parentTabPanel) {
+          new MutationObserver(() => {
+            if (parentTabPanel.getAttribute("data-state") === "active") {
+              playVisibleVideo();
+            } else {
+              panels.forEach(pausePanelVideos);
+            }
+          }).observe(parentTabPanel, {
+            attributes: true,
+            attributeFilter: ["data-state", "hidden"],
+          });
+        }
+
+        playVisibleVideo();
+      });
+  };
+
+  setupSceneBenchmarkGalleries();
+  document.addEventListener("astro:after-swap", setupSceneBenchmarkGalleries);
+  document.addEventListener("starwind:init", setupSceneBenchmarkGalleries);
+</script>

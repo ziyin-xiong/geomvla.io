@@ -29,7 +29,7 @@ import YouTubeVideo from "./components/YouTubeVideo.astro";
 import Carousel from "./components/Carousel.astro";
 import CarouselSlide from "./components/CarouselSlide.astro";
 import Wide from "./components/Wide.astro";
-import SceneTrajectoryPair from "./components/SceneTrajectoryPair.astro";
+import SceneTrajectoryBenchmarkGallery from "./components/SceneTrajectoryBenchmarkGallery.astro";
 import SimulationRolloutGrid from "./components/SimulationRolloutGrid.astro";
 import RealWorldTaskVideo from "./components/RealWorldTaskVideo.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
@@ -217,45 +217,42 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 
 <Wide>
   <div class="mx-auto max-w-5xl">
-    <Tabs defaultValue="calvin-close-drawer">
+    <Tabs defaultValue="calvin-scene">
       <TabsList>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="calvin-close-drawer">Close drawer</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="calvin-turn-on-lightbulb">Turn on lightbulb</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="calvin-move-slider-left">Move slider left</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="libero-put-bowl-on-plate">Put bowl on plate</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="libero-put-bottle-on-rack">Put bottle on rack</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="libero-put-mug-into-microwave">Put mug into microwave</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="robotwin-beat-block-with-hammer">Beat block with hammer</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="robotwin-lift-two-bottles">Lift two bottles</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="robotwin-move-can-next-to-pot">Move can next to pot</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="calvin-scene">CALVIN</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="libero-scene">LIBERO</TabsTrigger>
+        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="robotwin-scene">RoboTwin2.0</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="calvin-close-drawer">
-        <SceneTrajectoryPair dataset="CALVIN" task="Close drawer" rgb={calvinCloseDrawerRgb} video={calvinCloseDrawerTraj} />
+      <TabsContent value="calvin-scene">
+        <SceneTrajectoryBenchmarkGallery
+          benchmark="CALVIN"
+          tasks={[
+            { label: "Close drawer", rgb: calvinCloseDrawerRgb, video: calvinCloseDrawerTraj },
+            { label: "Turn on lightbulb", rgb: calvinTurnOnLightbulbRgb, video: calvinTurnOnLightbulbTraj },
+            { label: "Move slider left", rgb: calvinMoveSliderLeftRgb, video: calvinMoveSliderLeftTraj },
+          ]}
+        />
       </TabsContent>
-      <TabsContent value="calvin-turn-on-lightbulb">
-        <SceneTrajectoryPair dataset="CALVIN" task="Turn on lightbulb" rgb={calvinTurnOnLightbulbRgb} video={calvinTurnOnLightbulbTraj} />
+      <TabsContent value="libero-scene">
+        <SceneTrajectoryBenchmarkGallery
+          benchmark="LIBERO"
+          tasks={[
+            { label: "Put bowl on plate", rgb: liberoPutBowlOnPlateRgb, video: liberoPutBowlOnPlateTraj },
+            { label: "Put bottle on rack", rgb: liberoPutBottleOnRackRgb, video: liberoPutBottleOnRackTraj },
+            { label: "Put mug into microwave", rgb: liberoPutMugIntoMicrowaveRgb, video: liberoPutMugIntoMicrowaveTraj },
+          ]}
+        />
       </TabsContent>
-      <TabsContent value="calvin-move-slider-left">
-        <SceneTrajectoryPair dataset="CALVIN" task="Move slider left" rgb={calvinMoveSliderLeftRgb} video={calvinMoveSliderLeftTraj} />
-      </TabsContent>
-      <TabsContent value="libero-put-bowl-on-plate">
-        <SceneTrajectoryPair dataset="LIBERO" task="Put bowl on plate" rgb={liberoPutBowlOnPlateRgb} video={liberoPutBowlOnPlateTraj} />
-      </TabsContent>
-      <TabsContent value="libero-put-bottle-on-rack">
-        <SceneTrajectoryPair dataset="LIBERO" task="Put bottle on rack" rgb={liberoPutBottleOnRackRgb} video={liberoPutBottleOnRackTraj} />
-      </TabsContent>
-      <TabsContent value="libero-put-mug-into-microwave">
-        <SceneTrajectoryPair dataset="LIBERO" task="Put mug into microwave" rgb={liberoPutMugIntoMicrowaveRgb} video={liberoPutMugIntoMicrowaveTraj} />
-      </TabsContent>
-      <TabsContent value="robotwin-beat-block-with-hammer">
-        <SceneTrajectoryPair dataset="RoboTwin2.0" task="Beat block with hammer" rgb={robotwinBeatBlockWithHammerRgb} video={robotwinBeatBlockWithHammerTraj} />
-      </TabsContent>
-      <TabsContent value="robotwin-lift-two-bottles">
-        <SceneTrajectoryPair dataset="RoboTwin2.0" task="Lift two bottles" rgb={robotwinLiftTwoBottlesRgb} video={robotwinLiftTwoBottlesTraj} />
-      </TabsContent>
-      <TabsContent value="robotwin-move-can-next-to-pot">
-        <SceneTrajectoryPair dataset="RoboTwin2.0" task="Move can next to pot" rgb={robotwinMoveCanNextToPotRgb} video={robotwinMoveCanNextToPotTraj} />
+      <TabsContent value="robotwin-scene">
+        <SceneTrajectoryBenchmarkGallery
+          benchmark="RoboTwin2.0"
+          tasks={[
+            { label: "Beat block with hammer", rgb: robotwinBeatBlockWithHammerRgb, video: robotwinBeatBlockWithHammerTraj },
+            { label: "Lift two bottles", rgb: robotwinLiftTwoBottlesRgb, video: robotwinLiftTwoBottlesTraj },
+            { label: "Move can next to pot", rgb: robotwinMoveCanNextToPotRgb, video: robotwinMoveCanNextToPotTraj },
+          ]}
+        />
       </TabsContent>
     </Tabs>
   </div>
