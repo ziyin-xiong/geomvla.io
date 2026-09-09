@@ -115,7 +115,7 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
     };
 
     const syncCurrent = () => {
-      const offset = 120;
+      const offset = 190;
       const hasScrolled = window.scrollY > 180;
 
       if (topNav) {
@@ -172,6 +172,15 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
         applyTheme(currentTheme === "dark" ? "light" : "dark");
       });
     }
+
+    railLinks.forEach((link) => {
+      if (link.dataset.ready === "true") return;
+      link.dataset.ready = "true";
+      link.addEventListener("click", () => {
+        const id = link.hash.slice(1);
+        if (id) setCurrent(id);
+      });
+    });
 
     revealTargets.forEach((target) => target.classList.add("reveal-on-scroll"));
 
