@@ -451,6 +451,10 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
   { label: "Goal", value: "goal" },
   { label: "Long", value: "long" },
 ];
+const liberoMinScore = 65;
+const liberoMaxScore = 100;
+const liberoScoreRange = liberoMaxScore - liberoMinScore;
+const liberoTicks = [100, 90, 80, 70, 65];
 
 const categoryOrder: Category[] = ["3d", "motion", "other", "ours"];
 const categoryRank = (category: Category) => categoryOrder.indexOf(category);
@@ -595,20 +599,20 @@ topCharts.forEach((chart) => {
 
     <div class="relative mx-auto max-w-5xl rounded-sm border border-zinc-200/80 bg-white/45 px-3 pb-4 pt-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
       <div class="pointer-events-none absolute inset-x-3 bottom-20 top-5">
-        {[100, 90, 80, 70, 60, 50].map((tick) => (
+        {liberoTicks.map((tick) => (
           <span
             class="absolute inset-x-0 border-t border-zinc-200/80 dark:border-zinc-800"
-            style={`top: ${((100 - tick) / 50) * 100}%`}
+            style={`top: ${((liberoMaxScore - tick) / liberoScoreRange) * 100}%`}
           ></span>
         ))}
       </div>
 
       <div class="grid min-h-[21rem] grid-cols-[2.25rem_minmax(0,1fr)] gap-2">
         <div class="relative mb-16 text-xs text-zinc-500 dark:text-zinc-400">
-          {[100, 90, 80, 70, 60, 50].map((tick) => (
+          {liberoTicks.map((tick) => (
             <span
               class="absolute right-0 -translate-y-1/2"
-              style={`top: ${((100 - tick) / 50) * 100}%`}
+              style={`top: ${((liberoMaxScore - tick) / liberoScoreRange) * 100}%`}
             >
               {tick}
             </span>
@@ -620,7 +624,7 @@ topCharts.forEach((chart) => {
             sortedLiberoMethods.map((result, index) => (
               <div
                 class="flex h-full min-w-[1.6rem] flex-col justify-end"
-                style={`--score: ${result.average}; --min-score:65; --score-range: 45; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms; order: ${index};`}
+                style={`--score: ${result.average}; --min-score:${liberoMinScore}; --score-range: ${liberoScoreRange}; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms; order: ${index};`}
                 data-libero-bar-wrap
                 data-category={result.category}
                 data-spatial={result.spatial}
