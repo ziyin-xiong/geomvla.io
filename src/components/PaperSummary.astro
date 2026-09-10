@@ -12,10 +12,10 @@ const { items } = Astro.props;
 ---
 
 <section class="not-prose full-bleed my-12 px-6">
-  <div class="mx-auto grid max-w-6xl gap-4 md:grid-cols-3">
+  <div class="mx-auto grid max-w-5xl gap-3 md:grid-cols-3">
     {
       items.map((item) => (
-        <article class="rounded-md border border-zinc-200 bg-white/90 p-5 shadow-sm shadow-zinc-900/5">
+        <article class="rounded-md border border-zinc-200 bg-white/90 p-4 shadow-sm shadow-zinc-900/5">
           <div class="mb-3 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-emerald-700">
             {item.label}
           </div>
