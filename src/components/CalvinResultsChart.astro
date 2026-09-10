@@ -655,7 +655,7 @@ topCharts.forEach((chart) => {
     </div>
 
     <div class="relative mx-auto max-w-5xl rounded-sm border border-zinc-200/80 bg-white/45 px-3 pb-4 pt-10 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
-      <div class="pointer-events-none absolute inset-x-3 bottom-20 top-10">
+      <div class="pointer-events-none absolute inset-x-3 bottom-20 top-[4.5rem]">
         {liberoTicks.map((tick) => (
           <span
             class="absolute inset-x-0 border-t border-zinc-200/80 dark:border-zinc-800"
@@ -665,18 +665,20 @@ topCharts.forEach((chart) => {
       </div>
 
       <div class="grid min-h-[21rem] grid-cols-[2.25rem_minmax(0,1fr)] gap-2">
-        <div class="relative mb-16 text-xs text-zinc-500 dark:text-zinc-400">
-          {liberoTicks.map((tick) => (
-            <span
-              class="absolute right-0 -translate-y-1/2"
-              style={`top: ${((liberoMaxScore - tick) / liberoScoreRange) * 100}%`}
-            >
-              {tick}
-            </span>
-          ))}
+        <div class="mb-16 pt-8 text-xs text-zinc-500 dark:text-zinc-400">
+          <div class="relative h-[16rem]">
+            {liberoTicks.map((tick) => (
+              <span
+                class="absolute right-0 -translate-y-1/2"
+                style={`top: ${((liberoMaxScore - tick) / liberoScoreRange) * 100}%`}
+              >
+                {tick}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div class="relative z-10 grid grid-cols-[repeat(18,minmax(1.6rem,1fr))] items-end gap-1.5 overflow-x-auto pb-1">
+        <div class="relative z-10 grid grid-cols-[repeat(18,minmax(1.6rem,1fr))] items-end gap-1.5 overflow-x-auto pb-1 pt-8">
           {
             sortedLiberoMethods.map((result, index) => (
               <div
