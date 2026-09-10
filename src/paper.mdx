@@ -108,7 +108,7 @@ import uprightRealWorld from "./assets/upright.mp4";
 <Header
   title="GeomVLA: Unifying Scene, Motion, and Action in 3D"
   conference="CoRL 2026"
-  subtitle="A 3D-grounded vision-language-action model that connects scene representation, predicted motion, and robot control in one coordinate frame."
+  subtitle="Connect perception, future scene motion, and robot control in one metric space. 3D-Grounded. No robot-action pretraining required."
   authors={[
     {
       name: "Ziyin Xiong", notes: ["1"],
@@ -228,9 +228,9 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
         <SceneTrajectoryBenchmarkGallery
           benchmark="CALVIN"
           tasks={[
-            { label: "Close drawer", instruction: "Close the drawer.", rgb: calvinCloseDrawerRgb, video: calvinCloseDrawerTraj },
+            { label: "Close drawer", instruction: "Push the drawer.", rgb: calvinCloseDrawerRgb, video: calvinCloseDrawerTraj },
             { label: "Turn on lightbulb", instruction: "Turn on the lightbulb.", rgb: calvinTurnOnLightbulbRgb, video: calvinTurnOnLightbulbTraj },
-            { label: "Move slider left", instruction: "Move the slider left.", rgb: calvinMoveSliderLeftRgb, video: calvinMoveSliderLeftTraj },
+            { label: "Move slider left", instruction: "Slide the cabinet door left.", rgb: calvinMoveSliderLeftRgb, video: calvinMoveSliderLeftTraj },
           ]}
         />
       </TabsContent>
@@ -238,9 +238,9 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
         <SceneTrajectoryBenchmarkGallery
           benchmark="LIBERO"
           tasks={[
-            { label: "Put bowl on plate", instruction: "Put the bowl on the plate.", rgb: liberoPutBowlOnPlateRgb, video: liberoPutBowlOnPlateTraj },
+            { label: "Put bowl on plate", instruction: "Take the bowl from the top drawer and place it on the plate.", rgb: liberoPutBowlOnPlateRgb, video: liberoPutBowlOnPlateTraj },
             { label: "Put bottle on rack", instruction: "Put the bottle on the rack.", rgb: liberoPutBottleOnRackRgb, video: liberoPutBottleOnRackTraj },
-            { label: "Put mug into microwave", instruction: "Put the mug into the microwave.", rgb: liberoPutMugIntoMicrowaveRgb, video: liberoPutMugIntoMicrowaveTraj },
+            { label: "Put mug into microwave", instruction: "Put the yellow and white mug into the microwave.", rgb: liberoPutMugIntoMicrowaveRgb, video: liberoPutMugIntoMicrowaveTraj },
           ]}
         />
       </TabsContent>
@@ -249,7 +249,7 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
           benchmark="RoboTwin2.0"
           tasks={[
             { label: "Beat block with hammer", instruction: "Beat the block with the hammer.", rgb: robotwinBeatBlockWithHammerRgb, video: robotwinBeatBlockWithHammerTraj },
-            { label: "Lift two bottles", instruction: "Lift two bottles.", rgb: robotwinLiftTwoBottlesRgb, video: robotwinLiftTwoBottlesTraj },
+            { label: "Lift two bottles", instruction: "Lift two bottles simultaneously.", rgb: robotwinLiftTwoBottlesRgb, video: robotwinLiftTwoBottlesTraj },
             { label: "Move can next to pot", instruction: "Move the can next to the pot.", rgb: robotwinMoveCanNextToPotRgb, video: robotwinMoveCanNextToPotTraj },
           ]}
         />
@@ -432,10 +432,10 @@ Add simple tables using [GitHub Flavored Markdown syntax](https://docs.github.co
 If you find this work useful, please consider citing our paper:
 
 ```bibtex
-@misc{xiong2026geomvla,
-  author = "{Ziyin Xiong, TODO}",
-  title = "GeomVLA: Unifying Scene, Motion, and Action in 3D",
-  year = "2026",
-  howpublished = "\url{TODO}",
+@inproceedings{xiong2026geomvla,
+  title     = {{GeomVLA}: Unifying Scene, Motion, and Action in 3D},
+  author    = {Xiong, Ziyin and Gkanatsios, Nikos and Reuss, Moritz and Fragkiadaki, Katerina},
+  booktitle = {Proceedings of the Conference on Robot Learning (CoRL)},
+  year      = {2026}
 }
 ```
