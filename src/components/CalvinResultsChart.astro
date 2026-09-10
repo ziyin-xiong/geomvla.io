@@ -1,13 +1,16 @@
 ---
+type Category = "3d" | "motion" | "other" | "ours";
+
 type ChartResult = {
   method: string;
   score: number;
-  group: "baseline" | "ours";
+  category: Category;
   color: string;
   hoverColor: string;
 };
 
 type ResultChart = {
+  id: string;
   title: string;
   ariaLabel: string;
   caption: string;
@@ -18,93 +21,134 @@ type ResultChart = {
   results: ChartResult[];
 };
 
-const baselineColors = {
-  color1: "#7895aa",
-  hover1: "#98afc0",
-  color2: "#6e8da4",
-  hover2: "#8fa9bc",
-  color3: "#63849c",
-  hover3: "#86a2b5",
-  color4: "#587b95",
-  hover4: "#7e9cb0",
-  color5: "#4f728b",
-  hover5: "#7593a8",
+type LiberoMetric = "average" | "object" | "spatial" | "goal" | "long";
+
+type LiberoMethod = {
+  method: string;
+  category: Category;
+  color: string;
+  hoverColor: string;
+  spatial: number;
+  object: number;
+  goal: number;
+  long: number;
+  average: number;
 };
 
-const variantColors = {
-  jaColor: "#7fbf8f",
-  jaHover: "#9ed5ac",
-  noMotionColor: "#56a779",
-  noMotionHover: "#75c596",
-  mainColor: "#329a68",
-  mainHover: "#54bd87",
-  lightColor: "#8fb889",
-  lightHover: "#acd0a7",
+const categoryColors = {
+  threeD: {
+    color1: "#b8a36d",
+    hover1: "#d2bf88",
+    color2: "#a98f56",
+    hover2: "#c7ad71",
+    color3: "#967d47",
+    hover3: "#b99b5f",
+  },
+  motion: {
+    color1: "#7895aa",
+    hover1: "#98afc0",
+    color2: "#6e8da4",
+    hover2: "#8fa9bc",
+    color3: "#63849c",
+    hover3: "#86a2b5",
+    color4: "#587b95",
+    hover4: "#7e9cb0",
+    color5: "#4f728b",
+    hover5: "#7593a8",
+    color6: "#456a84",
+    hover6: "#6f8ea2",
+    color7: "#3d6078",
+    hover7: "#67869b",
+    color8: "#36566d",
+    hover8: "#607f94",
+  },
+  other: {
+    color1: "#9b8ab5",
+    hover1: "#b8a8cf",
+    color2: "#8b78a9",
+    hover2: "#aa98c3",
+    color3: "#7d689d",
+    hover3: "#9f8abb",
+    color4: "#715b90",
+    hover4: "#9278ad",
+    color5: "#664f83",
+    hover5: "#876ba1",
+  },
+  ours: {
+    lightColor: "#8fb889",
+    lightHover: "#acd0a7",
+    jaColor: "#7fbf8f",
+    jaHover: "#9ed5ac",
+    noMotionColor: "#56a779",
+    noMotionHover: "#75c596",
+    mainColor: "#329a68",
+    mainHover: "#54bd87",
+  },
 };
 
 const calvinResults: ChartResult[] = [
   {
     method: "UniVLA",
     score: 3.801,
-    group: "baseline",
-    color: baselineColors.color1,
-    hoverColor: baselineColors.hover1,
+    category: "motion",
+    color: categoryColors.motion.color1,
+    hoverColor: categoryColors.motion.hover1,
   },
   {
     method: "pi0.5",
     score: 3.964,
-    group: "baseline",
-    color: baselineColors.color2,
-    hoverColor: baselineColors.hover2,
+    category: "other",
+    color: categoryColors.other.color1,
+    hoverColor: categoryColors.other.hover1,
   },
   {
     method: "OpenVLA-OFT",
     score: 4.279,
-    group: "baseline",
-    color: baselineColors.color3,
-    hoverColor: baselineColors.hover3,
+    category: "other",
+    color: categoryColors.other.color2,
+    hoverColor: categoryColors.other.hover2,
   },
   {
     method: "X-VLA",
     score: 4.43,
-    group: "baseline",
-    color: baselineColors.color4,
-    hoverColor: baselineColors.hover4,
+    category: "other",
+    color: categoryColors.other.color3,
+    hoverColor: categoryColors.other.hover3,
   },
   {
     method: "FLOWER",
     score: 4.48,
-    group: "baseline",
-    color: baselineColors.color5,
-    hoverColor: baselineColors.hover5,
+    category: "other",
+    color: categoryColors.other.color4,
+    hoverColor: categoryColors.other.hover4,
   },
   {
     method: "2D-JA",
     score: 4.195,
-    group: "ours",
-    color: variantColors.lightColor,
-    hoverColor: variantColors.lightHover,
+    category: "ours",
+    color: categoryColors.ours.lightColor,
+    hoverColor: categoryColors.ours.lightHover,
   },
   {
     method: "GeomVLA-JA",
     score: 4.508,
-    group: "ours",
-    color: variantColors.jaColor,
-    hoverColor: variantColors.jaHover,
+    category: "ours",
+    color: categoryColors.ours.jaColor,
+    hoverColor: categoryColors.ours.jaHover,
   },
   {
     method: "GeomVLA w/o motion",
     score: 4.508,
-    group: "ours",
-    color: variantColors.noMotionColor,
-    hoverColor: variantColors.noMotionHover,
+    category: "ours",
+    color: categoryColors.ours.noMotionColor,
+    hoverColor: categoryColors.ours.noMotionHover,
   },
   {
     method: "GeomVLA",
     score: 4.624,
-    group: "ours",
-    color: variantColors.mainColor,
-    hoverColor: variantColors.mainHover,
+    category: "ours",
+    color: categoryColors.ours.mainColor,
+    hoverColor: categoryColors.ours.mainHover,
   },
 ];
 
@@ -112,70 +156,272 @@ const robotwinResults: ChartResult[] = [
   {
     method: "PoseVLA",
     score: 85.6,
-    group: "baseline",
-    color: baselineColors.color1,
-    hoverColor: baselineColors.hover1,
+    category: "3d",
+    color: categoryColors.threeD.color1,
+    hoverColor: categoryColors.threeD.hover1,
   },
   {
     method: "pi0.5",
     score: 81.2,
-    group: "baseline",
-    color: baselineColors.color2,
-    hoverColor: baselineColors.hover2,
+    category: "other",
+    color: categoryColors.other.color1,
+    hoverColor: categoryColors.other.hover1,
   },
   {
     method: "OpenVLA-OFT",
     score: 34.4,
-    group: "baseline",
-    color: baselineColors.color3,
-    hoverColor: baselineColors.hover3,
+    category: "other",
+    color: categoryColors.other.color2,
+    hoverColor: categoryColors.other.hover2,
   },
   {
     method: "SimpleVLA-RL",
     score: 76.4,
-    group: "baseline",
-    color: baselineColors.color4,
-    hoverColor: baselineColors.hover4,
+    category: "other",
+    color: categoryColors.other.color3,
+    hoverColor: categoryColors.other.hover3,
   },
   {
     method: "X-VLA",
     score: 47.8,
-    group: "baseline",
-    color: baselineColors.color5,
-    hoverColor: baselineColors.hover5,
+    category: "other",
+    color: categoryColors.other.color4,
+    hoverColor: categoryColors.other.hover4,
   },
   {
     method: "2D-JA",
     score: 66.2,
-    group: "ours",
-    color: variantColors.lightColor,
-    hoverColor: variantColors.lightHover,
+    category: "ours",
+    color: categoryColors.ours.lightColor,
+    hoverColor: categoryColors.ours.lightHover,
   },
   {
     method: "GeomVLA-JA",
     score: 81.6,
-    group: "ours",
-    color: variantColors.jaColor,
-    hoverColor: variantColors.jaHover,
+    category: "ours",
+    color: categoryColors.ours.jaColor,
+    hoverColor: categoryColors.ours.jaHover,
   },
   {
     method: "GeomVLA w/o motion",
     score: 70.0,
-    group: "ours",
-    color: variantColors.noMotionColor,
-    hoverColor: variantColors.noMotionHover,
+    category: "ours",
+    color: categoryColors.ours.noMotionColor,
+    hoverColor: categoryColors.ours.noMotionHover,
   },
   {
     method: "GeomVLA",
     score: 84.8,
-    group: "ours",
-    color: variantColors.mainColor,
-    hoverColor: variantColors.mainHover,
+    category: "ours",
+    color: categoryColors.ours.mainColor,
+    hoverColor: categoryColors.ours.mainHover,
   },
 ];
 
-const charts: ResultChart[] = [
+const liberoMethods: LiberoMethod[] = [
   {
+    method: "SpatialVLA",
+    category: "3d",
+    color: categoryColors.threeD.color1,
+    hoverColor: categoryColors.threeD.hover1,
+    spatial: 88.2,
+    object: 89.9,
+    goal: 78.6,
+    long: 55.5,
+    average: 78.1,
+  },
+  {
+    method: "4D-VLA",
+    category: "3d",
+    color: categoryColors.threeD.color2,
+    hoverColor: categoryColors.threeD.hover2,
+    spatial: 88.9,
+    object: 95.2,
+    goal: 90.0,
+    long: 79.1,
+    average: 88.6,
+  },
+  {
+    method: "PoseVLA",
+    category: "3d",
+    color: categoryColors.threeD.color3,
+    hoverColor: categoryColors.threeD.hover3,
+    spatial: 96.5,
+    object: 98.0,
+    goal: 97.1,
+    long: 92.4,
+    average: 96.0,
+  },
+  {
+    method: "TraceVLA",
+    category: "motion",
+    color: categoryColors.motion.color1,
+    hoverColor: categoryColors.motion.hover1,
+    spatial: 84.6,
+    object: 85.2,
+    goal: 75.1,
+    long: 54.1,
+    average: 74.8,
+  },
+  {
+    method: "mimic-video",
+    category: "motion",
+    color: categoryColors.motion.color2,
+    hoverColor: categoryColors.motion.hover2,
+    spatial: 94.2,
+    object: 96.8,
+    goal: 90.6,
+    long: 0,
+    average: 93.9,
+  },
+  {
+    method: "WorldVLA",
+    category: "motion",
+    color: categoryColors.motion.color3,
+    hoverColor: categoryColors.motion.hover3,
+    spatial: 87.6,
+    object: 96.2,
+    goal: 83.4,
+    long: 60.0,
+    average: 81.8,
+  },
+  {
+    method: "UniVLA",
+    category: "motion",
+    color: categoryColors.motion.color4,
+    hoverColor: categoryColors.motion.hover4,
+    spatial: 96.5,
+    object: 96.8,
+    goal: 95.6,
+    long: 92.0,
+    average: 95.2,
+  },
+  {
+    method: "CoT-VLA",
+    category: "motion",
+    color: categoryColors.motion.color5,
+    hoverColor: categoryColors.motion.hover5,
+    spatial: 87.5,
+    object: 91.6,
+    goal: 87.6,
+    long: 69.0,
+    average: 81.1,
+  },
+  {
+    method: "FlowVLA",
+    category: "motion",
+    color: categoryColors.motion.color6,
+    hoverColor: categoryColors.motion.hover6,
+    spatial: 93.2,
+    object: 95.0,
+    goal: 91.6,
+    long: 72.6,
+    average: 88.1,
+  },
+  {
+    method: "LaMP",
+    category: "motion",
+    color: categoryColors.motion.color7,
+    hoverColor: categoryColors.motion.hover7,
+    spatial: 99.4,
+    object: 99.8,
+    goal: 97.4,
+    long: 96.7,
+    average: 98.3,
+  },
+  {
+    method: "RoboFlow4D",
+    category: "motion",
+    color: categoryColors.motion.color8,
+    hoverColor: categoryColors.motion.hover8,
+    spatial: 90.2,
+    object: 97.0,
+    goal: 88.4,
+    long: 75.2,
+    average: 87.7,
+  },
+  {
+    method: "pi0.5",
+    category: "other",
+    color: categoryColors.other.color1,
+    hoverColor: categoryColors.other.hover1,
+    spatial: 98.8,
+    object: 98.2,
+    goal: 98.0,
+    long: 92.4,
+    average: 96.8,
+  },
+  {
+    method: "OpenVLA-OFT",
+    category: "other",
+    color: categoryColors.other.color2,
+    hoverColor: categoryColors.other.hover2,
+    spatial: 97.6,
+    object: 98.4,
+    goal: 97.9,
+    long: 94.5,
+    average: 97.1,
+  },
+  {
+    method: "FLOWER",
+    category: "other",
+    color: categoryColors.other.color3,
+    hoverColor: categoryColors.other.hover3,
+    spatial: 97.2,
+    object: 99.3,
+    goal: 96.9,
+    long: 94.5,
+    average: 97.0,
+  },
+  {
+    method: "SimpleVLA-RL",
+    category: "other",
+    color: categoryColors.other.color4,
+    hoverColor: categoryColors.other.hover4,
+    spatial: 99.4,
+    object: 99.1,
+    goal: 99.2,
+    long: 98.5,
+    average: 99.1,
+  },
+  {
+    method: "X-VLA",
+    category: "other",
+    color: categoryColors.other.color5,
+    hoverColor: categoryColors.other.hover5,
+    spatial: 98.2,
+    object: 98.6,
+    goal: 97.8,
+    long: 97.6,
+    average: 98.1,
+  },
+  {
+    method: "GeomVLA w/o motion",
+    category: "ours",
+    color: categoryColors.ours.noMotionColor,
+    hoverColor: categoryColors.ours.noMotionHover,
+    spatial: 94.8,
+    object: 99.2,
+    goal: 88.2,
+    long: 91.8,
+    average: 93.5,
+  },
+  {
+    method: "GeomVLA",
+    category: "ours",
+    color: categoryColors.ours.mainColor,
+    hoverColor: categoryColors.ours.mainHover,
+    spatial: 98.6,
+    object: 99.8,
+    goal: 97.6,
+    long: 97.6,
+    average: 98.4,
+  },
+];
+
+const topCharts: ResultChart[] = [
+  {
+    id: "calvin",
     title: "CALVIN ABC_D",
     ariaLabel: "CALVIN ABC-D",
     caption: "Average sequence length, reported out of 5.",
@@ -186,6 +432,7 @@ const charts: ResultChart[] = [
     results: calvinResults,
   },
   {
+    id: "robotwin",
     title: "RoboTwin2.0 5-task Avg.",
     ariaLabel: "RoboTwin2.0 five-task average",
     caption: "Average success rate over five representative RoboTwin2.0 tasks.",
@@ -196,28 +443,39 @@ const charts: ResultChart[] = [
     results: robotwinResults,
   },
 ];
+
+const liberoTabs: { label: string; value: LiberoMetric }[] = [
+  { label: "Average", value: "average" },
+  { label: "Object", value: "object" },
+  { label: "Spatial", value: "spatial" },
+  { label: "Goal", value: "goal" },
+  { label: "Long", value: "long" },
+];
 ---
 
-<section class="not-prose mx-auto max-w-6xl" data-calvin-results-chart>
-  <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-    <p class="m-0 font-mono text-xl font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:text-emerald-300">
-      Simulation Results
-    </p>
-    <div class="flex flex-wrap gap-3 text-sm text-zinc-600 dark:text-zinc-300">
-      <span class="inline-flex items-center gap-2">
-        <span class="size-3 rounded-[3px] bg-[#5f829a]"></span>
-        Baselines
-      </span>
-      <span class="inline-flex items-center gap-2">
-        <span class="size-3 rounded-[3px] bg-[#329a68]"></span>
-        GeomVLA and variants
-      </span>
-    </div>
+<section class="not-prose mx-auto max-w-6xl" data-results-charts>
+  <div class="mb-5 flex flex-wrap items-center justify-end gap-3 text-sm text-zinc-600 dark:text-zinc-300">
+    <span class="inline-flex items-center gap-2">
+      <span class="size-3 rounded-[3px] bg-[#a98f56]"></span>
+      3D VLAs
+    </span>
+    <span class="inline-flex items-center gap-2">
+      <span class="size-3 rounded-[3px] bg-[#5f829a]"></span>
+      Motion-guided
+    </span>
+    <span class="inline-flex items-center gap-2">
+      <span class="size-3 rounded-[3px] bg-[#8b78a9]"></span>
+      Other baselines
+    </span>
+    <span class="inline-flex items-center gap-2">
+      <span class="size-3 rounded-[3px] bg-[#329a68]"></span>
+      GeomVLA and variants
+    </span>
   </div>
 
   <div class="grid gap-7 lg:grid-cols-2">
     {
-      charts.map((chart) => {
+      topCharts.map((chart) => {
         const scoreRange = chart.maxScore - chart.minScore;
         return (
           <article>
@@ -255,10 +513,10 @@ const charts: ResultChart[] = [
                     >
                       <div class="flex h-[16rem] items-end">
                         <button
-                          class="group calvin-result-bar relative w-full cursor-default rounded-t-sm bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                          class="group result-bar relative w-full cursor-default rounded-t-sm bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                           type="button"
                           aria-label={`${result.method}: ${result.score.toFixed(chart.digits)} on ${chart.ariaLabel}`}
-                          data-calvin-bar
+                          data-result-bar
                         >
                           <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs font-semibold text-zinc-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 dark:text-zinc-100 md:opacity-100">
                             {result.score.toFixed(chart.digits)}
@@ -282,54 +540,193 @@ const charts: ResultChart[] = [
       })
     }
   </div>
+
+  <div class="mt-10" data-libero-chart>
+    <div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <h3 class="m-0 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300 md:text-left">
+        LIBERO
+      </h3>
+      <div class="flex flex-wrap justify-center gap-1.5" role="tablist" aria-label="LIBERO result metric">
+        {
+          liberoTabs.map((tab) => (
+            <button
+              class:list={[
+                "rounded-sm border px-3 py-1.5 text-sm transition",
+                tab.value === "average"
+                  ? "border-zinc-300 bg-zinc-100 text-zinc-950 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
+                  : "border-transparent bg-transparent text-zinc-600 hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white",
+              ]}
+              type="button"
+              role="tab"
+              aria-selected={tab.value === "average" ? "true" : "false"}
+              data-libero-tab={tab.value}
+            >
+              {tab.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="relative rounded-sm border border-zinc-200/80 bg-white/45 px-3 pb-4 pt-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
+      <div class="pointer-events-none absolute inset-x-3 bottom-20 top-5">
+        {[100, 90, 80, 70, 60, 50].map((tick) => (
+          <span
+            class="absolute inset-x-0 border-t border-zinc-200/80 dark:border-zinc-800"
+            style={`top: ${((100 - tick) / 50) * 100}%`}
+          ></span>
+        ))}
+      </div>
+
+      <div class="grid min-h-[21rem] grid-cols-[2.25rem_minmax(0,1fr)] gap-2">
+        <div class="relative mb-16 text-xs text-zinc-500 dark:text-zinc-400">
+          {[100, 90, 80, 70, 60, 50].map((tick) => (
+            <span
+              class="absolute right-0 -translate-y-1/2"
+              style={`top: ${((100 - tick) / 50) * 100}%`}
+            >
+              {tick}
+            </span>
+          ))}
+        </div>
+
+        <div class="relative z-10 grid grid-cols-[repeat(18,minmax(1.6rem,1fr))] items-end gap-1.5 overflow-x-auto pb-1">
+          {
+            liberoMethods.map((result, index) => (
+              <div
+                class="flex h-full min-w-[1.6rem] flex-col justify-end"
+                style={`--score: ${result.average}; --min-score: 50; --score-range: 50; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms;`}
+                data-libero-bar-wrap
+                data-spatial={result.spatial}
+                data-object={result.object}
+                data-goal={result.goal}
+                data-long={result.long}
+                data-average={result.average}
+              >
+                <div class="flex h-[16rem] items-end">
+                  <button
+                    class="group result-bar relative w-full cursor-default rounded-t-sm bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                    type="button"
+                    aria-label={`${result.method}: ${result.average.toFixed(1)} on LIBERO average`}
+                    data-result-bar
+                    data-libero-bar
+                  >
+                    <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs font-semibold text-zinc-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 dark:text-zinc-100 md:opacity-100">
+                      {result.average.toFixed(1)}
+                    </span>
+                  </button>
+                </div>
+                <div class="mt-3 h-12 text-center text-[0.58rem] font-medium leading-tight text-zinc-700 dark:text-zinc-300 md:text-[0.65rem]">
+                  {result.method}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
+      LIBERO success rates from Table 1. Select a benchmark split to update the bars.
+    </p>
+  </div>
 </section>
 
 <script>
-  const setupCalvinResultsCharts = () => {
+  const setupResultsCharts = () => {
     document
-      .querySelectorAll<HTMLElement>("[data-calvin-results-chart]")
-      .forEach((chart) => {
-        if (chart.dataset.ready === "true") return;
-        chart.dataset.ready = "true";
+      .querySelectorAll<HTMLElement>("[data-results-charts]")
+      .forEach((section) => {
+        if (section.dataset.ready === "true") return;
+        section.dataset.ready = "true";
+
+        const reveal = () => {
+          section.dataset.visible = "true";
+        };
 
         if (!("IntersectionObserver" in window)) {
-          chart.dataset.visible = "true";
-          return;
+          reveal();
+        } else {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                reveal();
+                observer.unobserve(section);
+              });
+            },
+            {
+              rootMargin: "0px 0px -18% 0px",
+              threshold: 0.25,
+            },
+          );
+
+          observer.observe(section);
         }
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              chart.dataset.visible = "true";
-              observer.unobserve(chart);
-            });
-          },
-          {
-            rootMargin: "0px 0px -18% 0px",
-            threshold: 0.25,
-          },
+        const tabs = Array.from(
+          section.querySelectorAll<HTMLButtonElement>("[data-libero-tab]"),
+        );
+        const barWraps = Array.from(
+          section.querySelectorAll<HTMLElement>("[data-libero-bar-wrap]"),
         );
 
-        observer.observe(chart);
+        const selectLiberoMetric = (metric: string) => {
+          tabs.forEach((tab) => {
+            const isSelected = tab.dataset.liberoTab === metric;
+            tab.setAttribute("aria-selected", String(isSelected));
+            tab.classList.toggle("border-zinc-300", isSelected);
+            tab.classList.toggle("bg-zinc-100", isSelected);
+            tab.classList.toggle("text-zinc-950", isSelected);
+            tab.classList.toggle("dark:border-zinc-600", isSelected);
+            tab.classList.toggle("dark:bg-zinc-800", isSelected);
+            tab.classList.toggle("dark:text-white", isSelected);
+            tab.classList.toggle("border-transparent", !isSelected);
+            tab.classList.toggle("bg-transparent", !isSelected);
+            tab.classList.toggle("text-zinc-600", !isSelected);
+            tab.classList.toggle("dark:text-zinc-400", !isSelected);
+          });
+
+          barWraps.forEach((wrap) => {
+            const score = wrap.dataset[metric] ?? wrap.dataset.average ?? "0";
+            const bar = wrap.querySelector<HTMLButtonElement>("[data-libero-bar]");
+            const label = bar?.querySelector("span");
+            wrap.style.setProperty("--score", score);
+            if (bar) {
+              const method = wrap.textContent?.trim() || "method";
+              bar.setAttribute(
+                "aria-label",
+                `${method}: ${Number(score).toFixed(1)} on LIBERO ${metric}`,
+              );
+            }
+            if (label) label.textContent = Number(score).toFixed(1);
+          });
+        };
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            if (tab.dataset.liberoTab) selectLiberoMetric(tab.dataset.liberoTab);
+          });
+        });
       });
   };
 
-  setupCalvinResultsCharts();
-  document.addEventListener("astro:after-swap", setupCalvinResultsCharts);
+  setupResultsCharts();
+  document.addEventListener("astro:after-swap", setupResultsCharts);
 </script>
 
 <style>
-  [data-calvin-bar] {
-    height: calc((var(--score) - var(--min-score)) / var(--score-range) * 100%);
+  .result-bar {
+    height: max(0%, calc((var(--score) - var(--min-score)) / var(--score-range) * 100%));
     transform: scaleY(0);
     transform-origin: bottom;
     transition:
+      height 360ms ease,
       transform 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay),
       background-color 180ms ease;
   }
 
-  [data-calvin-results-chart][data-visible="true"] [data-calvin-bar] {
+  [data-results-charts][data-visible="true"] .result-bar {
     transform: scaleY(1);
   }
 </style>
