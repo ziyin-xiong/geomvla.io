@@ -71,7 +71,7 @@ const repeatedVideos = [...videos, ...videos];
           if (resumeTimer) window.clearTimeout(resumeTimer);
           resumeTimer = window.setTimeout(() => {
             track.dataset.paused = "false";
-          }, 1800);
+          }, 300);
         };
 
         scrollport?.addEventListener("scroll", pauseMarquee, { passive: true });
