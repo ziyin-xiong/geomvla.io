@@ -513,7 +513,7 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
                     >
                       <div class="flex h-[16rem] items-end">
                         <button
-                          class="group result-bar relative w-full cursor-default rounded-t-sm bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                          class="group result-bar relative w-full cursor-default rounded-t-[2px] bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                           type="button"
                           aria-label={`${result.method}: ${result.score.toFixed(chart.digits)} on ${chart.ariaLabel}`}
                           data-result-bar
@@ -605,7 +605,7 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
               >
                 <div class="flex h-[16rem] items-end">
                   <button
-                    class="group result-bar relative w-full cursor-default rounded-t-sm bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                    class="group result-bar relative w-full cursor-default rounded-t-[2px] bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                     type="button"
                     aria-label={`${result.method}: ${result.average.toFixed(1)} on LIBERO average`}
                     data-result-bar
