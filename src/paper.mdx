@@ -33,6 +33,7 @@ import SceneTrajectoryBenchmarkGallery from "./components/SceneTrajectoryBenchma
 import SimulationRolloutGrid from "./components/SimulationRolloutGrid.astro";
 import RealWorldVideoScroller from "./components/RealWorldVideoScroller.astro";
 import CalvinResultsChart from "./components/CalvinResultsChart.astro";
+import AblationResults from "./components/AblationResults.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
 import { Comparison } from "./components/Comparison.tsx";
 
@@ -341,7 +342,10 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 <div id="ablations" class="scroll-mt-24"></div>
 
 ## Ablations
-table/graph for key ablations
+
+<Wide>
+  <AblationResults />
+</Wide>
 
 {/*
 ### Comparison slider

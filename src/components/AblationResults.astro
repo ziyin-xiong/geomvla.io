@@ -1,0 +1,315 @@
+---
+type AblationNote = {
+  title: string;
+  body: string;
+};
+
+type AblationVariant = {
+  key: string;
+  name: string;
+  score: number;
+  notes: number[];
+  defaultHighlight?: "soft" | "main";
+};
+
+const notes: AblationNote[] = [
+  {
+    title: "Future-motion reasoning helps",
+    body:
+      "Adding future-motion reasoning improves both 2D and 3D denoisers, showing that predicted scene evolution adds useful temporal structure beyond direct action imitation.",
+  },
+  {
+    title: "Explicit 3D geometry in VLAs helps",
+    body:
+      "Moving from a 2D image-based action denoiser to the 3D action denoiser improves performance, supporting metric 3D scene-action representation.",
+  },
+  {
+    title: "Scene motion representation matters",
+    body:
+      "Early-stage velocity latents work better than fully denoised trajectories, fully denoised latents, partial denoising, or encoder-only features.",
+  },
+  {
+    title: "Geometric consistency is critical",
+    body:
+      "Image-space motion with 3D action prediction drops sharply, while a shared arbitrary 3D frame preserves performance. The key is consistent metric geometry across scene, motion, and action.",
+  },
+];
+
+const variants: AblationVariant[] = [
+  {
+    key: "geomvla-no-motion",
+    name: "GeomVLA w/o motion",
+    score: 4.508,
+    notes: [0],
+  },
+  {
+    key: "2dgeomvla-no-motion",
+    name: "2DGeomVLA w/o motion",
+    score: 4.411,
+    notes: [0, 1],
+  },
+  {
+    key: "2dgeomvla",
+    name: "2DGeomVLA",
+    score: 4.437,
+    notes: [0],
+  },
+  {
+    key: "lamp-style",
+    name: "2DGeomVLA LaMP-style",
+    score: 4.462,
+    notes: [3],
+  },
+  {
+    key: "geomvla-2d-motion",
+    name: "GeomVLA w/ 2D motion",
+    score: 4.085,
+    notes: [3],
+  },
+  {
+    key: "denoised-trace",
+    name: "GeomVLA w/ denoised trace",
+    score: 4.047,
+    notes: [2],
+  },
+  {
+    key: "denoised-latent",
+    name: "GeomVLA w/ denoised latent",
+    score: 4.334,
+    notes: [2],
+  },
+  {
+    key: "partial-denoising",
+    name: "GeomVLA w/ partial denoising",
+    score: 4.484,
+    notes: [2],
+  },
+  {
+    key: "encoder-only",
+    name: "GeomVLA encoder-only",
+    score: 4.443,
+    notes: [2],
+  },
+  {
+    key: "arbitrary-frame",
+    name: "GeomVLA w/ arbitrary frame",
+    score: 4.596,
+    notes: [3],
+    defaultHighlight: "soft",
+  },
+  {
+    key: "geomvla",
+    name: "GeomVLA",
+    score: 4.624,
+    notes: [0, 1, 2, 3],
+    defaultHighlight: "main",
+  },
+];
+
+const minScore = 4.0;
+const maxScore = 4.65;
+const scoreRange = maxScore - minScore;
+const ticks = [4.0, 4.2, 4.4, 4.6];
+
+const defaultColor = (variant: AblationVariant) => {
+  if (variant.defaultHighlight === "main") return "#238457";
+  if (variant.defaultHighlight === "soft") return "#6eb883";
+  return "#c8c4bd";
+};
+---
+
+<section class="not-prose mx-auto max-w-6xl" data-ablation-results>
+  <div class="grid gap-8 lg:grid-cols-[minmax(17rem,0.82fr)_minmax(0,1.18fr)] lg:items-center">
+    <div class="mx-auto w-full max-w-md">
+      <div class="space-y-7" data-ablation-notes>
+        {
+          notes.map((note, index) => (
+            <div class="transition-all duration-300" data-ablation-note-item>
+              <button
+                class="group flex w-full items-center gap-3 text-left"
+                type="button"
+                data-ablation-note={index}
+                aria-expanded="false"
+              >
+                <span class="size-2.5 shrink-0 rounded-full bg-zinc-400 transition-colors group-hover:bg-amber-500 dark:bg-zinc-600 dark:group-hover:bg-amber-300"></span>
+                <span class="text-base font-semibold text-zinc-800 transition-colors group-hover:text-zinc-950 dark:text-zinc-200 dark:group-hover:text-white">
+                  {note.title}
+                </span>
+              </button>
+              <p
+                class="ablation-note-detail m-0 overflow-hidden pl-5 text-sm leading-snug text-zinc-600 dark:text-zinc-300"
+                data-ablation-detail
+                aria-hidden="true"
+              >
+                {note.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="mt-6 text-xs leading-snug text-zinc-500 dark:text-zinc-400">
+        Hover a point to expand notes and highlight related ablations.
+      </p>
+    </div>
+
+    <div class="rounded-sm border border-zinc-200/80 bg-white/45 p-4 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
+      <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h3 class="m-0 font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300">
+            Ablation Performance
+          </h3>
+          <p class="m-0 mt-1 text-sm text-zinc-600 dark:text-zinc-300">
+            CALVIN ABC-D average sequence length from Table 2.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3 text-xs text-zinc-600 dark:text-zinc-300">
+          <span class="inline-flex items-center gap-1.5">
+            <span class="size-2.5 rounded-[3px] bg-[#c8c4bd]"></span>
+            Variants
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <span class="size-2.5 rounded-[3px] bg-[#6eb883]"></span>
+            Consistent frame
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <span class="size-2.5 rounded-[3px] bg-[#238457]"></span>
+            GeomVLA
+          </span>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="mb-2 ml-[10.5rem] hidden justify-between text-[0.65rem] text-zinc-500 dark:text-zinc-400 sm:flex">
+          {ticks.map((tick) => <span>{tick.toFixed(1)}</span>)}
+        </div>
+
+        <div class="space-y-2.5" data-ablation-bars>
+          {
+            variants.map((variant) => {
+              const width = ((variant.score - minScore) / scoreRange) * 100;
+              return (
+                <div
+                  class="ablation-bar-row grid grid-cols-[9.5rem_minmax(0,1fr)_2.75rem] items-center gap-3"
+                  data-ablation-bar-row
+                  data-variant={variant.key}
+                  data-notes={variant.notes.join(",")}
+                  data-default-highlight={variant.defaultHighlight ?? ""}
+                >
+                  <div class="truncate text-right text-[0.68rem] font-medium leading-tight text-zinc-700 dark:text-zinc-300 sm:text-xs">
+                    {variant.name}
+                  </div>
+                  <div class="h-4 rounded-[3px] bg-zinc-200/80 dark:bg-zinc-800">
+                    <div
+                      class="ablation-bar-fill h-full rounded-[2px] transition-all duration-300"
+                      style={`width: ${width}%; --bar-default: ${defaultColor(variant)};`}
+                    ></div>
+                  </div>
+                  <div class="ablation-score text-right text-xs font-semibold text-zinc-700 transition-colors dark:text-zinc-300">
+                    {variant.score.toFixed(3)}
+                  </div>
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const setupAblationResults = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-ablation-results]")
+      .forEach((section) => {
+        if (section.dataset.ready === "true") return;
+        section.dataset.ready = "true";
+
+        const noteItems = Array.from(
+          section.querySelectorAll<HTMLElement>("[data-ablation-note-item]"),
+        );
+        const barRows = Array.from(
+          section.querySelectorAll<HTMLElement>("[data-ablation-bar-row]"),
+        );
+
+        const setActiveNote = (note: string | null) => {
+          if (note === null) {
+            delete section.dataset.activeNote;
+          } else {
+            section.dataset.activeNote = note;
+          }
+
+          noteItems.forEach((item) => {
+            const button = item.querySelector<HTMLButtonElement>("[data-ablation-note]");
+            const detail = item.querySelector<HTMLElement>("[data-ablation-detail]");
+            const isOpen = note !== null && button?.dataset.ablationNote === note;
+            button?.setAttribute("aria-expanded", String(isOpen));
+            item.dataset.open = String(isOpen);
+            if (detail) detail.setAttribute("aria-hidden", String(!isOpen));
+          });
+
+          barRows.forEach((row) => {
+            const relatedNotes = (row.dataset.notes ?? "").split(",");
+            const isGeomVLA = row.dataset.variant === "geomvla";
+            const isRelated = note !== null && (relatedNotes.includes(note) || isGeomVLA);
+            row.dataset.activeRelated = String(isRelated);
+          });
+        };
+
+        noteItems.forEach((item) => {
+          const button = item.querySelector<HTMLButtonElement>("[data-ablation-note]");
+          const note = button?.dataset.ablationNote;
+          if (!note) return;
+
+          item.addEventListener("mouseenter", () => setActiveNote(note));
+          item.addEventListener("mouseleave", () => setActiveNote(null));
+          button.addEventListener("focus", () => setActiveNote(note));
+          button.addEventListener("blur", () => setActiveNote(null));
+        });
+      });
+  };
+
+  setupAblationResults();
+  document.addEventListener("astro:after-swap", setupAblationResults);
+</script>
+
+<style>
+  .ablation-note-detail {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    transition:
+      max-height 260ms ease,
+      opacity 220ms ease,
+      margin-top 260ms ease;
+  }
+
+  [data-ablation-note-item][data-open="true"] .ablation-note-detail {
+    max-height: 9rem;
+    opacity: 1;
+    margin-top: 0.55rem;
+  }
+
+  .ablation-bar-fill {
+    background: var(--bar-default);
+  }
+
+  [data-ablation-results][data-active-note] .ablation-bar-fill {
+    background: #bbb7af;
+    opacity: 0.52;
+  }
+
+  [data-ablation-results][data-active-note] [data-active-related="true"] .ablation-bar-fill {
+    background: #d7b83f;
+    opacity: 1;
+  }
+
+  [data-ablation-results][data-active-note] [data-active-related="true"] .ablation-score {
+    color: #8a6500;
+  }
+
+  :global(.dark) [data-ablation-results][data-active-note] [data-active-related="true"] .ablation-score {
+    color: #f0d66c;
+  }
+</style>
