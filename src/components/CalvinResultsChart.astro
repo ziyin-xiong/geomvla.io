@@ -848,7 +848,7 @@ topCharts.forEach((chart) => {
     </p>
   </div>
 
-  <div id="results-real-world" class="mt-12 mx-auto max-w-5xl scroll-mt-24">
+  <div id="results-real-world" class="mt-12 mx-auto max-w-5xl scroll-mt-24" data-real-world-results>
     <h3 class="mb-4 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300">
       Real-world ALOHA2
     </h3>
@@ -900,7 +900,7 @@ topCharts.forEach((chart) => {
                 >
                   <div class="flex h-[15rem] items-end">
                     <button
-                      class="group result-bar relative w-full cursor-default rounded-t-[2px] bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                      class="group result-bar real-world-result-bar relative w-full cursor-default rounded-t-[2px] bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                       type="button"
                       aria-label={`${result.method}: ${result.score.toFixed(1)} percent average real-world success`}
                       data-result-bar
@@ -995,6 +995,35 @@ topCharts.forEach((chart) => {
         const barWraps = Array.from(
           section.querySelectorAll<HTMLElement>("[data-libero-bar-wrap]"),
         );
+        const realWorldResults = section.querySelector<HTMLElement>(
+          "[data-real-world-results]",
+        );
+
+        if (realWorldResults) {
+          const revealRealWorld = () => {
+            realWorldResults.dataset.visible = "true";
+          };
+
+          if (!("IntersectionObserver" in window)) {
+            revealRealWorld();
+          } else {
+            const realWorldObserver = new IntersectionObserver(
+              (entries) => {
+                entries.forEach((entry) => {
+                  if (!entry.isIntersecting) return;
+                  revealRealWorld();
+                  realWorldObserver.unobserve(realWorldResults);
+                });
+              },
+              {
+                rootMargin: "0px 0px -18% 0px",
+                threshold: 0.25,
+              },
+            );
+
+            realWorldObserver.observe(realWorldResults);
+          }
+        }
 
         const selectLiberoMetric = (metric: string) => {
           tabs.forEach((tab) => {
@@ -1076,6 +1105,14 @@ topCharts.forEach((chart) => {
   }
 
   [data-results-charts][data-visible="true"] .result-bar {
+    transform: scaleY(1);
+  }
+
+  [data-results-charts][data-visible="true"] .real-world-result-bar {
+    transform: scaleY(0);
+  }
+
+  [data-real-world-results][data-visible="true"] .real-world-result-bar {
     transform: scaleY(1);
   }
 </style>
