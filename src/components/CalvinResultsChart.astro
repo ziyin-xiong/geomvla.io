@@ -595,7 +595,7 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
             liberoMethods.map((result, index) => (
               <div
                 class="flex h-full min-w-[1.6rem] flex-col justify-end"
-                style={`--score: ${result.average}; --min-score: 50; --score-range: 50; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms;`}
+                style={`--score: ${result.average}; --min-score:65; --score-range: 45; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms;`}
                 data-libero-bar-wrap
                 data-spatial={result.spatial}
                 data-object={result.object}
