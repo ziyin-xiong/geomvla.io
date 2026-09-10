@@ -100,8 +100,8 @@ const galleryId = `${benchmark.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-scene-
             </figure>
           </div>
 
-          <p class="mx-auto max-w-3xl text-center text-[0.82rem] leading-snug text-zinc-700 dark:text-zinc-300">
-            {task.instruction ?? task.label}
+          <p class="mx-auto max-w-3xl text-center text-base leading-snug text-zinc-800 dark:text-zinc-200">
+            <span class="font-semibold">Task instruction:</span> {task.instruction ?? task.label}
           </p>
         </div>
       ))

@@ -1,0 +1,129 @@
+---
+type RealWorldVideo = {
+  label: string;
+  src: string;
+};
+
+interface Props {
+  videos: RealWorldVideo[];
+}
+
+const { videos } = Astro.props;
+const repeatedVideos = [...videos, ...videos];
+---
+
+<section class="not-prose" data-real-world-scroller>
+  <div class="overflow-x-auto [scrollbar-width:thin]" data-real-world-scrollport>
+    <div class="flex w-max gap-4 pb-3" data-real-world-track>
+      {
+        repeatedVideos.map((video) => (
+          <figure
+            class="m-0 shrink-0 space-y-2"
+            data-real-world-item
+          >
+            <div class="aspect-video overflow-hidden rounded-sm bg-zinc-950">
+              <video
+                data-real-world-video
+                class="h-full w-full object-cover"
+                src={video.src}
+                controls
+                loop
+                muted
+                playsinline
+                autoplay
+                preload="metadata"
+              ></video>
+            </div>
+            <figcaption class="text-center text-base leading-snug text-zinc-700 dark:text-zinc-300">
+              {video.label}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const setupRealWorldScrollers = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-real-world-scroller]")
+      .forEach((scroller) => {
+        if (scroller.dataset.ready === "true") return;
+        scroller.dataset.ready = "true";
+
+        const scrollport = scroller.querySelector<HTMLElement>(
+          "[data-real-world-scrollport]",
+        );
+        const track = scroller.querySelector<HTMLElement>("[data-real-world-track]");
+        const videos = Array.from(
+          scroller.querySelectorAll<HTMLVideoElement>("[data-real-world-video]"),
+        );
+        if (!scrollport || !track) return;
+
+        let animationFrame = 0;
+        let pausedUntil = 0;
+        let lastTime = performance.now();
+
+        const syncPlayback = () => {
+          videos.forEach((video) => video.play().catch(() => {}));
+        };
+
+        const loopPoint = () => track.scrollWidth / 2;
+
+        const animate = (time: number) => {
+          const elapsed = time - lastTime;
+          lastTime = time;
+
+          if (time > pausedUntil) {
+            scrollport.scrollLeft += elapsed * 0.018;
+            const resetAt = loopPoint();
+            if (resetAt > 0 && scrollport.scrollLeft >= resetAt) {
+              scrollport.scrollLeft -= resetAt;
+            }
+          }
+
+          animationFrame = requestAnimationFrame(animate);
+        };
+
+        const pauseBriefly = () => {
+          pausedUntil = performance.now() + 1800;
+        };
+
+        scrollport.addEventListener("pointerdown", pauseBriefly);
+        scrollport.addEventListener("wheel", pauseBriefly, { passive: true });
+        scrollport.addEventListener("mouseenter", pauseBriefly);
+        scrollport.addEventListener("focusin", pauseBriefly);
+
+        syncPlayback();
+        animationFrame = requestAnimationFrame(animate);
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            cancelAnimationFrame(animationFrame);
+            videos.forEach((video) => video.pause());
+          } else {
+            lastTime = performance.now();
+            syncPlayback();
+            animationFrame = requestAnimationFrame(animate);
+          }
+        });
+      });
+  };
+
+  setupRealWorldScrollers();
+  document.addEventListener("astro:after-swap", setupRealWorldScrollers);
+</script>
+
+<style>
+  [data-real-world-item] {
+    width: min(34rem, calc((min(64rem, 100vw - 3rem) - 1rem) / 2));
+  }
+
+  @media (max-width: 720px) {
+    [data-real-world-item] {
+      width: calc(100vw - 3rem);
+      min-width: 18rem;
+    }
+  }
+</style>

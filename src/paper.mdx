@@ -31,7 +31,7 @@ import CarouselSlide from "./components/CarouselSlide.astro";
 import Wide from "./components/Wide.astro";
 import SceneTrajectoryBenchmarkGallery from "./components/SceneTrajectoryBenchmarkGallery.astro";
 import SimulationRolloutGrid from "./components/SimulationRolloutGrid.astro";
-import RealWorldTaskVideo from "./components/RealWorldTaskVideo.astro";
+import RealWorldVideoScroller from "./components/RealWorldVideoScroller.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
 import { Comparison } from "./components/Comparison.tsx";
 
@@ -314,43 +314,18 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 
 <Wide>
   <div class="mx-auto max-w-5xl">
-    <Tabs defaultValue="insert-pen">
-      <TabsList>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="insert-pen">Insert marker</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="bottle-cup">Bottle placement</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="color">Rank by color</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="stack">Stack blocks</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="transfer">Transfer marker</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="triangle">Place in triangle</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="uncap">Uncap marker</TabsTrigger>
-        <TabsTrigger class="border-zinc-200 bg-zinc-100 text-zinc-800 data-[state=active]:bg-zinc-300 hover:bg-zinc-200" value="upright">Stand bottle upright</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="insert-pen">
-        <RealWorldTaskVideo label="Insert the marker into the cup." src={insertPenRealWorld} />
-      </TabsContent>
-      <TabsContent value="bottle-cup">
-        <RealWorldTaskVideo label="Put the green bottle into the green cup, and put the blue bottle into the blue cup." src={bottleCupRealWorld} />
-      </TabsContent>
-      <TabsContent value="color">
-        <RealWorldTaskVideo label="Rank the three bottles in order of pink, green and blue." src={colorRealWorld} />
-      </TabsContent>
-      <TabsContent value="stack">
-        <RealWorldTaskVideo label="Stack two blocks." src={stackRealWorld} />
-      </TabsContent>
-      <TabsContent value="transfer">
-        <RealWorldTaskVideo label="Pick up the marker from one cup and place into another cup." src={transferRealWorld} />
-      </TabsContent>
-      <TabsContent value="triangle">
-        <RealWorldTaskVideo label="Place the three bottles in a triangle." src={triangleRealWorld} />
-      </TabsContent>
-      <TabsContent value="uncap">
-        <RealWorldTaskVideo label="Uncap the marker." src={uncapRealWorld} />
-      </TabsContent>
-      <TabsContent value="upright">
-        <RealWorldTaskVideo label="Stand bottle upright." src={uprightRealWorld} />
-      </TabsContent>
-    </Tabs>
+    <RealWorldVideoScroller
+      videos={[
+        { label: "Insert the marker into the cup.", src: insertPenRealWorld },
+        { label: "Put the green bottle into the green cup, and put the blue bottle into the blue cup.", src: bottleCupRealWorld },
+        { label: "Rank the three bottles in order of pink, green and blue.", src: colorRealWorld },
+        { label: "Stack two blocks.", src: stackRealWorld },
+        { label: "Pick up the marker from one cup and place into another cup.", src: transferRealWorld },
+        { label: "Place the three bottles in a triangle.", src: triangleRealWorld },
+        { label: "Uncap the marker.", src: uncapRealWorld },
+        { label: "Stand bottle upright.", src: uprightRealWorld },
+      ]}
+    />
   </div>
 </Wide>
 
