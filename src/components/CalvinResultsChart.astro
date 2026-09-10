@@ -1,5 +1,5 @@
 ---
-type CalvinResult = {
+type ChartResult = {
   method: string;
   score: number;
   group: "baseline" | "ours";
@@ -7,150 +7,281 @@ type CalvinResult = {
   hoverColor: string;
 };
 
-const results: CalvinResult[] = [
+type ResultChart = {
+  title: string;
+  ariaLabel: string;
+  caption: string;
+  minScore: number;
+  maxScore: number;
+  ticks: number[];
+  digits: number;
+  results: ChartResult[];
+};
+
+const baselineColors = {
+  color1: "#7895aa",
+  hover1: "#98afc0",
+  color2: "#6e8da4",
+  hover2: "#8fa9bc",
+  color3: "#63849c",
+  hover3: "#86a2b5",
+  color4: "#587b95",
+  hover4: "#7e9cb0",
+  color5: "#4f728b",
+  hover5: "#7593a8",
+};
+
+const variantColors = {
+  jaColor: "#7fbf8f",
+  jaHover: "#9ed5ac",
+  noMotionColor: "#56a779",
+  noMotionHover: "#75c596",
+  mainColor: "#329a68",
+  mainHover: "#54bd87",
+  lightColor: "#8fb889",
+  lightHover: "#acd0a7",
+};
+
+const calvinResults: ChartResult[] = [
   {
     method: "UniVLA",
     score: 3.801,
     group: "baseline",
-    color: "#7895aa",
-    hoverColor: "#98afc0",
+    color: baselineColors.color1,
+    hoverColor: baselineColors.hover1,
   },
   {
     method: "pi0.5",
     score: 3.964,
     group: "baseline",
-    color: "#6e8da4",
-    hoverColor: "#8fa9bc",
+    color: baselineColors.color2,
+    hoverColor: baselineColors.hover2,
   },
   {
     method: "OpenVLA-OFT",
     score: 4.279,
     group: "baseline",
-    color: "#63849c",
-    hoverColor: "#86a2b5",
+    color: baselineColors.color3,
+    hoverColor: baselineColors.hover3,
   },
   {
     method: "X-VLA",
     score: 4.43,
     group: "baseline",
-    color: "#587b95",
-    hoverColor: "#7e9cb0",
+    color: baselineColors.color4,
+    hoverColor: baselineColors.hover4,
   },
   {
     method: "FLOWER",
     score: 4.48,
     group: "baseline",
-    color: "#4f728b",
-    hoverColor: "#7593a8",
+    color: baselineColors.color5,
+    hoverColor: baselineColors.hover5,
   },
   {
     method: "2D-JA",
     score: 4.195,
     group: "ours",
-    color: "#8fb889",
-    hoverColor: "#acd0a7",
+    color: variantColors.lightColor,
+    hoverColor: variantColors.lightHover,
   },
   {
     method: "GeomVLA-JA",
     score: 4.508,
     group: "ours",
-    color: "#56a779",
-    hoverColor: "#75c596",
+    color: variantColors.jaColor,
+    hoverColor: variantColors.jaHover,
   },
   {
     method: "GeomVLA w/o motion",
     score: 4.508,
     group: "ours",
-    color: "#7fbf8f",
-    hoverColor: "#9ed5ac",
+    color: variantColors.noMotionColor,
+    hoverColor: variantColors.noMotionHover,
   },
   {
     method: "GeomVLA",
     score: 4.624,
     group: "ours",
-    color: "#329a68",
-    hoverColor: "#54bd87",
+    color: variantColors.mainColor,
+    hoverColor: variantColors.mainHover,
   },
 ];
 
-const minScore = 3.5;
-const maxScore = 5;
-const scoreRange = maxScore - minScore;
+const robotwinResults: ChartResult[] = [
+  {
+    method: "PoseVLA",
+    score: 85.6,
+    group: "baseline",
+    color: baselineColors.color1,
+    hoverColor: baselineColors.hover1,
+  },
+  {
+    method: "pi0.5",
+    score: 81.2,
+    group: "baseline",
+    color: baselineColors.color2,
+    hoverColor: baselineColors.hover2,
+  },
+  {
+    method: "OpenVLA-OFT",
+    score: 34.4,
+    group: "baseline",
+    color: baselineColors.color3,
+    hoverColor: baselineColors.hover3,
+  },
+  {
+    method: "SimpleVLA-RL",
+    score: 76.4,
+    group: "baseline",
+    color: baselineColors.color4,
+    hoverColor: baselineColors.hover4,
+  },
+  {
+    method: "X-VLA",
+    score: 47.8,
+    group: "baseline",
+    color: baselineColors.color5,
+    hoverColor: baselineColors.hover5,
+  },
+  {
+    method: "2D-JA",
+    score: 66.2,
+    group: "ours",
+    color: variantColors.lightColor,
+    hoverColor: variantColors.lightHover,
+  },
+  {
+    method: "GeomVLA-JA",
+    score: 81.6,
+    group: "ours",
+    color: variantColors.jaColor,
+    hoverColor: variantColors.jaHover,
+  },
+  {
+    method: "GeomVLA w/o motion",
+    score: 70.0,
+    group: "ours",
+    color: variantColors.noMotionColor,
+    hoverColor: variantColors.noMotionHover,
+  },
+  {
+    method: "GeomVLA",
+    score: 84.8,
+    group: "ours",
+    color: variantColors.mainColor,
+    hoverColor: variantColors.mainHover,
+  },
+];
+
+const charts: ResultChart[] = [
+  {
+    title: "CALVIN ABC_D",
+    ariaLabel: "CALVIN ABC-D",
+    caption: "Average sequence length, reported out of 5.",
+    minScore: 3.5,
+    maxScore: 5,
+    ticks: [5, 4.5, 4, 3.5],
+    digits: 3,
+    results: calvinResults,
+  },
+  {
+    title: "RoboTwin2.0 5-task Avg.",
+    ariaLabel: "RoboTwin2.0 five-task average",
+    caption: "Average success rate over five representative RoboTwin2.0 tasks.",
+    minScore: 30,
+    maxScore: 90,
+    ticks: [90, 75, 60, 45, 30],
+    digits: 1,
+    results: robotwinResults,
+  },
+];
 ---
 
-<section class="not-prose mx-auto max-w-3xl" data-calvin-results-chart>
+<section class="not-prose mx-auto max-w-6xl" data-calvin-results-chart>
   <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-    <div>
-      <p class="m-0 font-mono text-xl font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:text-emerald-300">
-        CALVIN ABC_D
-      </p>
-    </div>
+    <p class="m-0 font-mono text-xl font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:text-emerald-300">
+      Simulation Results
+    </p>
     <div class="flex flex-wrap gap-3 text-sm text-zinc-600 dark:text-zinc-300">
       <span class="inline-flex items-center gap-2">
-        <span class="size-3 rounded-sm bg-[#5f829a]"></span>
+        <span class="size-3 rounded-[3px] bg-[#5f829a]"></span>
         Baselines
       </span>
       <span class="inline-flex items-center gap-2">
-        <span class="size-3 rounded-sm bg-[#00c875]"></span>
+        <span class="size-3 rounded-[3px] bg-[#329a68]"></span>
         GeomVLA and variants
       </span>
     </div>
   </div>
 
-  <div class="relative rounded-sm border border-zinc-200/80 bg-white/45 px-4 pb-4 pt-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
-    <div class="pointer-events-none absolute inset-x-4 bottom-20 top-5">
-      {[5, 4.5, 4, 3.5].map((tick) => (
-        <span
-          class="absolute inset-x-0 border-t border-zinc-200/80 dark:border-zinc-800"
-          style={`top: ${((maxScore - tick) / scoreRange) * 100}%`}
-        ></span>
-      ))}
-    </div>
+  <div class="grid gap-7 lg:grid-cols-2">
+    {
+      charts.map((chart) => {
+        const scoreRange = chart.maxScore - chart.minScore;
+        return (
+          <article>
+            <h3 class="mb-3 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300">
+              {chart.title}
+            </h3>
 
-    <div class="grid min-h-[22rem] grid-cols-[2rem_minmax(0,1fr)] gap-3">
-      <div class="relative mb-16 text-xs text-zinc-500 dark:text-zinc-400">
-        {[5, 4.5, 4, 3.5].map((tick) => (
-          <span
-            class="absolute right-0 -translate-y-1/2"
-            style={`top: ${((maxScore - tick) / scoreRange) * 100}%`}
-          >
-            {tick.toFixed(1)}
-          </span>
-        ))}
-      </div>
-
-      <div class="relative z-10 grid grid-cols-9 items-end gap-2 md:gap-3">
-        {
-          results.map((result, index) => (
-            <div
-              class="flex h-full min-w-0 flex-col justify-end"
-              style={`--score: ${result.score}; --min-score: ${minScore}; --score-range: ${scoreRange}; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 70}ms;`}
-            >
-              <div class="flex h-[18rem] items-end">
-                <button
-                  class="group calvin-result-bar relative w-full cursor-default rounded-t-sm bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
-                  type="button"
-                  aria-label={`${result.method}: ${result.score.toFixed(3)} out of 5 on CALVIN ABC-D`}
-                  data-calvin-bar
-                >
-                  <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-sm font-semibold text-zinc-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 dark:text-zinc-100 md:opacity-100">
-                    {result.score.toFixed(3)}
-                  </span>
-                </button>
+            <div class="relative rounded-sm border border-zinc-200/80 bg-white/45 px-3 pb-4 pt-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
+              <div class="pointer-events-none absolute inset-x-3 bottom-20 top-5">
+                {chart.ticks.map((tick) => (
+                  <span
+                    class="absolute inset-x-0 border-t border-zinc-200/80 dark:border-zinc-800"
+                    style={`top: ${((chart.maxScore - tick) / scoreRange) * 100}%`}
+                  ></span>
+                ))}
               </div>
-              <div class="mt-3 h-12 text-center text-[0.68rem] font-medium leading-tight text-zinc-700 dark:text-zinc-300 md:text-xs">
-                {result.method}
+
+              <div class="grid min-h-[20rem] grid-cols-[2.25rem_minmax(0,1fr)] gap-2">
+                <div class="relative mb-16 text-xs text-zinc-500 dark:text-zinc-400">
+                  {chart.ticks.map((tick) => (
+                    <span
+                      class="absolute right-0 -translate-y-1/2"
+                      style={`top: ${((chart.maxScore - tick) / scoreRange) * 100}%`}
+                    >
+                      {tick.toFixed(chart.digits === 3 ? 1 : 0)}
+                    </span>
+                  ))}
+                </div>
+
+                <div class="relative z-10 grid grid-cols-9 items-end gap-1.5 md:gap-2">
+                  {chart.results.map((result, index) => (
+                    <div
+                      class="flex h-full min-w-0 flex-col justify-end"
+                      style={`--score: ${result.score}; --min-score: ${chart.minScore}; --score-range: ${scoreRange}; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 70}ms;`}
+                    >
+                      <div class="flex h-[16rem] items-end">
+                        <button
+                          class="group calvin-result-bar relative w-full cursor-default rounded-t-sm bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                          type="button"
+                          aria-label={`${result.method}: ${result.score.toFixed(chart.digits)} on ${chart.ariaLabel}`}
+                          data-calvin-bar
+                        >
+                          <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs font-semibold text-zinc-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 dark:text-zinc-100 md:opacity-100">
+                            {result.score.toFixed(chart.digits)}
+                          </span>
+                        </button>
+                      </div>
+                      <div class="mt-3 h-12 text-center text-[0.62rem] font-medium leading-tight text-zinc-700 dark:text-zinc-300 md:text-[0.68rem]">
+                        {result.method}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          ))
-        }
-      </div>
-    </div>
-  </div>
 
-  <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
-    Scores are average sequence lengths on CALVIN ABC_D, reported out of 5.
-  </p>
+            <p class="mx-auto mt-3 max-w-lg text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
+              {chart.caption}
+            </p>
+          </article>
+        );
+      })
+    }
+  </div>
 </section>
 
 <script>
