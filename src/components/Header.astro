@@ -31,6 +31,8 @@ interface Props {
 const { title, authors, conference, subtitle, notes, links } = Astro.props;
 
 const hasBackground = Astro.slots.has("background");
+const titleBrand = "GeomVLA";
+const titleRest = title.startsWith(titleBrand) ? title.slice(titleBrand.length) : "";
 ---
 
 <header
@@ -56,7 +58,16 @@ const hasBackground = Astro.slots.has("background");
     ]}
   >
     {conference && <div class:list={["not-prose rounded-full px-4 py-1 text-sm font-medium uppercase tracking-[0.12em] backdrop-blur-sm", hasBackground ? "border border-white/30 bg-white/20 text-white" : "border border-zinc-300 bg-white/70 text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-white"]}>{conference}</div>}
-    <h1 class="my-0 max-w-[54rem] text-5xl font-semibold leading-tight md:text-6xl">{title}</h1>
+    <h1 class="my-0 max-w-[54rem] text-5xl font-semibold leading-tight md:text-6xl">
+      {titleRest ? (
+        <>
+          <span class="text-emerald-800 dark:text-emerald-300">{titleBrand}</span>
+          {titleRest}
+        </>
+      ) : (
+        title
+      )}
+    </h1>
     {subtitle && <p class:list={["not-prose m-0 max-w-3xl text-base leading-snug md:text-lg", hasBackground ? "text-white/90" : "text-zinc-700 dark:text-white/90"]}>{subtitle}</p>}
     <div class:list={["flex flex-row flex-wrap justify-center gap-x-6 gap-y-2", hasBackground ? "text-white/90" : "text-zinc-800 dark:text-white/90"]}>
       {
