@@ -813,24 +813,16 @@ topCharts.forEach((chart) => {
 
       <aside class="p-2">
         <h4 class="m-0 text-sm font-semibold uppercase tracking-[0.12em] text-emerald-800 dark:text-emerald-300">
-          Real-world findings
+          Findings
         </h4>
         <ul class="mt-4 space-y-3 pl-0 text-sm leading-snug text-zinc-700 dark:text-zinc-200">
           <li class="flex gap-2">
             <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-300"></span>
-            <span>GeomVLA reaches the highest average success rate at 62.5% across eight ALOHA2 tasks.</span>
+            <span><strong>More robust rollouts.</strong> Qualitative results show recovery from small execution errors, occlusions, and object-pose inaccuracies.</span>
           </li>
           <li class="flex gap-2">
             <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-300"></span>
-            <span>The full model surpasses pi0.5 on seven of eight tasks using the same real-world demonstrations.</span>
-          </li>
-          <li class="flex gap-2">
-            <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-300"></span>
-            <span>Motion conditioning improves the 3D policy average from 44.4% to 62.5%.</span>
-          </li>
-          <li class="flex gap-2">
-            <span class="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-300"></span>
-            <span>GeomVLA-JA improves over 2D-JA from 28.8% to 59.4%, showing the 3D scene-motion representation transfers to joint-angle control.</span>
+            <span><strong>3D reasoning transfers to joint control.</strong> GeomVLA-JA keeps the 3D scene-motion pathway while outputting joint-angle commands, improving over 2D-JA on average and on precision tasks.</span>
           </li>
         </ul>
       </aside>
