@@ -35,6 +35,16 @@ type LiberoMethod = {
   average: number;
 };
 
+type RealWorldCategory = "pi" | "ja" | "policy";
+
+type RealWorldResult = {
+  method: string;
+  score: number;
+  category: RealWorldCategory;
+  color: string;
+  hoverColor: string;
+};
+
 const categoryColors = {
   threeD: {
     color1: "#aaa18e",
@@ -419,6 +429,44 @@ const liberoMethods: LiberoMethod[] = [
   },
 ];
 
+const realWorldResults: RealWorldResult[] = [
+  {
+    method: "pi0.5",
+    score: 29.4,
+    category: "pi",
+    color: categoryColors.other.color2,
+    hoverColor: categoryColors.other.hover2,
+  },
+  {
+    method: "2D-JA",
+    score: 28.8,
+    category: "ja",
+    color: categoryColors.ours.lightColor,
+    hoverColor: categoryColors.ours.lightHover,
+  },
+  {
+    method: "GeomVLA-JA",
+    score: 59.4,
+    category: "ja",
+    color: categoryColors.ours.jaColor,
+    hoverColor: categoryColors.ours.jaHover,
+  },
+  {
+    method: "GeomVLA w/o motion",
+    score: 44.4,
+    category: "policy",
+    color: categoryColors.ours.noMotionColor,
+    hoverColor: categoryColors.ours.noMotionHover,
+  },
+  {
+    method: "GeomVLA",
+    score: 62.5,
+    category: "policy",
+    color: categoryColors.ours.mainColor,
+    hoverColor: categoryColors.ours.mainHover,
+  },
+];
+
 const topCharts: ResultChart[] = [
   {
     id: "calvin",
@@ -455,6 +503,8 @@ const liberoMinScore = 65;
 const liberoMaxScore = 100;
 const liberoScoreRange = liberoMaxScore - liberoMinScore;
 const liberoTicks = [100, 90, 80, 70, 65];
+const realWorldMaxScore = 70;
+const realWorldTicks = [70, 50, 30, 10, 0];
 
 const categoryOrder: Category[] = ["3d", "motion", "other", "ours"];
 const categoryRank = (category: Category) => categoryOrder.indexOf(category);
@@ -674,6 +724,103 @@ topCharts.forEach((chart) => {
     <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
       LIBERO success rates. Select a benchmark split to update the bars.
     </p>
+  </div>
+
+  <div class="mt-12 mx-auto max-w-5xl">
+    <h3 class="mb-4 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300">
+      Real-world ALOHA2
+    </h3>
+
+    <div class="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.85fr)] lg:items-start">
+      <article>
+        <div class="mb-3 flex flex-wrap justify-center gap-3 text-sm text-zinc-600 dark:text-zinc-300">
+          <span class="inline-flex items-center gap-2">
+            <span class="size-3 rounded-[3px] bg-[#8d8499]"></span>
+            pi0.5
+          </span>
+          <span class="inline-flex items-center gap-2">
+            <span class="size-3 rounded-[3px] bg-[#7fbf8f]"></span>
+            Joint-angle policies
+          </span>
+          <span class="inline-flex items-center gap-2">
+            <span class="size-3 rounded-[3px] bg-[#329a68]"></span>
+            GeomVLA policies
+          </span>
+        </div>
+
+        <div class="relative rounded-sm border border-zinc-200/80 bg-white/45 px-3 pb-4 pt-8 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
+          <div class="pointer-events-none absolute inset-x-3 bottom-20 top-8">
+            {realWorldTicks.map((tick) => (
+              <span
+                class="absolute inset-x-0 border-t border-zinc-200/80 dark:border-zinc-800"
+                style={`top: ${((realWorldMaxScore - tick) / realWorldMaxScore) * 100}%`}
+              ></span>
+            ))}
+          </div>
+
+          <div class="grid min-h-[19rem] grid-cols-[2.25rem_minmax(0,1fr)] gap-2">
+            <div class="relative mb-16 text-xs text-zinc-500 dark:text-zinc-400">
+              {realWorldTicks.map((tick) => (
+                <span
+                  class="absolute right-0 -translate-y-1/2"
+                  style={`top: ${((realWorldMaxScore - tick) / realWorldMaxScore) * 100}%`}
+                >
+                  {tick}
+                </span>
+              ))}
+            </div>
+
+            <div class="relative z-10 grid grid-cols-5 items-end gap-3 md:gap-4">
+              {realWorldResults.map((result, index) => (
+                <div
+                  class="flex h-full min-w-0 flex-col justify-end"
+                  style={`--score: ${result.score}; --min-score: 0; --score-range: ${realWorldMaxScore}; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 80}ms;`}
+                >
+                  <div class="flex h-[15rem] items-end">
+                    <button
+                      class="group result-bar relative w-full cursor-default rounded-t-[2px] bg-[var(--bar-color)] shadow-sm shadow-zinc-900/10 transition-colors duration-200 hover:bg-[var(--bar-hover-color)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                      type="button"
+                      aria-label={`${result.method}: ${result.score.toFixed(1)} percent average real-world success`}
+                      data-result-bar
+                    >
+                      <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs font-semibold text-zinc-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 dark:text-zinc-100 md:opacity-100">
+                        {result.score.toFixed(1)}
+                      </span>
+                    </button>
+                  </div>
+                  <div
+                    class:list={[
+                      "mt-3 h-12 text-center text-[0.58rem] leading-tight md:text-[0.66rem]",
+                      result.method.includes("GeomVLA")
+                        ? "font-bold text-emerald-800 dark:text-emerald-300"
+                        : "font-medium text-zinc-700 dark:text-zinc-300",
+                    ]}
+                  >
+                    {result.method}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <p class="mx-auto mt-3 max-w-lg text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
+          Average success rate over eight real-world tabletop manipulation tasks.
+        </p>
+      </article>
+
+      <aside class="rounded-sm border border-emerald-200/80 bg-white/80 p-5 shadow-xl shadow-emerald-950/10 dark:border-emerald-700/50 dark:bg-zinc-900/70 dark:shadow-black/30">
+        <h4 class="m-0 text-sm font-semibold uppercase tracking-[0.12em] text-emerald-800 dark:text-emerald-300">
+          Real-world findings
+        </h4>
+        <ul class="mt-4 space-y-3 pl-5 text-sm leading-snug text-zinc-700 dark:text-zinc-200">
+          <li>GeomVLA reaches the highest average success rate at 62.5% across eight ALOHA2 tasks.</li>
+          <li>The full model surpasses pi0.5 on seven of eight tasks using the same real-world demonstrations.</li>
+          <li>Motion conditioning improves the 3D policy average from 44.4% to 62.5%.</li>
+          <li>GeomVLA-JA improves over 2D-JA from 28.8% to 59.4%, showing the 3D scene-motion representation transfers to joint-angle control.</li>
+        </ul>
+      </aside>
+    </div>
   </div>
 </section>
 
