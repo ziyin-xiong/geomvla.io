@@ -32,6 +32,7 @@ import Wide from "./components/Wide.astro";
 import SceneTrajectoryBenchmarkGallery from "./components/SceneTrajectoryBenchmarkGallery.astro";
 import SimulationRolloutGrid from "./components/SimulationRolloutGrid.astro";
 import RealWorldVideoScroller from "./components/RealWorldVideoScroller.astro";
+import CalvinResultsChart from "./components/CalvinResultsChart.astro";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/starwind/tabs";
 import { Comparison } from "./components/Comparison.tsx";
 
@@ -332,7 +333,10 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 <div id="results" class="scroll-mt-24"></div>
 
 ## Quantitative Results
-table/graph for sim and real-world
+
+<Wide>
+  <CalvinResultsChart />
+</Wide>
 
 <div id="ablations" class="scroll-mt-24"></div>
 
