@@ -99,10 +99,24 @@ import uprightRealWorld from "./assets/upright.mp4";
     { label: "Video", href: "#video" },
     { label: "Method", href: "#method" },
     { label: "Future Scene Motion", href: "#scene-trajectory-prediction" },
-    { label: "Simulation Rollouts", href: "#simulation-rollouts" },
-    { label: "Real World", href: "#real-world" },
-    { label: "Results", href: "#results" },
-    { label: "Ablations", href: "#ablations" },
+    {
+      label: "Rollouts",
+      href: "#rollouts",
+      children: [
+        { label: "Simulation", href: "#simulation-rollouts" },
+        { label: "Real World", href: "#real-world" },
+      ],
+    },
+    {
+      label: "Results",
+      href: "#results",
+      children: [
+        { label: "Simulation", href: "#results-simulation" },
+        { label: "RoboTwin2.0", href: "#results-robotwin50" },
+        { label: "Real World", href: "#results-real-world" },
+      ],
+    },
+    { label: "Why It Works", href: "#ablations" },
     { label: "BibTeX", href: "#bibtex" },
   ]}
 />
@@ -260,9 +274,13 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
   </div>
 </Wide>
 
+<div id="rollouts" class="scroll-mt-24"></div>
+
+## Rollouts
+
 <div id="simulation-rollouts" class="scroll-mt-24"></div>
 
-## Simulation Rollouts
+### Simulation
 
 <Wide>
   <div class="mx-auto max-w-6xl">
@@ -312,7 +330,7 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 
 <div id="real-world" class="scroll-mt-24"></div>
 
-## Real-world Deployment
+### Real World
 
 <Wide>
   <div class="mx-auto max-w-5xl">
@@ -341,7 +359,7 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 
 <div id="ablations" class="scroll-mt-24"></div>
 
-## Ablations
+## What Makes GeomVLA Work?
 
 <Wide>
   <AblationResults />

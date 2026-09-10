@@ -5,6 +5,7 @@ import type { ImageMetadata } from "astro";
 type OutlineLink = {
   label: string;
   href: string;
+  children?: OutlineLink[];
 };
 
 type ActionLink = OutlineLink & {
@@ -72,12 +73,22 @@ const logoSrc = typeof logo === "string" ? logo : logo.src;
   <nav class="grid gap-0.5">
     {
       links.map((link) => (
-        <a
-          class="relative py-1.5 pl-0 text-[0.82rem] leading-snug text-zinc-500 no-underline transition before:absolute before:-left-4 before:top-1/2 before:h-0 before:w-0.5 before:-translate-y-1/2 before:bg-zinc-400 before:transition-all hover:text-zinc-900 hover:before:h-4 aria-[current=true]:text-zinc-950 aria-[current=true]:before:h-5 aria-[current=true]:before:bg-emerald-700 dark:text-zinc-400 dark:hover:text-white dark:aria-[current=true]:text-white dark:aria-[current=true]:before:bg-emerald-300"
-          href={link.href}
-        >
-          {link.label}
-        </a>
+        <>
+          <a
+            class="relative py-1.5 pl-0 text-[0.82rem] leading-snug text-zinc-500 no-underline transition before:absolute before:-left-4 before:top-1/2 before:h-0 before:w-0.5 before:-translate-y-1/2 before:bg-zinc-400 before:transition-all hover:text-zinc-900 hover:before:h-4 aria-[current=true]:text-zinc-950 aria-[current=true]:before:h-5 aria-[current=true]:before:bg-emerald-700 dark:text-zinc-400 dark:hover:text-white dark:aria-[current=true]:text-white dark:aria-[current=true]:before:bg-emerald-300"
+            href={link.href}
+          >
+            {link.label}
+          </a>
+          {link.children?.map((child) => (
+            <a
+              class="relative py-1 pl-4 text-[0.75rem] leading-snug text-zinc-400 no-underline transition before:absolute before:-left-4 before:top-1/2 before:h-0 before:w-0.5 before:-translate-y-1/2 before:bg-zinc-400 before:transition-all hover:text-zinc-800 hover:before:h-3 aria-[current=true]:text-zinc-900 aria-[current=true]:before:h-4 aria-[current=true]:before:bg-emerald-700 dark:text-zinc-500 dark:hover:text-zinc-200 dark:aria-[current=true]:text-white dark:aria-[current=true]:before:bg-emerald-300"
+              href={child.href}
+            >
+              {child.label}
+            </a>
+          ))}
+        </>
       ))
     }
   </nav>
