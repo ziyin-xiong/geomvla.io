@@ -31,7 +31,7 @@ type LiberoMethod = {
   spatial: number;
   object: number;
   goal: number;
-  long: number;
+  long: number | null;
   average: number;
 };
 
@@ -271,7 +271,7 @@ const liberoMethods: LiberoMethod[] = [
     spatial: 94.2,
     object: 96.8,
     goal: 90.6,
-    long: 0,
+    long: null,
     average: 93.9,
   },
   {
@@ -634,10 +634,11 @@ topCharts.forEach((chart) => {
                 style={`--score: ${result.average}; --min-score:${liberoMinScore}; --score-range: ${liberoScoreRange}; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms; order: ${index};`}
                 data-libero-bar-wrap
                 data-category={result.category}
+                data-method={result.method}
                 data-spatial={result.spatial}
                 data-object={result.object}
                 data-goal={result.goal}
-                data-long={result.long}
+                data-long={result.long ?? ""}
                 data-average={result.average}
               >
                 <div class="flex h-[16rem] items-end">
@@ -745,11 +746,13 @@ topCharts.forEach((chart) => {
               categoryOrder[b.dataset.category as keyof typeof categoryOrder] ?? 99;
             if (categoryA !== categoryB) return categoryA - categoryB;
 
-            const scoreA = Number(a.dataset[metric] ?? a.dataset.average ?? 0);
-            const scoreB = Number(b.dataset[metric] ?? b.dataset.average ?? 0);
+            const valueA = a.dataset[metric] ?? a.dataset.average ?? "";
+            const valueB = b.dataset[metric] ?? b.dataset.average ?? "";
+            const scoreA = valueA === "" ? Number.NEGATIVE_INFINITY : Number(valueA);
+            const scoreB = valueB === "" ? Number.NEGATIVE_INFINITY : Number(valueB);
             if (scoreA !== scoreB) return scoreA - scoreB;
 
-            return (a.textContent ?? "").localeCompare(b.textContent ?? "");
+            return (a.dataset.method ?? "").localeCompare(b.dataset.method ?? "");
           });
 
           sortedWraps.forEach((wrap, order) => {
@@ -757,18 +760,22 @@ topCharts.forEach((chart) => {
           });
 
           barWraps.forEach((wrap) => {
-            const score = wrap.dataset[metric] ?? wrap.dataset.average ?? "0";
+            const rawScore = wrap.dataset[metric] ?? wrap.dataset.average ?? "";
+            const hasScore = rawScore !== "";
+            const score = hasScore ? rawScore : "65";
             const bar = wrap.querySelector<HTMLButtonElement>("[data-libero-bar]");
             const label = bar?.querySelector("span");
             wrap.style.setProperty("--score", score);
             if (bar) {
-              const method = wrap.textContent?.trim() || "method";
+              const method = wrap.dataset.method || "method";
               bar.setAttribute(
                 "aria-label",
-                `${method}: ${Number(score).toFixed(1)} on LIBERO ${metric}`,
+                hasScore
+                  ? `${method}: ${Number(score).toFixed(1)} on LIBERO ${metric}`
+                  : `${method}: not reported on LIBERO ${metric}`,
               );
             }
-            if (label) label.textContent = Number(score).toFixed(1);
+            if (label) label.textContent = hasScore ? Number(score).toFixed(1) : "--";
           });
         };
 
