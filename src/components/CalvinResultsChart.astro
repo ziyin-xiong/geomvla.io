@@ -37,42 +37,42 @@ type LiberoMethod = {
 
 const categoryColors = {
   threeD: {
-    color1: "#b8a36d",
-    hover1: "#d2bf88",
-    color2: "#a98f56",
-    hover2: "#c7ad71",
-    color3: "#967d47",
-    hover3: "#b99b5f",
+    color1: "#aaa18e",
+    hover1: "#c4bcaa",
+    color2: "#9d9484",
+    hover2: "#bbb09d",
+    color3: "#918877",
+    hover3: "#b0a491",
   },
   motion: {
-    color1: "#7895aa",
-    hover1: "#98afc0",
-    color2: "#6e8da4",
-    hover2: "#8fa9bc",
-    color3: "#63849c",
-    hover3: "#86a2b5",
-    color4: "#587b95",
-    hover4: "#7e9cb0",
-    color5: "#4f728b",
-    hover5: "#7593a8",
-    color6: "#456a84",
-    hover6: "#6f8ea2",
-    color7: "#3d6078",
-    hover7: "#67869b",
-    color8: "#36566d",
-    hover8: "#607f94",
+    color1: "#8a99a3",
+    hover1: "#a7b4bd",
+    color2: "#7f909c",
+    hover2: "#9dadb8",
+    color3: "#758895",
+    hover3: "#95a6b2",
+    color4: "#6c7f8d",
+    hover4: "#8d9fa9",
+    color5: "#637684",
+    hover5: "#8496a2",
+    color6: "#5b6e7b",
+    hover6: "#7d8f9a",
+    color7: "#526672",
+    hover7: "#758893",
+    color8: "#4b5f6b",
+    hover8: "#6f818c",
   },
   other: {
-    color1: "#9b8ab5",
-    hover1: "#b8a8cf",
-    color2: "#8b78a9",
-    hover2: "#aa98c3",
-    color3: "#7d689d",
-    hover3: "#9f8abb",
-    color4: "#715b90",
-    hover4: "#9278ad",
-    color5: "#664f83",
-    hover5: "#876ba1",
+    color1: "#988fa3",
+    hover1: "#b4abbf",
+    color2: "#8d8499",
+    hover2: "#aaa0b6",
+    color3: "#82798f",
+    hover3: "#a096ab",
+    color4: "#786f84",
+    hover4: "#958ba0",
+    color5: "#6f657a",
+    hover5: "#8d8296",
   },
   ours: {
     lightColor: "#8fb889",
@@ -451,20 +451,45 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
   { label: "Goal", value: "goal" },
   { label: "Long", value: "long" },
 ];
+
+const categoryOrder: Category[] = ["3d", "motion", "other", "ours"];
+const categoryRank = (category: Category) => categoryOrder.indexOf(category);
+const sortByCategoryThenScore = <T extends { category: Category; method: string }>(
+  results: T[],
+  scoreOf: (result: T) => number,
+) =>
+  [...results].sort((a, b) => {
+    const categoryDelta = categoryRank(a.category) - categoryRank(b.category);
+    if (categoryDelta !== 0) return categoryDelta;
+
+    const scoreDelta = scoreOf(a) - scoreOf(b);
+    if (scoreDelta !== 0) return scoreDelta;
+
+    return a.method.localeCompare(b.method);
+  });
+
+const sortedLiberoMethods = sortByCategoryThenScore(
+  liberoMethods,
+  (result) => result.average,
+);
+
+topCharts.forEach((chart) => {
+  chart.results = sortByCategoryThenScore(chart.results, (result) => result.score);
+});
 ---
 
 <section class="not-prose mx-auto max-w-6xl" data-results-charts>
   <div class="mb-5 flex flex-wrap items-center justify-end gap-3 text-sm text-zinc-600 dark:text-zinc-300">
     <span class="inline-flex items-center gap-2">
-      <span class="size-3 rounded-[3px] bg-[#a98f56]"></span>
+        <span class="size-3 rounded-[3px] bg-[#9d9484]"></span>
       3D VLAs
     </span>
     <span class="inline-flex items-center gap-2">
-      <span class="size-3 rounded-[3px] bg-[#5f829a]"></span>
+        <span class="size-3 rounded-[3px] bg-[#6c7f8d]"></span>
       Motion-guided
     </span>
     <span class="inline-flex items-center gap-2">
-      <span class="size-3 rounded-[3px] bg-[#8b78a9]"></span>
+        <span class="size-3 rounded-[3px] bg-[#8d8499]"></span>
       Other baselines
     </span>
     <span class="inline-flex items-center gap-2">
@@ -473,12 +498,12 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
     </span>
   </div>
 
-  <div class="grid gap-7 lg:grid-cols-2">
+  <div class="mx-auto grid max-w-6xl gap-7 lg:grid-cols-2">
     {
       topCharts.map((chart) => {
         const scoreRange = chart.maxScore - chart.minScore;
         return (
-          <article>
+          <article class="mx-auto w-full max-w-[31rem]">
             <h3 class="mb-3 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300">
               {chart.title}
             </h3>
@@ -568,7 +593,7 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
       </div>
     </div>
 
-    <div class="relative rounded-sm border border-zinc-200/80 bg-white/45 px-3 pb-4 pt-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
+    <div class="relative mx-auto max-w-5xl rounded-sm border border-zinc-200/80 bg-white/45 px-3 pb-4 pt-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
       <div class="pointer-events-none absolute inset-x-3 bottom-20 top-5">
         {[100, 90, 80, 70, 60, 50].map((tick) => (
           <span
@@ -592,11 +617,12 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
 
         <div class="relative z-10 grid grid-cols-[repeat(18,minmax(1.6rem,1fr))] items-end gap-1.5 overflow-x-auto pb-1">
           {
-            liberoMethods.map((result, index) => (
+            sortedLiberoMethods.map((result, index) => (
               <div
                 class="flex h-full min-w-[1.6rem] flex-col justify-end"
-                style={`--score: ${result.average}; --min-score:65; --score-range: 45; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms;`}
+                style={`--score: ${result.average}; --min-score:65; --score-range: 45; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 35}ms; order: ${index};`}
                 data-libero-bar-wrap
+                data-category={result.category}
                 data-spatial={result.spatial}
                 data-object={result.object}
                 data-goal={result.goal}
@@ -627,13 +653,20 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
     </div>
 
     <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
-      LIBERO success rates from Table 1. Select a benchmark split to update the bars.
+      LIBERO success rates. Select a benchmark split to update the bars.
     </p>
   </div>
 </section>
 
 <script>
   const setupResultsCharts = () => {
+    const categoryOrder = {
+      "3d": 0,
+      motion: 1,
+      other: 2,
+      ours: 3,
+    } as const;
+
     document
       .querySelectorAll<HTMLElement>("[data-results-charts]")
       .forEach((section) => {
@@ -685,6 +718,24 @@ const liberoTabs: { label: string; value: LiberoMetric }[] = [
             tab.classList.toggle("bg-transparent", !isSelected);
             tab.classList.toggle("text-zinc-600", !isSelected);
             tab.classList.toggle("dark:text-zinc-400", !isSelected);
+          });
+
+          const sortedWraps = [...barWraps].sort((a, b) => {
+            const categoryA =
+              categoryOrder[a.dataset.category as keyof typeof categoryOrder] ?? 99;
+            const categoryB =
+              categoryOrder[b.dataset.category as keyof typeof categoryOrder] ?? 99;
+            if (categoryA !== categoryB) return categoryA - categoryB;
+
+            const scoreA = Number(a.dataset[metric] ?? a.dataset.average ?? 0);
+            const scoreB = Number(b.dataset[metric] ?? b.dataset.average ?? 0);
+            if (scoreA !== scoreB) return scoreA - scoreB;
+
+            return (a.textContent ?? "").localeCompare(b.textContent ?? "");
+          });
+
+          sortedWraps.forEach((wrap, order) => {
+            wrap.style.order = String(order);
           });
 
           barWraps.forEach((wrap) => {
