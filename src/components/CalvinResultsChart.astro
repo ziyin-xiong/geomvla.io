@@ -53,6 +53,8 @@ type RoboTwin50Task = {
   geomHard: number;
 };
 
+const piHalfLabel = "π₀.₅";
+
 const categoryColors = {
   threeD: {
     color1: "#aaa18e",
@@ -113,7 +115,7 @@ const calvinResults: ChartResult[] = [
     hoverColor: categoryColors.motion.hover1,
   },
   {
-    method: "pi0.5",
+    method: piHalfLabel,
     score: 3.964,
     category: "other",
     color: categoryColors.other.color1,
@@ -179,7 +181,7 @@ const robotwinResults: ChartResult[] = [
     hoverColor: categoryColors.threeD.hover1,
   },
   {
-    method: "pi0.5",
+    method: piHalfLabel,
     score: 81.2,
     category: "other",
     color: categoryColors.other.color1,
@@ -359,7 +361,7 @@ const liberoMethods: LiberoMethod[] = [
     average: 87.7,
   },
   {
-    method: "pi0.5",
+    method: piHalfLabel,
     category: "other",
     color: categoryColors.other.color1,
     hoverColor: categoryColors.other.hover1,
@@ -439,7 +441,7 @@ const liberoMethods: LiberoMethod[] = [
 
 const realWorldResults: RealWorldResult[] = [
   {
-    method: "pi0.5",
+    method: piHalfLabel,
     score: 29.4,
     category: "pi",
     color: categoryColors.other.color2,
@@ -789,11 +791,11 @@ topCharts.forEach((chart) => {
         <thead class="text-xs uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400">
           <tr class="border-b border-zinc-200/80 dark:border-zinc-800">
             <th class="px-2 py-2 text-left font-semibold" rowspan="2">Task</th>
-            <th class="px-2 py-2 text-center font-semibold" colspan="2">pi0.5</th>
+            <th class="px-2 py-2 text-center font-semibold" colspan="2">{piHalfLabel}</th>
             <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300" colspan="2">GeomVLA</th>
             <th class="px-5 py-2"></th>
             <th class="px-2 py-2 text-left font-semibold" rowspan="2">Task</th>
-            <th class="px-2 py-2 text-center font-semibold" colspan="2">pi0.5</th>
+            <th class="px-2 py-2 text-center font-semibold" colspan="2">{piHalfLabel}</th>
             <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300" colspan="2">GeomVLA</th>
           </tr>
           <tr class="border-b border-zinc-200/80 dark:border-zinc-800">
@@ -840,7 +842,7 @@ topCharts.forEach((chart) => {
     </div>
 
     <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
-      Average over all 50 RoboTwin2.0 tasks: pi0.5 Easy 75.9 / Hard 75.7, GeomVLA Easy 78.6 / Hard 76.2.
+      Average over all 50 RoboTwin2.0 tasks: {piHalfLabel} Easy 75.9 / Hard 75.7, GeomVLA Easy 78.6 / Hard 76.2.
     </p>
   </div>
 
@@ -854,7 +856,7 @@ topCharts.forEach((chart) => {
         <div class="mb-3 flex flex-wrap justify-center gap-3 text-sm text-zinc-600 dark:text-zinc-300">
           <span class="inline-flex items-center gap-2">
             <span class="size-3 rounded-[3px] bg-[#8d8499]"></span>
-            pi0.5
+            {piHalfLabel}
           </span>
           <span class="inline-flex items-center gap-2">
             <span class="size-3 rounded-[3px] bg-[#d7b83f]"></span>
