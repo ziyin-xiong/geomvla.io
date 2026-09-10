@@ -160,11 +160,11 @@ import uprightRealWorld from "./assets/upright.mp4";
     },
     {
       label: "Method",
-      text: "GeomVLA lifts vision-language features into 3D, predicts task-conditioned scene trajectories, and conditions action denoising on the shared 3D representation.",
+      text: "GeomVLA lifts vision-language features into 3D, predicts task-conditioned 3D scene trajectories as latent motion reasoning, and uses them to guide action generation in the same metric space.",
     },
     {
       label: "Result",
-      text: "The model achieves strong simulation and real-world manipulation performance without relying on large-scale robot-action pretraining.",
+      text: "Without robot-action pretraining, GeomVLA reaches 4.624 on CALVIN, 98.4% on LIBERO, 84.8% on representative RoboTwin2.0 tasks, and 62.5% across eight real-world tasks.",
     },
   ]}
 />
@@ -231,6 +231,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 
 ## Future Scene Motion
 
+Given RGB-D observations and a language instruction, the 3D Scene Trajectory Denoiser predicts how scene points should move over time. Rather than serving as an explicit open-loop plan, these trajectories provide a latent geometric reasoning signal for closed-loop action generation.
+
 <Wide>
   <div class="mx-auto max-w-5xl">
     <Tabs defaultValue="calvin-scene">
@@ -277,6 +279,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 <div id="rollouts" class="scroll-mt-24"></div>
 
 ## Simulation Rollouts
+
+GeomVLA performs diverse single-arm and bimanual tasks across CALVIN, LIBERO, and RoboTwin2.0, spanning spatial manipulation, contact-rich interaction, and long-horizon execution.
 
 <div id="simulation-rollouts" class="scroll-mt-24"></div>
 
@@ -330,6 +334,10 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 
 ## Real-world Deployment
 
+We deploy a multi-task policy on the right ViperX300S arm of an ALOHA2 platform. Demonstrations are collected with the corresponding WidowX250S leader arm, while observations are captured by two elevated Azure Kinect DK cameras and a wrist-mounted Intel RealSense D405.
+
+The evaluation covers eight single-arm tabletop tasks involving precision insertion, stacking, object placement, and multi-stage manipulation.
+
 <Wide>
   <div class="mx-auto max-w-5xl">
     <RealWorldVideoScroller
@@ -358,6 +366,8 @@ GeomVLA achieves state-of-the-art performance on CALVIN, strong performance on L
 <div id="ablations" class="scroll-mt-24"></div>
 
 ## What Makes GeomVLA Work?
+
+Ablations isolate the contributions of future-motion reasoning, explicit 3D representation, motion-latent design, and geometric consistency across the perception-to-action pipeline.
 
 <Wide>
   <AblationResults />
