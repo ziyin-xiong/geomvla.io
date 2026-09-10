@@ -13,7 +13,7 @@ const repeatedVideos = [...videos, ...videos];
 ---
 
 <section class="not-prose" data-real-world-scroller>
-  <div class="overflow-x-auto [scrollbar-width:thin]" data-real-world-scrollport>
+  <div class="overflow-hidden" data-real-world-scrollport>
     <div class="flex w-max gap-4 pb-3" data-real-world-track>
       {
         repeatedVideos.map((video) => (
@@ -52,60 +52,21 @@ const repeatedVideos = [...videos, ...videos];
         if (scroller.dataset.ready === "true") return;
         scroller.dataset.ready = "true";
 
-        const scrollport = scroller.querySelector<HTMLElement>(
-          "[data-real-world-scrollport]",
-        );
-        const track = scroller.querySelector<HTMLElement>("[data-real-world-track]");
         const videos = Array.from(
           scroller.querySelectorAll<HTMLVideoElement>("[data-real-world-video]"),
         );
-        if (!scrollport || !track) return;
-
-        let animationFrame = 0;
-        let pausedUntil = 0;
-        let lastTime = performance.now();
 
         const syncPlayback = () => {
           videos.forEach((video) => video.play().catch(() => {}));
         };
 
-        const loopPoint = () => track.scrollWidth / 2;
-
-        const animate = (time: number) => {
-          const elapsed = time - lastTime;
-          lastTime = time;
-
-          if (time > pausedUntil) {
-            scrollport.scrollLeft += elapsed * 0.018;
-            const resetAt = loopPoint();
-            if (resetAt > 0 && scrollport.scrollLeft >= resetAt) {
-              scrollport.scrollLeft -= resetAt;
-            }
-          }
-
-          animationFrame = requestAnimationFrame(animate);
-        };
-
-        const pauseBriefly = () => {
-          pausedUntil = performance.now() + 1800;
-        };
-
-        scrollport.addEventListener("pointerdown", pauseBriefly);
-        scrollport.addEventListener("wheel", pauseBriefly, { passive: true });
-        scrollport.addEventListener("mouseenter", pauseBriefly);
-        scrollport.addEventListener("focusin", pauseBriefly);
-
         syncPlayback();
-        animationFrame = requestAnimationFrame(animate);
 
         document.addEventListener("visibilitychange", () => {
           if (document.hidden) {
-            cancelAnimationFrame(animationFrame);
             videos.forEach((video) => video.pause());
           } else {
-            lastTime = performance.now();
             syncPlayback();
-            animationFrame = requestAnimationFrame(animate);
           }
         });
       });
@@ -116,14 +77,41 @@ const repeatedVideos = [...videos, ...videos];
 </script>
 
 <style>
+  [data-real-world-track] {
+    animation: real-world-marquee 54s linear infinite;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+
+  [data-real-world-scroller]:hover [data-real-world-track],
+  [data-real-world-scroller]:focus-within [data-real-world-track] {
+    animation-play-state: paused;
+  }
+
   [data-real-world-item] {
     width: min(34rem, calc((min(64rem, 100vw - 3rem) - 1rem) / 2));
+  }
+
+  @keyframes real-world-marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(calc(-50% - 0.5rem), 0, 0);
+    }
   }
 
   @media (max-width: 720px) {
     [data-real-world-item] {
       width: calc(100vw - 3rem);
       min-width: 18rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-real-world-track] {
+      animation: none;
     }
   }
 </style>
