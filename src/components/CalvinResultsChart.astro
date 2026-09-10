@@ -45,6 +45,14 @@ type RealWorldResult = {
   hoverColor: string;
 };
 
+type RoboTwin50Task = {
+  task: string;
+  piEasy: number;
+  piHard: number;
+  geomEasy: number;
+  geomHard: number;
+};
+
 const categoryColors = {
   threeD: {
     color1: "#aaa18e",
@@ -467,6 +475,49 @@ const realWorldResults: RealWorldResult[] = [
   },
 ];
 
+const robotwin50Rows: [RoboTwin50Task, RoboTwin50Task][] = [
+  [
+    { task: "Adjust Bottle", piEasy: 86, piHard: 92, geomEasy: 100, geomHard: 100 },
+    { task: "Place Can Basket", piEasy: 70, piHard: 70, geomEasy: 84, geomHard: 76 },
+  ],
+  [
+    { task: "Beat Block Hammer", piEasy: 84, piHard: 80, geomEasy: 88, geomHard: 90 },
+    { task: "Place Cans Plasticbox", piEasy: 74, piHard: 86, geomEasy: 94, geomHard: 92 },
+  ],
+  [
+    { task: "Move Playingcard Away", piEasy: 74, piHard: 76, geomEasy: 98, geomHard: 96 },
+    { task: "Place Dual Shoes", piEasy: 62, piHard: 64, geomEasy: 84, geomHard: 86 },
+  ],
+  [
+    { task: "Move Stapler Pad", piEasy: 56, piHard: 64, geomEasy: 72, geomHard: 76 },
+    { task: "Place Mouse Pad", piEasy: 44, piHard: 36, geomEasy: 88, geomHard: 90 },
+  ],
+  [
+    { task: "Place A2B Right", piEasy: 82, piHard: 72, geomEasy: 96, geomHard: 90 },
+    { task: "Place Object Scale", piEasy: 80, piHard: 70, geomEasy: 96, geomHard: 98 },
+  ],
+  [
+    { task: "Place Bread Basket", piEasy: 74, piHard: 68, geomEasy: 86, geomHard: 86 },
+    { task: "Place Phone Stand", piEasy: 64, piHard: 66, geomEasy: 76, geomHard: 84 },
+  ],
+  [
+    { task: "Place Bread Skillet", piEasy: 72, piHard: 66, geomEasy: 92, geomHard: 80 },
+    { task: "Place Shoe", piEasy: 88, piHard: 84, geomEasy: 96, geomHard: 100 },
+  ],
+  [
+    { task: "Place Burger Fries", piEasy: 78, piHard: 82, geomEasy: 96, geomHard: 94 },
+    { task: "Stamp Seal", piEasy: 88, piHard: 74, geomEasy: 96, geomHard: 96 },
+  ],
+  [
+    { task: "Move Pillbottle Pad", piEasy: 80, piHard: 88, geomEasy: 96, geomHard: 94 },
+    { task: "Turn Switch", piEasy: 56, piHard: 58, geomEasy: 72, geomHard: 72 },
+  ],
+  [
+    { task: "Move Can Pot", piEasy: 92, piHard: 88, geomEasy: 100, geomHard: 98 },
+    { task: "Place Empty Cup", piEasy: 90, piHard: 90, geomEasy: 100, geomHard: 96 },
+  ],
+];
+
 const topCharts: ResultChart[] = [
   {
     id: "calvin",
@@ -725,6 +776,71 @@ topCharts.forEach((chart) => {
 
     <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
       LIBERO success rates. Select a benchmark split to update the bars.
+    </p>
+  </div>
+
+  <div class="mx-auto mt-12 max-w-5xl">
+    <h3 class="mb-4 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300">
+      RoboTwin2.0 50-task Results
+    </h3>
+
+    <div class="overflow-x-auto rounded-sm border border-zinc-200/80 bg-white/45 p-3 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
+      <table class="w-full min-w-[58rem] border-collapse text-sm">
+        <thead class="text-xs uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400">
+          <tr class="border-b border-zinc-200/80 dark:border-zinc-800">
+            <th class="px-2 py-2 text-left font-semibold" rowspan="2">Task</th>
+            <th class="px-2 py-2 text-center font-semibold" colspan="2">pi0.5</th>
+            <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300" colspan="2">GeomVLA</th>
+            <th class="px-5 py-2"></th>
+            <th class="px-2 py-2 text-left font-semibold" rowspan="2">Task</th>
+            <th class="px-2 py-2 text-center font-semibold" colspan="2">pi0.5</th>
+            <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300" colspan="2">GeomVLA</th>
+          </tr>
+          <tr class="border-b border-zinc-200/80 dark:border-zinc-800">
+            <th class="px-2 py-2 text-center font-semibold">Easy</th>
+            <th class="px-2 py-2 text-center font-semibold">Hard</th>
+            <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">Easy</th>
+            <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">Hard</th>
+            <th class="px-5 py-2"></th>
+            <th class="px-2 py-2 text-center font-semibold">Easy</th>
+            <th class="px-2 py-2 text-center font-semibold">Hard</th>
+            <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">Easy</th>
+            <th class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">Hard</th>
+          </tr>
+        </thead>
+        <tbody class="text-zinc-700 dark:text-zinc-200">
+          {
+            robotwin50Rows.map(([left, right], index) => (
+              <>
+                {index === 5 && (
+                  <tr class="border-t border-zinc-200/70 dark:border-zinc-800">
+                    <td class="px-2 py-2 text-center text-zinc-400 dark:text-zinc-500" colspan="11">
+                      ...
+                    </td>
+                  </tr>
+                )}
+                <tr class="border-t border-zinc-200/70 dark:border-zinc-800">
+                  <td class="whitespace-nowrap px-2 py-2 font-medium">{left.task}</td>
+                  <td class="px-2 py-2 text-center">{left.piEasy}</td>
+                  <td class="px-2 py-2 text-center">{left.piHard}</td>
+                  <td class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">{left.geomEasy}</td>
+                  <td class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">{left.geomHard}</td>
+                  <td class="px-5 py-2"></td>
+                  <td class="whitespace-nowrap px-2 py-2 font-medium">{right.task}</td>
+                  <td class="px-2 py-2 text-center">{right.piEasy}</td>
+                  <td class="px-2 py-2 text-center">{right.piHard}</td>
+                  <td class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">{right.geomEasy}</td>
+                  <td class="px-2 py-2 text-center font-semibold text-emerald-800 dark:text-emerald-300">{right.geomHard}</td>
+                </tr>
+              </>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
+      Average over all 50 RoboTwin2.0 tasks: pi0.5 Easy 75.9 / Hard 75.7, GeomVLA Easy 78.6 / Hard 76.2.
     </p>
   </div>
 
