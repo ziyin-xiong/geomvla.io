@@ -120,8 +120,8 @@ const defaultColor = (variant: AblationVariant) => {
 };
 ---
 
-<section class="not-prose mx-auto max-w-6xl" data-ablation-results>
-  <div class="grid gap-6 lg:grid-cols-[minmax(13rem,0.56fr)_minmax(0,1.44fr)] lg:items-center">
+<section class="not-prose mx-auto max-w-5xl" data-ablation-results>
+  <div class="grid gap-5 lg:grid-cols-[minmax(12rem,0.54fr)_minmax(0,1.46fr)] lg:items-center">
     <div class="mx-auto w-full max-w-xs">
       <div class="space-y-9" data-ablation-notes>
         {
@@ -165,7 +165,7 @@ const defaultColor = (variant: AblationVariant) => {
 
     <div class="rounded-sm border border-zinc-200/80 bg-white/45 p-4 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
       <div class="relative">
-        <div class="mb-2 ml-[12.5rem] hidden justify-between text-[0.65rem] text-zinc-500 dark:text-zinc-400 sm:flex">
+        <div class="mb-2 ml-[11.75rem] hidden justify-between text-[0.65rem] text-zinc-500 dark:text-zinc-400 sm:flex">
           {ticks.map((tick) => <span>{tick.toFixed(1)}</span>)}
         </div>
 
@@ -175,7 +175,7 @@ const defaultColor = (variant: AblationVariant) => {
               const width = ((variant.score - minScore) / scoreRange) * 100;
               return (
                 <div
-                  class="ablation-bar-row grid grid-cols-[11.5rem_minmax(0,1fr)_2.75rem] items-center gap-3"
+                  class="ablation-bar-row grid grid-cols-[10.75rem_minmax(0,1fr)_2.75rem] items-center gap-3"
                   data-ablation-bar-row
                   data-variant={variant.key}
                   data-notes={variant.notes.join(",")}
