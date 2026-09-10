@@ -552,7 +552,14 @@ topCharts.forEach((chart) => {
                           </span>
                         </button>
                       </div>
-                      <div class="mt-3 h-12 text-center text-[0.62rem] font-medium leading-tight text-zinc-700 dark:text-zinc-300 md:text-[0.68rem]">
+                      <div
+                        class:list={[
+                          "mt-3 h-12 text-center text-[0.62rem] leading-tight md:text-[0.68rem]",
+                          result.category === "ours"
+                            ? "font-bold text-emerald-800 dark:text-emerald-300"
+                            : "font-medium text-zinc-700 dark:text-zinc-300",
+                        ]}
+                      >
                         {result.method}
                       </div>
                     </div>
@@ -571,11 +578,11 @@ topCharts.forEach((chart) => {
   </div>
 
   <div class="mt-10" data-libero-chart>
-    <div class="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-      <h3 class="m-0 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300 md:text-left">
+    <div class="mx-auto mb-4 grid max-w-5xl gap-3 md:grid-cols-[1fr_auto_1fr] md:items-center">
+      <h3 class="m-0 text-center font-mono text-lg font-semibold uppercase tracking-[0.1em] text-emerald-700 dark:text-emerald-300 md:col-start-2">
         LIBERO
       </h3>
-      <div class="flex flex-wrap justify-center gap-1.5" role="tablist" aria-label="LIBERO result metric">
+      <div class="flex flex-wrap justify-center gap-1.5 md:col-start-3 md:justify-self-end" role="tablist" aria-label="LIBERO result metric">
         {
           liberoTabs.map((tab) => (
             <button
@@ -646,7 +653,14 @@ topCharts.forEach((chart) => {
                     </span>
                   </button>
                 </div>
-                <div class="mt-3 h-12 text-center text-[0.58rem] font-medium leading-tight text-zinc-700 dark:text-zinc-300 md:text-[0.65rem]">
+                <div
+                  class:list={[
+                    "mt-3 h-12 text-center text-[0.58rem] leading-tight md:text-[0.65rem]",
+                    result.category === "ours"
+                      ? "font-bold text-emerald-800 dark:text-emerald-300"
+                      : "font-medium text-zinc-700 dark:text-zinc-300",
+                  ]}
+                >
                   {result.method}
                 </div>
               </div>
