@@ -9,13 +9,6 @@ type CalvinResult = {
 
 const results: CalvinResult[] = [
   {
-    method: "3D-VLA",
-    score: 0.707,
-    group: "baseline",
-    color: "#9ca3af",
-    hoverColor: "#c4c9d1",
-  },
-  {
     method: "UniVLA",
     score: 3.801,
     group: "baseline",
@@ -80,18 +73,17 @@ const results: CalvinResult[] = [
   },
 ];
 
+const minScore = 3.5;
 const maxScore = 5;
+const scoreRange = maxScore - minScore;
 ---
 
-<section class="not-prose mx-auto max-w-6xl" data-calvin-results-chart>
+<section class="not-prose mx-auto max-w-3xl" data-calvin-results-chart>
   <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
     <div>
-      <p class="m-0 font-mono text-xs uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-300">
-        CALVIN ABC-D
+      <p class="m-0 font-mono text-xl font-semibold uppercase tracking-[0.12em] text-emerald-700 dark:text-emerald-300">
+        CALVIN ABC_D
       </p>
-      <h3 class="m-0 mt-1 text-2xl font-semibold leading-tight text-zinc-950 dark:text-white">
-        Long-horizon simulation performance
-      </h3>
     </div>
     <div class="flex flex-wrap gap-3 text-sm text-zinc-600 dark:text-zinc-300">
       <span class="inline-flex items-center gap-2">
@@ -106,28 +98,33 @@ const maxScore = 5;
   </div>
 
   <div class="relative rounded-sm border border-zinc-200/80 bg-white/45 px-4 pb-4 pt-5 shadow-sm shadow-zinc-900/5 dark:border-zinc-800 dark:bg-zinc-900/25">
-    <div class="pointer-events-none absolute inset-x-4 bottom-20 top-5 grid grid-rows-5">
-      {Array.from({ length: 5 }).map(() => <span class="border-t border-zinc-200/80 dark:border-zinc-800"></span>)}
+    <div class="pointer-events-none absolute inset-x-4 bottom-20 top-5">
+      {[5, 4.5, 4, 3.5].map((tick) => (
+        <span
+          class="absolute inset-x-0 border-t border-zinc-200/80 dark:border-zinc-800"
+          style={`top: ${((maxScore - tick) / scoreRange) * 100}%`}
+        ></span>
+      ))}
     </div>
 
     <div class="grid min-h-[22rem] grid-cols-[2rem_minmax(0,1fr)] gap-3">
       <div class="relative mb-16 text-xs text-zinc-500 dark:text-zinc-400">
-        {[5, 4, 3, 2, 1, 0].map((tick) => (
+        {[5, 4.5, 4, 3.5].map((tick) => (
           <span
             class="absolute right-0 -translate-y-1/2"
-            style={`top: ${((maxScore - tick) / maxScore) * 100}%`}
+            style={`top: ${((maxScore - tick) / scoreRange) * 100}%`}
           >
-            {tick}
+            {tick.toFixed(1)}
           </span>
         ))}
       </div>
 
-      <div class="relative z-10 grid grid-cols-10 items-end gap-2 md:gap-3">
+      <div class="relative z-10 grid grid-cols-9 items-end gap-2 md:gap-3">
         {
           results.map((result, index) => (
             <div
               class="flex h-full min-w-0 flex-col justify-end"
-              style={`--score: ${result.score}; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 70}ms;`}
+              style={`--score: ${result.score}; --min-score: ${minScore}; --score-range: ${scoreRange}; --bar-color: ${result.color}; --bar-hover-color: ${result.hoverColor}; --delay: ${index * 70}ms;`}
             >
               <div class="flex h-[18rem] items-end">
                 <button
@@ -152,7 +149,7 @@ const maxScore = 5;
   </div>
 
   <p class="mx-auto mt-3 max-w-3xl text-center text-sm leading-snug text-zinc-600 dark:text-zinc-300">
-    Scores are average sequence lengths on CALVIN ABC-D, reported out of 5 from Table 1.
+    Scores are average sequence lengths on CALVIN ABC_D, reported out of 5 from Table 1.
   </p>
 </section>
 
@@ -193,7 +190,7 @@ const maxScore = 5;
 
 <style>
   [data-calvin-bar] {
-    height: calc(var(--score) / 5 * 100%);
+    height: calc((var(--score) - var(--min-score)) / var(--score-range) * 100%);
     transform: scaleY(0);
     transform-origin: bottom;
     transition:
