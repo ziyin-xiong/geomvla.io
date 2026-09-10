@@ -34,7 +34,7 @@ const repeatedVideos = [...videos, ...videos];
                 preload="metadata"
               ></video>
             </div>
-            <figcaption class="text-center text-base leading-snug text-zinc-700 dark:text-zinc-300">
+            <figcaption class="real-world-caption text-center text-base leading-snug text-zinc-700 dark:text-zinc-300">
               {video.label}
             </figcaption>
           </figure>
@@ -110,6 +110,13 @@ const repeatedVideos = [...videos, ...videos];
 
   [data-real-world-item] {
     width: min(34rem, calc((min(64rem, 100vw - 3rem) - 1rem) / 2));
+  }
+
+  .real-world-caption {
+    width: min(42rem, calc(100vw - 3rem));
+    max-width: 140%;
+    margin-left: 50%;
+    transform: translateX(-50%);
   }
 
   @keyframes real-world-marquee {
