@@ -157,7 +157,7 @@ import uprightRealWorld from "./assets/upright.mp4";
   items={[
     {
       label: "Problem",
-      text: "Vanilla VLAs map 2D features directly to 3D actions, while motion-guided policies reason about future in spaces disconnected from control. Both suffer from a geometric mismatch with robot actions.",
+      text: "Vanilla VLAs map 2D features directly to 3D actions, while motion-guided policies predict future in spaces disconnected from control. Both suffer from a geometric mismatch with robot actions.",
     },
     {
       label: "Method",
@@ -333,7 +333,7 @@ Given RGB-D observations and a language instruction, the 3D Scene Trajectory Den
 
 ## Real-world Deployment
 
-We deploy a multi-task policy on the right ViperX300S arm of an ALOHA2 platform. Demonstrations are collected with the corresponding WidowX250S leader arm, while observations are captured by two elevated Azure Kinect DK cameras and a wrist-mounted Intel RealSense D405.
+We deploy a multi-task policy on the right ViperX300S arm of an ALOHA2 platform. Demonstrations are collected with a WidowX250S leader arm, while observations are captured by two elevated Azure Kinect DK cameras and a wrist Intel RealSense D405.
 
 <Wide>
   <div class="mx-auto max-w-5xl">
