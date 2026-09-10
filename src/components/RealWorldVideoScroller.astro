@@ -13,7 +13,7 @@ const repeatedVideos = [...videos, ...videos];
 ---
 
 <section class="not-prose" data-real-world-scroller>
-  <div class="overflow-hidden" data-real-world-scrollport>
+  <div class="overflow-x-auto overflow-y-hidden pb-1 [scrollbar-width:thin]" data-real-world-scrollport>
     <div class="flex w-max gap-4 pb-3" data-real-world-track>
       {
         repeatedVideos.map((video) => (
@@ -52,13 +52,32 @@ const repeatedVideos = [...videos, ...videos];
         if (scroller.dataset.ready === "true") return;
         scroller.dataset.ready = "true";
 
+        const scrollport = scroller.querySelector<HTMLElement>(
+          "[data-real-world-scrollport]",
+        );
+        const track = scroller.querySelector<HTMLElement>("[data-real-world-track]");
         const videos = Array.from(
           scroller.querySelectorAll<HTMLVideoElement>("[data-real-world-video]"),
         );
+        let resumeTimer: number | undefined;
 
         const syncPlayback = () => {
           videos.forEach((video) => video.play().catch(() => {}));
         };
+
+        const pauseMarquee = () => {
+          if (!track) return;
+          track.dataset.paused = "true";
+          if (resumeTimer) window.clearTimeout(resumeTimer);
+          resumeTimer = window.setTimeout(() => {
+            track.dataset.paused = "false";
+          }, 1800);
+        };
+
+        scrollport?.addEventListener("scroll", pauseMarquee, { passive: true });
+        scrollport?.addEventListener("pointerdown", pauseMarquee);
+        scrollport?.addEventListener("wheel", pauseMarquee, { passive: true });
+        scrollport?.addEventListener("touchstart", pauseMarquee, { passive: true });
 
         syncPlayback();
 
@@ -84,7 +103,8 @@ const repeatedVideos = [...videos, ...videos];
   }
 
   [data-real-world-scroller]:hover [data-real-world-track],
-  [data-real-world-scroller]:focus-within [data-real-world-track] {
+  [data-real-world-scroller]:focus-within [data-real-world-track],
+  [data-real-world-track][data-paused="true"] {
     animation-play-state: paused;
   }
 
