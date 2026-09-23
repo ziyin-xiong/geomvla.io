@@ -30,6 +30,24 @@ const socialImageUrl = thumbnail
   ? new URL(prefix + thumbnail.replace(/^\/+/, ""), siteUrl).href
   : undefined;
 const socialImageAlt = "GeomVLA 3D scene motion and robot manipulation overview";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  headline: title,
+  description,
+  url: pageUrl,
+  image: socialImageUrl ? [socialImageUrl] : undefined,
+  author: [
+    { "@type": "Person", name: "Ziyin Xiong" },
+    { "@type": "Person", name: "Nikolaos Gkanatsios" },
+    { "@type": "Person", name: "Moritz Reuss" },
+    { "@type": "Person", name: "Katerina Fragkiadaki" },
+  ],
+  publisher: {
+    "@type": "Organization",
+    name: "Carnegie Mellon University",
+  },
+};
 ---
 
 <!doctype html>
@@ -37,11 +55,14 @@ const socialImageAlt = "GeomVLA 3D scene motion and robot manipulation overview"
   <head>
     <meta charset="UTF-8" />
     {description && <meta name="description" content={description} />}
+    <meta name="robots" content="max-image-preview:large" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
 
     <link rel="icon" type="image/svg+xml" href={prefix + favicon} />
     <link rel="canonical" href={pageUrl} />
+    {socialImageUrl && <link rel="image_src" href={socialImageUrl} />}
+    {socialImageUrl && <meta name="thumbnail" content={socialImageUrl} />}
 
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
@@ -50,6 +71,7 @@ const socialImageAlt = "GeomVLA 3D scene motion and robot manipulation overview"
     <meta property="og:site_name" content="GeomVLA" />
     {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
     {socialImageUrl && <meta property="og:image:secure_url" content={socialImageUrl} />}
+    {socialImageUrl && <meta property="og:image:type" content="image/png" />}
     {socialImageUrl && <meta property="og:image:width" content="1200" />}
     {socialImageUrl && <meta property="og:image:height" content="630" />}
     {socialImageUrl && <meta property="og:image:alt" content={socialImageAlt} />}
@@ -58,6 +80,7 @@ const socialImageAlt = "GeomVLA 3D scene motion and robot manipulation overview"
     {description && <meta name="twitter:description" content={description} />}
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     {socialImageUrl && <meta name="twitter:image:alt" content={socialImageAlt} />}
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
