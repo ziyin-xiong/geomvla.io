@@ -15,27 +15,28 @@
   <rect width="1200" height="630" fill="url(#overlay)" />
 
   <g font-family="Helvetica Neue, Arial, sans-serif" filter="url(#shadow)">
-    <rect x="72" y="62" width="154" height="50" rx="25" fill="#ffffff" opacity="0.18" />
-    <text x="94" y="95" fill="#ffffff" font-size="27" font-weight="700" letter-spacing="2">CoRL 2026</text>
+    <rect x="324" y="62" width="154" height="50" rx="25" fill="#ffffff" opacity="0.18" />
+    <text x="346" y="95" fill="#ffffff" font-size="27" font-weight="700" letter-spacing="2">CoRL 2026</text>
 
-    <text x="72" y="205" fill="#6ee7b7" font-size="86" font-weight="800">GeomVLA</text>
-    <text x="72" y="278" fill="#ffffff" font-size="48" font-weight="700">Unifying Scene, Motion,</text>
-    <text x="72" y="338" fill="#ffffff" font-size="48" font-weight="700">and Action in 3D</text>
+    <text x="324" y="205" fill="#6ee7b7" font-size="86" font-weight="800">GeomVLA</text>
+    <text x="324" y="278" fill="#ffffff" font-size="44" font-weight="700">Unifying Scene,</text>
+    <text x="324" y="334" fill="#ffffff" font-size="44" font-weight="700">Motion, and Action</text>
+    <text x="324" y="390" fill="#ffffff" font-size="44" font-weight="700">in 3D</text>
 
-    <text x="72" y="420" fill="#ffffff" font-size="30" font-weight="500" opacity="0.92">
-      Connect perception, future scene motion, and robot control in one metric space.
+    <text x="324" y="462" fill="#ffffff" font-size="26" font-weight="500" opacity="0.92">
+      Scene motion guided robot actions.
     </text>
-    <text x="72" y="464" fill="#ffffff" font-size="30" font-weight="500" opacity="0.86">
-      3D-grounded. No robot-action pretraining required.
+    <text x="324" y="500" fill="#ffffff" font-size="26" font-weight="500" opacity="0.86">
+      3D-grounded. No robot-action pretraining.
     </text>
 
-    <text x="72" y="535" fill="#ffffff" font-size="25" font-weight="500" opacity="0.88">
+    <text x="324" y="555" fill="#ffffff" font-size="22" font-weight="500" opacity="0.88">
       Ziyin Xiong · Nikolaos Gkanatsios · Moritz Reuss · Katerina Fragkiadaki
     </text>
 
-    <g transform="translate(72 562)">
-      <rect x="0" y="0" width="356" height="56" rx="28" fill="#ffffff" opacity="0.94" />
-      <text x="33" y="37" fill="#111827" font-size="24" font-weight="700">Paper · Code · arXiv · Slides</text>
+    <g transform="translate(324 582)">
+      <rect x="0" y="0" width="322" height="44" rx="22" fill="#ffffff" opacity="0.94" />
+      <text x="28" y="30" fill="#111827" font-size="20" font-weight="700">Paper · Code · arXiv · Slides</text>
     </g>
   </g>
 </svg>
